@@ -65,67 +65,66 @@ l15.grid(row=14, column=0)
 
 '''Создание полей для ввода данных'''
 
-name = StringVar()
-e1 = Entry(window, textvariable=name, width=30)
+reg_number = StringVar()
+e1 = Entry(window, textvariable=reg_number, width=30)
 e1.grid(row=0, column=1)
 
-price_text = StringVar()
-e2 = Entry(window, textvariable=price_text)
+surname = StringVar()
+e2 = Entry(window, textvariable=surname)
 e2.grid(row=1, column=1)
 
-comment_text = StringVar()
-e3 = Entry(window, textvariable=comment_text)
+name = StringVar()
+e3 = Entry(window, textvariable=name)
 e3.grid(row=2, column=1)
 
-comment_text = StringVar()
-e3 = Entry(window, textvariable=comment_text)
+patronymic = StringVar()
+e3 = Entry(window, textvariable=patronymic)
 e3.grid(row=3, column=1)
 
-comment_text = StringVar()
-e3 = Entry(window, textvariable=comment_text)
+date_birthday = StringVar()
+e3 = Entry(window, textvariable=date_birthday)
 e3.grid(row=4, column=1)
 
-comment_text = StringVar()
-e3 = Entry(window, textvariable=comment_text)
+snils = StringVar()
+e3 = Entry(window, textvariable=snils)
 e3.grid(row=5, column=1)
 
-comment_text = StringVar()
-e3 = Entry(window, textvariable=comment_text)
+inn = StringVar()
+e3 = Entry(window, textvariable=inn)
 e3.grid(row=6, column=1)
 
-comment_text = StringVar()
-e3 = Entry(window, textvariable=comment_text)
+citizenship = StringVar()
+e3 = Entry(window, textvariable=citizenship)
 e3.grid(row=7, column=1)
 
-comment_text = StringVar()
-e3 = Entry(window, textvariable=comment_text)
+id_doc = StringVar()
+e3 = Entry(window, textvariable=id_doc)
 e3.grid(row=8, column=1)
 
-comment_text = StringVar()
-e3 = Entry(window, textvariable=comment_text)
+series = StringVar()
+e3 = Entry(window, textvariable=series)
 e3.grid(row=9, column=1)
 
-comment_text = StringVar()
-e3 = Entry(window, textvariable=comment_text)
+number = StringVar()
+e3 = Entry(window, textvariable=number)
 e3.grid(row=11, column=1)
 
-comment_text = StringVar()
-e3 = Entry(window, textvariable=comment_text)
+date_id_doc = StringVar()
+e3 = Entry(window, textvariable=date_id_doc)
 e3.grid(row=12, column=1)
 
-comment_text = StringVar()
-e3 = Entry(window, textvariable=comment_text, width=45)
+office_doc = StringVar()
+e3 = Entry(window, textvariable=office_doc, width=45)
 e3.grid(row=12, column=2)
 
-
-comment_text = StringVar()
-e3 = Entry(window, textvariable=comment_text, width=45)
+address = StringVar()
+e3 = Entry(window, textvariable=address, width=45)
 e3.grid(row=13, column=1)
 
-
-comment_text = StringVar()
-e3 = Entry(window, textvariable=comment_text, width=45)
+tel_number = StringVar()
+e3 = Entry(window, textvariable=tel_number, width=45)
 e3.grid(row=14, column=1)
+
 
 def rad_but_show():
     print(f'Выбраны профессии {NONE}')
@@ -144,11 +143,8 @@ rb2.grid(row=5, column=3)
 
 
 def show_message():
-    print(product_text.get(), price_text.get(), comment_text.get())
+    print(date_id_doc.get())
 
-
-btn = Button(window, text="Click", width=12, command=show_message)
-btn.grid(row=7, column=7)
 
 # создаём кнопки действий и привязываем их к своим функциям
 # кнопки размещаем тоже по сетке
@@ -169,6 +165,35 @@ b5.grid(row=6, column=3)
 
 b6 = Button(window, text="Закрыть", width=12, command=on_closing)
 b6.grid(row=7, column=3)'''
+
+
+def fill():
+    '''Заполнить документ Word информацией введенной из интерфейса'''
+    doc = DocxTemplate('prof.docx')
+    context = {'reg_number': reg_number.get(),
+               'surname': surname.get(),
+               'name': name.get(),
+               'patronymic': patronymic.get(),
+               'date_birthday': date_birthday.get(),
+               'snils': snils.get(),
+               'inn': inn.get(),
+               'citizenship': citizenship.get(),
+               'id_doc': id_doc.get(),
+               'series': series.get(),
+               'number': number.get(),
+               'day_doc': date_id_doc.get().split('.')[0],
+               'month_doc': date_id_doc.get().split('.')[1],
+               'year_doc': date_id_doc.get().split('.')[1][-2:],
+               'office_doc': office_doc.get(),
+               'address': address.get(),
+               'tel_number': tel_number.get()
+               }
+    doc.render(context)
+    doc.save("res.docx")
+
+
+btn = Button(window, text="Заполнить", width=12, command=fill)
+btn.grid(row=7, column=7)
 
 # пусть окно работает всё время до закрытия
 window.mainloop()
