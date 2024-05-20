@@ -148,7 +148,7 @@ e14 = Entry(window, textvariable=tel_number, width=30)
 e14.grid(row=14, column=1)
 
 parents_info = StringVar()
-e15 = Entry(window, textvariable=tel_number, width=30)
+e15 = Entry(window, textvariable=parents_info, width=60)
 e15.grid(row=18, column=1)
 
 profession = 'Профессия'
