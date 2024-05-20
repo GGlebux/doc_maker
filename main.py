@@ -2,15 +2,16 @@
 from tkinter import *
 from docxtpl import DocxTemplate
 from tkinter import messagebox, filedialog, ttk
+import xlsxwriter
 
 SAVE_DIRECTORY = ''
-FILE_NAME = ''
 
 # подключаем графическую библиотеку
 window = Tk()
 # заголовок окна
 window.title("Мой бухгалтер")
-
+workbook = xlsxwriter.Workbook('Суммы.xlsx')
+worksheet = workbook.add_worksheet()
 
 # обрабатываем закрытие окна
 def on_closing():
@@ -22,6 +23,65 @@ def on_closing():
 
 def error(info):
     messagebox.askokcancel('Внимание', info)
+
+
+def fill_word():
+    '''Заполнить документ Word информацией введенной из интерфейса'''
+
+    context = {'reg_number': reg_number.get(),
+               'surname': surname.get(),
+               'name': name.get(),
+               'patronymic': patronymic.get(),
+               'date_birthday': date_birthday.get(),
+               'snils': snils.get(),
+               'inn': inn.get(),
+               'citizenship': citizenship.get(),
+               'id_doc': id_doc.get(),
+               'series': series.get(),
+               'number': number.get(),
+               'date_id_doc': date_id_doc.get(),
+               'office_doc': office_doc.get(),
+               'address': address.get(),
+               'tel_number': tel_number.get(),
+               'spec_var_first': spec_var_first.get(),
+               'spec_var_second': spec_var_second.get(),
+               'spec_var_third': spec_var_third.get(),
+               'parents_info': parents_info.get()
+               }
+
+    # Проверка вида заполнения документа
+    if choice.get() == profession:
+        doc = DocxTemplate('patterns/prof.docx')
+    elif choice.get() == specialty:
+        doc = DocxTemplate('patterns/special.docx')
+    elif choice.get() == specialty_with_exam:
+        if (spec_var_first.get() == '54.02.01 Дизайн (по отраслям)'
+                or spec_var_first.get() == '07.02.01 Архитектура'
+                or spec_var_first.get() == '55.02.02 Анимация и анимационное кино (по видам)'):
+            doc = DocxTemplate('patterns/sp_with_ex.docx')
+        else:
+            return error(
+                'При выборе специальности с экзаменом необходимо выбрать одну из следующих специальностей:\n07.02.01 Архитектура,\n54.02.01 Дизайн (по отраслям),\n55.02.02 Анимация и анимационное кино (по видам)')
+
+    doc.render(context)
+
+    doc.save(save_file())
+
+
+# ToDo: def fill_excel()
+def save_file():
+    file_name = 'form'
+    sav_dir = choose_save_path()
+    while not sav_dir:
+        sav_dir = choose_save_path()
+
+    return f'{sav_dir}/{file_name}.docx'
+
+
+def choose_save_path():
+    global SAVE_DIRECTORY
+    SAVE_DIRECTORY = filedialog.askdirectory()
+    return SAVE_DIRECTORY
 
 
 # сообщаем системе о том, что делать, когда окно закрывается
@@ -196,71 +256,6 @@ combobox1.grid(row=16, column=1)
 
 combobox1 = ttk.Combobox(textvariable=spec_var_third, values=specializations, width=60)
 combobox1.grid(row=17, column=1)
-
-
-def fill_word():
-    '''Заполнить документ Word информацией введенной из интерфейса'''
-
-    context = {'reg_number': reg_number.get(),
-               'surname': surname.get(),
-               'name': name.get(),
-               'patronymic': patronymic.get(),
-               'date_birthday': date_birthday.get(),
-               'snils': snils.get(),
-               'inn': inn.get(),
-               'citizenship': citizenship.get(),
-               'id_doc': id_doc.get(),
-               'series': series.get(),
-               'number': number.get(),
-               'date_id_doc': date_id_doc.get(),
-               'office_doc': office_doc.get(),
-               'address': address.get(),
-               'tel_number': tel_number.get(),
-               'spec_var_first': spec_var_first.get(),
-               'spec_var_second': spec_var_second.get(),
-               'spec_var_third': spec_var_third.get(),
-               'parents_info': parents_info.get()
-               }
-
-    # Проверка вида заполнения документа
-    if choice.get() == profession:
-        doc = DocxTemplate('patterns/prof.docx')
-    elif choice.get() == specialty:
-        doc = DocxTemplate('patterns/special.docx')
-    elif choice.get() == specialty_with_exam:
-        if (spec_var_first.get() == '54.02.01 Дизайн (по отраслям)'
-            or spec_var_first.get() == '07.02.01 Архитектура'
-                or spec_var_first.get() == '55.02.02 Анимация и анимационное кино (по видам)'):
-            doc = DocxTemplate('patterns/sp_with_ex.docx')
-        else:
-            return error(
-                'При выборе специальности с экзаменом необходимо выбрать одну из следующих специальностей:\n07.02.01 Архитектура,\n54.02.01 Дизайн (по отраслям),\n55.02.02 Анимация и анимационное кино (по видам)')
-
-    doc.render(context)
-
-    file_name = surname.get() + name.get() + patronymic.get()
-
-    doc.save(save_file(file_name))
-
-# ToDo: def fill_excel()
-def save_file(file_name):
-    global SAVE_DIRECTORY
-
-    if not file_name:
-        file_name = 'form'
-
-    if not SAVE_DIRECTORY:
-        SAVE_DIRECTORY = filedialog.askdirectory()
-
-    return f'{SAVE_DIRECTORY}/{file_name}.docx'
-
-
-def choose_save_path():
-    global SAVE_DIRECTORY
-    # ToDo: good operation
-    global l20
-    SAVE_DIRECTORY = filedialog.askdirectory()
-    l20 = Label(window, text=f'Путь сохранения {SAVE_DIRECTORY}', width=40)
 
 btn1 = Button(window, text="Заполнить", width=12, command=fill_word)
 btn1.grid(row=13, column=3)
