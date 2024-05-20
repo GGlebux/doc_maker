@@ -1,8 +1,7 @@
 # подключаем графическую библиотеку для создания интерфейсов
 from tkinter import *
 from docxtpl import DocxTemplate
-from tkinter import messagebox
-from tkinter import filedialog
+from tkinter import messagebox, filedialog, ttk
 
 SAVE_DIRECTORY = ''
 FILE_NAME = ''
@@ -16,9 +15,13 @@ window.title("Мой бухгалтер")
 # обрабатываем закрытие окна
 def on_closing():
     # показываем диалоговое окно с кнопкой
-    if messagebox.askokcancel("", "Закрыть программу?"):
+    if messagebox.askokcancel('Внимание', "Закрыть программу?"):
         # удаляем окно и освобождаем память
         window.destroy()
+
+
+def error(info):
+    messagebox.askokcancel('Внимание', info)
 
 
 # сообщаем системе о том, что делать, когда окно закрывается
@@ -68,11 +71,22 @@ l14.grid(row=13, column=0, sticky=E)
 l15 = Label(window, text='Телефон')
 l15.grid(row=14, column=0, sticky=E)
 
-l16 = Label(window, text=f'Путь сохранения {SAVE_DIRECTORY}', width=40)
+l16 = Label(window, text='Специальность 1')
 l16.grid(row=15, column=0, sticky=E)
 
-'''Создание полей для ввода данных'''
+l17 = Label(window, text='Специальность 2')
+l17.grid(row=16, column=0, sticky=E)
 
+l18 = Label(window, text='Специальность 3')
+l18.grid(row=17, column=0, sticky=E)
+
+l19 = Label(window, text='Сведения о родителях')
+l19.grid(row=18, column=0, sticky=E)
+
+'''l666 = Label(window, text=f'Путь сохранения {SAVE_DIRECTORY}', width=40)
+l666.grid(row=15, column=0, sticky=E)'''
+
+'''Создание полей для ввода данных'''
 reg_number = StringVar()
 e1 = Entry(window, textvariable=reg_number, width=30)
 e1.grid(row=0, column=1)
@@ -133,10 +147,15 @@ tel_number = StringVar()
 e14 = Entry(window, textvariable=tel_number, width=30)
 e14.grid(row=14, column=1)
 
+parents_info = StringVar()
+e15 = Entry(window, textvariable=tel_number, width=30)
+e15.grid(row=18, column=1)
+
 profession = 'Профессия'
 specialty = 'Специальность'
 specialty_with_exam = 'Специальность c экзаменом'
 
+'''Выбор шаблона заполнения'''
 choice = StringVar(value=profession)
 
 rb = Radiobutton(window, text=profession, value=profession, variable=choice)
@@ -148,10 +167,39 @@ rb1.grid(row=4, column=3)
 rb2 = Radiobutton(window, text=specialty_with_exam, value=specialty_with_exam, variable=choice)
 rb2.grid(row=5, column=3)
 
+'''Выбор трех специальностей'''
+specializations = ['38.02.08 Торговое дело',
+                   '08.02.13 Монтаж и эксплуатация внутренних сантехнических устройств, кондиционирования воздуха и вентиляции',
+                   '08.02.01 Строительство и эксплуатация зданий и сооружений',
+                   '29.02.11 Полиграфическое производство',
+                   '08.02.14 Эксплуатация и обслуживание многоквартирного дома',
+                   '08.01.28 Мастер отделочных строительных и декоративных работ',
+                   '54.01.20 Графический дизайнер',
+                   '09.02.07 Информационные системы и программирование',
+                   '42.02.02 Издательское дело',
+                   '54.01.01 Исполнитель художественно - оформительских работ',
+                   '54.02.01 Дизайн (по отраслям)',
+                   '08.02.08 Монтаж и эксплуатация оборудования и систем газоснабжения',
+                   '07.02.01 Архитектура',
+                   '55.02.02 Анимация и анимационное кино (по видам)']
+
+spec_var_first = StringVar(value=specializations[0])
+spec_var_second = StringVar(value=specializations[0])
+spec_var_third = StringVar(value=specializations[0])
+
+combobox1 = ttk.Combobox(textvariable=spec_var_first, values=specializations, width=60)
+combobox1.grid(row=15, column=1)
+
+combobox1 = ttk.Combobox(textvariable=spec_var_second, values=specializations, width=60)
+combobox1.grid(row=16, column=1)
+
+combobox1 = ttk.Combobox(textvariable=spec_var_third, values=specializations, width=60)
+combobox1.grid(row=17, column=1)
+
 
 def fill():
     '''Заполнить документ Word информацией введенной из интерфейса'''
-
+    global specializations
     context = {'reg_number': reg_number.get(),
                'surname': surname.get(),
                'name': name.get(),
@@ -163,20 +211,28 @@ def fill():
                'id_doc': id_doc.get(),
                'series': series.get(),
                'number': number.get(),
-               'day_doc': date_id_doc.get(),
-               'month_doc': date_id_doc.get(),
-               'year_doc': date_id_doc.get(),
+               'date_id_doc': date_id_doc.get(),
                'office_doc': office_doc.get(),
                'address': address.get(),
-               'tel_number': tel_number.get()
+               'tel_number': tel_number.get(),
+               'spec_var_first': spec_var_first.get(),
+               'spec_var_second': spec_var_second.get(),
+               'spec_var_third': spec_var_third.get(),
+               'parents_info': parents_info.get()
                }
     # Проверка вида заполнения документа
-    if choice == profession:
+    if choice.get() == profession:
         doc = DocxTemplate('patterns/prof.docx')
-    elif choice == specialty:
+    elif choice.get() == specialty:
         doc = DocxTemplate('patterns/special.docx')
-    else:
-        doc = DocxTemplate('patterns/sp_with_ex.docx')
+    elif choice.get() == specialty_with_exam:
+        if (spec_var_first.get() == '54.02.01 Дизайн (по отраслям)'
+            or spec_var_first.get() == '07.02.01 Архитектура'
+                or spec_var_first.get() == '55.02.02 Анимация и анимационное кино (по видам)'):
+            doc = DocxTemplate('patterns/sp_with_ex.docx')
+        else:
+            return error(
+                'При выборе специальности с экзаменом необходимо выбрать одну из следующих специальностей:\n07.02.01 Архитектура,\n54.02.01 Дизайн (по отраслям),\n55.02.02 Анимация и анимационное кино (по видам)')
 
     doc.render(context)
 
