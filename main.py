@@ -83,8 +83,9 @@ l18.grid(row=17, column=0, sticky=E)
 l19 = Label(window, text='Сведения о родителях')
 l19.grid(row=18, column=0, sticky=E)
 
-'''l666 = Label(window, text=f'Путь сохранения {SAVE_DIRECTORY}', width=40)
-l666.grid(row=15, column=0, sticky=E)'''
+# ToDo: вывод пути сохранения файла и статус сохранения файла word и excel
+l20 = Label(window, text=f'Путь сохранения {SAVE_DIRECTORY}', width=40)
+l20.grid(row=19, column=0, sticky=E)
 
 '''Создание полей для ввода данных'''
 reg_number = StringVar()
@@ -197,9 +198,9 @@ combobox1 = ttk.Combobox(textvariable=spec_var_third, values=specializations, wi
 combobox1.grid(row=17, column=1)
 
 
-def fill():
+def fill_word():
     '''Заполнить документ Word информацией введенной из интерфейса'''
-    global specializations
+
     context = {'reg_number': reg_number.get(),
                'surname': surname.get(),
                'name': name.get(),
@@ -220,6 +221,7 @@ def fill():
                'spec_var_third': spec_var_third.get(),
                'parents_info': parents_info.get()
                }
+
     # Проверка вида заполнения документа
     if choice.get() == profession:
         doc = DocxTemplate('patterns/prof.docx')
@@ -240,7 +242,7 @@ def fill():
 
     doc.save(save_file(file_name))
 
-
+# ToDo: def fill_excel()
 def save_file(file_name):
     global SAVE_DIRECTORY
 
@@ -255,10 +257,12 @@ def save_file(file_name):
 
 def choose_save_path():
     global SAVE_DIRECTORY
+    # ToDo: good operation
+    global l20
     SAVE_DIRECTORY = filedialog.askdirectory()
+    l20 = Label(window, text=f'Путь сохранения {SAVE_DIRECTORY}', width=40)
 
-
-btn1 = Button(window, text="Заполнить", width=12, command=fill)
+btn1 = Button(window, text="Заполнить", width=12, command=fill_word)
 btn1.grid(row=13, column=3)
 
 btn2 = Button(window, text='Выбрать путь', width=12, command=choose_save_path)
