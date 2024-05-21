@@ -4,7 +4,7 @@ from docxtpl import DocxTemplate
 from tkinter import messagebox, filedialog, ttk
 import xlsxwriter
 
-SAVE_DIRECTORY = ''
+
 
 # подключаем графическую библиотеку
 window = Tk()
@@ -144,8 +144,8 @@ l19 = Label(window, text='Сведения о родителях')
 l19.grid(row=18, column=0, sticky=E)
 
 # ToDo: вывод пути сохранения файла и статус сохранения файла word и excel
-l20 = Label(window, text=f'Путь сохранения {SAVE_DIRECTORY}', width=40)
-l20.grid(row=19, column=0, sticky=E)
+
+
 
 '''Создание полей для ввода данных'''
 reg_number = StringVar()
@@ -212,6 +212,10 @@ parents_info = StringVar()
 e15 = Entry(window, textvariable=parents_info, width=60)
 e15.grid(row=18, column=1)
 
+SAVE_DIRECTORY = StringVar()
+e16 = Entry(window, textvariable=SAVE_DIRECTORY)
+e16.grid(row=19, column=1)
+
 profession = 'Профессия'
 specialty = 'Специальность'
 specialty_with_exam = 'Специальность c экзаменом'
@@ -257,6 +261,8 @@ combobox1.grid(row=16, column=1)
 combobox1 = ttk.Combobox(textvariable=spec_var_third, values=specializations, width=60)
 combobox1.grid(row=17, column=1)
 
+
+# Кнопки взаимодействия
 btn1 = Button(window, text="Заполнить", width=12, command=fill_word)
 btn1.grid(row=13, column=3)
 
