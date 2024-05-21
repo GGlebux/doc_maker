@@ -1,27 +1,27 @@
-# подключаем графическую библиотеку для создания интерфейсов
+# подключаем библиотеки
 from tkinter import *
+from tkinter import messagebox, filedialog, ttk, Tk
 from docxtpl import DocxTemplate
-from tkinter import messagebox, filedialog, ttk
-import xlsxwriter
-
-
+from openpyxl import load_workbook, Workbook
 
 # подключаем графическую библиотеку
 window = Tk()
 # заголовок окна
 window.title("Мой бухгалтер")
-workbook = xlsxwriter.Workbook('Суммы.xlsx')
-worksheet = workbook.add_worksheet()
 
-# обрабатываем закрытие окна
+# Константы
+SAVE_DIRECTORY = ''
+EXCEL_FILE = ''
+
+
 def on_closing():
-    # показываем диалоговое окно с кнопкой
+    '''Обрабатывает закрытие окна'''
     if messagebox.askokcancel('Внимание', "Закрыть программу?"):
-        # удаляем окно и освобождаем память
         window.destroy()
 
 
 def error(info):
+    '''Выводит диалоговое окно с описание ошибки'''
     messagebox.askokcancel('Внимание', info)
 
 
@@ -68,19 +68,59 @@ def fill_word():
     doc.save(save_file())
 
 
-# ToDo: def fill_excel()
-def save_file():
-    file_name = 'form'
+def select_excel_file():
+    '''Возвращает уже созданный файл excel для дальнейшего редактирования'''
+
+    global EXCEL_FILE
+    global l22
+
+    EXCEL_FILE = filedialog.askopenfile(title='Выбор excel файла', defaultextension='xlsx')
+    while not EXCEL_FILE:
+        EXCEL_FILE = filedialog.askopenfile(title='Выбор excel файла', defaultextension='xlsx')
+
+    # обновление строки состояния выбранного файла
+    l22.config(text=EXCEL_FILE.name)
+    work_book = load_workbook(EXCEL_FILE)
+    #   work_page = work_book.active
+
+    return work_book
+
+
+def create_excel_file():
+    '''Создает новый excel файл и возвращает его для дальнейшего редактирования'''
+    global EXCEL_FILE
+    work_book = Workbook()
+    save_dir = save_file(type='excel')
+    work_book.save(save_dir)
+
+
+
+def fill_excel():
+    '''Заполнить документ excel информацией введенной из интерфейса'''
+
+    pass
+
+
+def save_file(type='word'):
+    '''Возвращает путь, имя файла и расширение, с которым его необходимо сохранить'''
+    if type == 'excel':
+        extension_file_name = 'xlsx'
+    else:
+        extension_file_name = 'docx'
     sav_dir = choose_save_path()
     while not sav_dir:
         sav_dir = choose_save_path()
 
-    return f'{sav_dir}/{file_name}.docx'
+    return f'{sav_dir}/{type}.{extension_file_name}'
 
 
 def choose_save_path():
+    '''Возвращает путь сохранения, которое должен выбрать пользователь'''
     global SAVE_DIRECTORY
+    global l20
     SAVE_DIRECTORY = filedialog.askdirectory()
+    # обновление строки состояния пути сохранения файла
+    l20.config(text=(SAVE_DIRECTORY if SAVE_DIRECTORY else 'Выбор пути сохранения файла'))
     return SAVE_DIRECTORY
 
 
@@ -142,10 +182,18 @@ l18.grid(row=17, column=0, sticky=E)
 
 l19 = Label(window, text='Сведения о родителях')
 l19.grid(row=18, column=0, sticky=E)
-
 # ToDo: вывод пути сохранения файла и статус сохранения файла word и excel
+l20 = Label(window, text='Выбор пути сохранения файлов')
+l20.grid(row=19, column=0, columnspan=2)
 
+# l21 = Label(window, text='Текущий статус', bg='red')
+# l21.grid(row=20, column=0, columnspan=2)
 
+l21 = Label(window, text='Заполнение файла excel')
+l21.grid(row=20, column=0)
+
+l22 = Label(window, text='')
+l22.grid(row=20, column=1)
 
 '''Создание полей для ввода данных'''
 reg_number = StringVar()
@@ -197,7 +245,7 @@ e11 = Entry(window, textvariable=date_id_doc, width=25)
 e11.grid(row=12, column=1, sticky=W)
 
 office_doc = StringVar()
-e12 = Entry(window, textvariable=office_doc, width=30)
+e12 = Entry(window, textvariable=office_doc, width=25)
 e12.grid(row=12, column=2)
 
 address = StringVar()
@@ -212,15 +260,11 @@ parents_info = StringVar()
 e15 = Entry(window, textvariable=parents_info, width=60)
 e15.grid(row=18, column=1)
 
-SAVE_DIRECTORY = StringVar()
-e16 = Entry(window, textvariable=SAVE_DIRECTORY)
-e16.grid(row=19, column=1)
-
 profession = 'Профессия'
 specialty = 'Специальность'
 specialty_with_exam = 'Специальность c экзаменом'
 
-'''Выбор шаблона заполнения'''
+'''Выбор шаблона заполнения word файла'''
 choice = StringVar(value=profession)
 
 rb = Radiobutton(window, text=profession, value=profession, variable=choice)
@@ -261,13 +305,22 @@ combobox1.grid(row=16, column=1)
 combobox1 = ttk.Combobox(textvariable=spec_var_third, values=specializations, width=60)
 combobox1.grid(row=17, column=1)
 
-
 # Кнопки взаимодействия
-btn1 = Button(window, text="Заполнить", width=12, command=fill_word)
+
+btn1 = Button(window, text="Заполнить Word", width=12, command=fill_word)
 btn1.grid(row=13, column=3)
 
-btn2 = Button(window, text='Выбрать путь', width=12, command=choose_save_path)
-btn2.grid(row=12, column=3)
+btn2 = Button(window, text="Заполнить Excel", width=12, command=fill_excel)
+btn2.grid(row=14, column=3)
+
+btn3 = Button(window, text='Выбрать путь', width=12, command=choose_save_path)
+btn3.grid(row=19, column=2)
+
+btn4 = Button(window, text='Выбрать файл', width=12, command=select_excel_file)
+btn4.grid(row=20, column=2)
+
+btn4 = Button(window, text='Создать новый', width=12, command=create_excel_file)
+btn4.grid(row=20, column=3)
 
 # пусть окно работает всё время до закрытия
 window.mainloop()
