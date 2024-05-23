@@ -229,11 +229,19 @@ l21.grid(row=6, column=3)
 l22 = Label(window, text='Шаблон Word документа:')
 l22.grid(row=0, column=3)
 
-l21 = Label(window, text='Заполнение файла excel')
-l21.grid(row=23, column=0)
+l21 = Label(window, text='Заполнение файла excel 1')
+l21.grid(row=21, column=0)
 
 l22 = Label(window, text='')
-l22.grid(row=23, column=1)
+l22.grid(row=21, column=1)
+
+l21 = Label(window, text='Заполнение файла excel 2')
+l21.grid(row=22, column=0)
+
+l22 = Label(window, text='')
+l22.grid(row=22, column=1)
+
+
 
 # Создание полей для ввода данных
 
@@ -384,10 +392,16 @@ btn2 = Button(window, text="Заполнить Excel", width=12, command=fill_ex
 btn2.grid(row=14, column=3)
 
 btn3 = Button(window, text='Выбрать файл', width=12, command=select_excel_file)
-btn3.grid(row=23, column=2)
+btn3.grid(row=21, column=2)
 
 btn4 = Button(window, text='Создать новый', width=12, command=create_excel_file)
-btn4.grid(row=23, column=3)
+btn4.grid(row=21, column=3)
+
+btn5 = Button(window, text='Выбрать файл', width=12, command=select_excel_file)
+btn5.grid(row=22, column=2)
+
+btn6 = Button(window, text='Создать новый', width=12, command=create_excel_file)
+btn6.grid(row=22, column=3)
 
 # пусть окно работает всё время до закрытия
 window.mainloop()
