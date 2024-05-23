@@ -44,7 +44,11 @@ def context():
             'spec_var_first': spec_var_first.get(),
             'spec_var_second': spec_var_second.get(),
             'spec_var_third': spec_var_third.get(),
-            'parents_info': parents_info.get()
+            'parents_info': parents_info.get(),
+            'certificate_score': certificate_score.get(),
+            'form_education': form_education.get(),
+            'svo': 'Участник СВО' if svo.get() else '',
+            'target_direction': 'Целевое' if target_direction.get() else ''
             }
 
 
@@ -64,9 +68,7 @@ def fill_word():
         else:
             return error(
                 'При выборе специальности с экзаменом необходимо выбрать одну из следующих специальностей:\n07.02.01 Архитектура,\n54.02.01 Дизайн (по отраслям),\n55.02.02 Анимация и анимационное кино (по видам)')
-
     doc.render(context())
-
     all_way = save_file()
     if all_way:
         doc.save(all_way)
@@ -123,19 +125,38 @@ def fill_excel():
 
     # Открываем существующий файл Excel
     work_book = load_workbook(EXCEL_FILE)
-    work_page = work_book.active
+    e = work_book.active
 
-    #   ToDo: Заполняем шапку excel
+    #  Заполняем шапку excel
     '''Нужны конкретные заголовки столбцов и в каком порядке они будут идти'''
+    head_excel = ['Номер заявления',
+                  'ФИО абитуриента',
+                  'Оригинал/копия аттестата',
+                  'Средний балл',
+                  'Специальность (1)',
+                  'Специальность (2)',
+                  'Специальность (3)',
+                  'Форма обучения']
 
+    alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
+                'V', 'W', 'X', 'Y', 'Z']
 
-    #   ToDo: Находим первую пустую строку в столбце "A"
+    for i in range(8):
+        e[f'{alphabet[i]}1'] = head_excel[i]
+
+    #  Находим первую пустую строку в столбце "A"
     empty_row = 1
-    while work_page[f'A{empty_row}'].value is not None:
+    while e[f'A{empty_row}'].value is not None:
         empty_row += 1
 
     #   ToDo: Записываем данные в пустую строку
-
+    data = context()
+    e[f'B{empty_row}'] = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
+    e[f'D{empty_row}'] = data['certificate_score']
+    e[f'E{empty_row}'] = data['spec_var_first']
+    e[f'F{empty_row}'] = data['spec_var_second']
+    e[f'G{empty_row}'] = data['spec_var_third']
+    e[f'H{empty_row}'] = data['form_education']
 
     work_book.save(EXCEL_FILE)
 
@@ -143,7 +164,7 @@ def fill_excel():
 # сообщаем системе о том, что делать, когда окно закрывается
 window.protocol("WM_DELETE_WINDOW", on_closing)
 
-'''Cоздание надписи для полей ввода и размещение их по сетке'''
+# Cоздание надписи для полей ввода и размещение их по сетке
 
 l1 = Label(window, text='Регистрационный номер')
 l1.grid(row=0, column=0, sticky=E)
@@ -199,13 +220,23 @@ l18.grid(row=17, column=0, sticky=E)
 l19 = Label(window, text='Сведения о родителях')
 l19.grid(row=18, column=0, sticky=E)
 
+l20 = Label(window, text='Средний балл аттестата')
+l20.grid(row=19, column=0, sticky=E)
+
+l21 = Label(window, text='Форма обучения:')
+l21.grid(row=6, column=3)
+
+l22 = Label(window, text='Шаблон Word документа:')
+l22.grid(row=0, column=3)
+
 l21 = Label(window, text='Заполнение файла excel')
-l21.grid(row=20, column=0)
+l21.grid(row=23, column=0)
 
 l22 = Label(window, text='')
-l22.grid(row=20, column=1)
+l22.grid(row=23, column=1)
 
-'''Создание полей для ввода данных'''
+# Создание полей для ввода данных
+
 reg_number = StringVar()
 e1 = Entry(window, textvariable=reg_number, width=30)
 e1.grid(row=0, column=1, sticky=W)
@@ -270,23 +301,28 @@ parents_info = StringVar()
 e15 = Entry(window, textvariable=parents_info, width=60)
 e15.grid(row=18, column=1, sticky=W)
 
+certificate_score = StringVar()
+e16 = Entry(window, textvariable=certificate_score)
+e16.grid(row=19, column=1, sticky=W)
+
+# Выбор шаблона заполнения word файла
+
 profession = 'Профессия'
 specialty = 'Специальность'
 specialty_with_exam = 'Специальность c экзаменом'
 
-'''Выбор шаблона заполнения word файла'''
 choice = StringVar(value=profession)
 
-rb = Radiobutton(window, text=profession, value=profession, variable=choice)
-rb.grid(row=3, column=3)
+rb1 = Radiobutton(window, text=profession, value=profession, variable=choice)
+rb1.grid(row=1, column=3)
 
-rb1 = Radiobutton(window, text=specialty, value=specialty, variable=choice)
-rb1.grid(row=4, column=3)
+rb2 = Radiobutton(window, text=specialty, value=specialty, variable=choice)
+rb2.grid(row=2, column=3)
 
-rb2 = Radiobutton(window, text=specialty_with_exam, value=specialty_with_exam, variable=choice)
-rb2.grid(row=5, column=3)
+rb3 = Radiobutton(window, text=specialty_with_exam, value=specialty_with_exam, variable=choice)
+rb3.grid(row=3, column=3)
 
-'''Выбор трех специальностей'''
+# Кнопки для выбора трех специальностей
 specializations = ['38.02.08 Торговое дело',
                    '08.02.13 Монтаж и эксплуатация внутренних сантехнических устройств, кондиционирования воздуха и вентиляции',
                    '08.02.01 Строительство и эксплуатация зданий и сооружений',
@@ -315,6 +351,30 @@ combobox1.grid(row=16, column=1)
 combobox1 = ttk.Combobox(textvariable=spec_var_third, values=specializations, width=60)
 combobox1.grid(row=17, column=1)
 
+# Кнопки для выбора формы обучения
+
+full_time = 'Очная'
+corr_time = 'Заочная'
+
+form_education = StringVar(value=full_time)
+
+rb4 = Radiobutton(window, text=full_time, value=full_time, variable=form_education)
+rb4.grid(row=7, column=3)
+
+rb5 = Radiobutton(window, text=corr_time, value=corr_time, variable=form_education)
+rb5.grid(row=8, column=3)
+
+# Кнопки для выбора целевого направления и участика сво
+
+svo = IntVar()
+target_direction = IntVar()
+
+svo_check_but = Checkbutton(text='Участник СВО', variable=svo)
+svo_check_but.grid(row=20, column=0)
+
+target_direction_but = Checkbutton(text='Целевое направление', variable=target_direction)
+target_direction_but.grid(row=20, column=1)
+
 # Кнопки взаимодействия
 
 btn1 = Button(window, text="Заполнить Word", width=12, command=fill_word)
@@ -324,10 +384,10 @@ btn2 = Button(window, text="Заполнить Excel", width=12, command=fill_ex
 btn2.grid(row=14, column=3)
 
 btn3 = Button(window, text='Выбрать файл', width=12, command=select_excel_file)
-btn3.grid(row=20, column=2)
+btn3.grid(row=23, column=2)
 
 btn4 = Button(window, text='Создать новый', width=12, command=create_excel_file)
-btn4.grid(row=20, column=3)
+btn4.grid(row=23, column=3)
 
 # пусть окно работает всё время до закрытия
 window.mainloop()
