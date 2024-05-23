@@ -57,14 +57,14 @@ def fill_word():
 
     # Проверка вида заполнения документа
     if choice.get() == profession:
-        doc = DocxTemplate('patterns/prof.docx')
+        doc = DocxTemplate('C:/Users/Gecko/Desktop/doc_maker/patterns/prof.docx')
     elif choice.get() == specialty:
-        doc = DocxTemplate('patterns/special.docx')
+        doc = DocxTemplate('C:/Users/Gecko/Desktop/doc_maker/patterns/special.docx')
     elif choice.get() == specialty_with_exam:
         if (spec_var_first.get() == '54.02.01 Дизайн (по отраслям)'
                 or spec_var_first.get() == '07.02.01 Архитектура'
                 or spec_var_first.get() == '55.02.02 Анимация и анимационное кино (по видам)'):
-            doc = DocxTemplate('patterns/sp_with_ex.docx')
+            doc = DocxTemplate('C:/Users/Gecko/Desktop/doc_maker/patterns/sp_with_ex.docx')
         else:
             return error(
                 'При выборе специальности с экзаменом необходимо выбрать одну из следующих специальностей:\n07.02.01 Архитектура,\n54.02.01 Дизайн (по отраслям),\n55.02.02 Анимация и анимационное кино (по видам)')
