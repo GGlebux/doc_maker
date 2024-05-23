@@ -12,7 +12,7 @@ window.title("Мой бухгалтер")
 # Константы
 SAVE_DIRECTORY = ''
 EXCEL_FILE = ''
-
+UNIVERSE = 'СКЛЯРОВ ЛОХ'
 
 def on_closing():
     '''Обрабатывает закрытие окна'''
