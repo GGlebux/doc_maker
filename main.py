@@ -11,8 +11,10 @@ window.title("Мой бухгалтер")
 
 # Константы
 SAVE_DIRECTORY = ''
-EXCEL_FILE = ''
+EXCEL_FILE_FIRST = ''
+EXCEL_FILE_SECOND = ''
 UNIVERSE = 'СКЛЯРОВ ЛОХ'
+
 
 def on_closing():
     '''Обрабатывает закрытие окна'''
@@ -47,8 +49,8 @@ def context():
             'parents_info': parents_info.get(),
             'certificate_score': certificate_score.get(),
             'form_education': form_education.get(),
-            'svo': 'Участник СВО' if svo.get() else '',
-            'target_direction': 'Целевое' if target_direction.get() else ''
+            'svo': 'Да' if svo.get() else 'Нет',
+            'target_direction': 'Да' if target_direction.get() else 'Нет'
             }
 
 
@@ -83,70 +85,100 @@ def save_file(type_file='word'):
     return file_path
 
 
-def select_excel_file():
+def select_excel_file(ex_but='first'):
     '''Возвращает уже созданный файл excel для дальнейшего редактирования'''
 
-    global EXCEL_FILE
+    global EXCEL_FILE_FIRST
+    global EXCEL_FILE_SECOND
     global l22
+    global l23
 
-    EXCEL_FILE = filedialog.askopenfilename(title='Выбор excel файла для заполнения', defaultextension='xlsx',
-                                            filetypes=[("Excel files", "*.xlsx")])
+    # ToDo: оптимизировать выбор, чтобы избавиться от повтора кода
 
-    if EXCEL_FILE:
-        # обновление строки состояния выбранного файла
-        l22.config(text=EXCEL_FILE)
-        return EXCEL_FILE
+    if ex_but == 'first':
+        EXCEL_FILE_FIRST = filedialog.askopenfilename(title='Выбор ПЕРВОГО excel файла для заполнения',
+                                                      defaultextension='xlsx',
+                                                      filetypes=[("Excel files", "*.xlsx")])
+        if EXCEL_FILE_FIRST:
+            # обновление строки состояния выбранного файла первого excel
+            l22.config(text=EXCEL_FILE_FIRST)
+            return EXCEL_FILE_FIRST
 
 
-def create_excel_file():
+    elif ex_but == 'second':
+        EXCEL_FILE_SECOND = filedialog.askopenfilename(title='Выбор ВТОРОГО excel файла для заполнения',
+                                                       defaultextension='xlsx',
+                                                       filetypes=[("Excel files", "*.xlsx")])
+        if EXCEL_FILE_SECOND:
+            # обновление строки состояния выбранного файла второго excel
+            l23.config(text=EXCEL_FILE_SECOND)
+            return EXCEL_FILE_SECOND
+
+
+def create_excel_file(ex_but='first'):
     '''Создает новый excel файл и возвращает его для дальнейшего редактирования'''
 
-    global EXCEL_FILE
+    global EXCEL_FILE_FIRST
+    global EXCEL_FILE_SECOND
     global l22
+    global l23
 
     work_book = Workbook()
-    EXCEL_FILE = save_file(type_file='excel')
 
-    if EXCEL_FILE:
-        # обновление строки состояния выбранного файла
-        l22.config(text=EXCEL_FILE)
+    if ex_but == 'first':
+        EXCEL_FILE_FIRST = save_file(type_file='excel')
+        if EXCEL_FILE_FIRST:
+            # обновление строки состояния выбранного файла
+            l22.config(text=EXCEL_FILE_FIRST)
+            work_book.save(EXCEL_FILE_FIRST)
+            return EXCEL_FILE_FIRST
 
-        work_book.save(EXCEL_FILE)
-        return EXCEL_FILE
+    elif ex_but == 'second':
+        EXCEL_FILE_SECOND = save_file(type_file='excel')
+        if EXCEL_FILE_SECOND:
+            # обновление строки состояния выбранного файла
+            l23.config(text=EXCEL_FILE_SECOND)
+            work_book.save(EXCEL_FILE_SECOND)
+            return EXCEL_FILE_SECOND
 
 
 def fill_excel():
     '''Заполнить документ excel информацией введенной из интерфейса'''
-    global EXCEL_FILE
+    global EXCEL_FILE_FIRST
+    global EXCEL_FILE_SECOND
 
-    # Проверка выбран ли существующий файл для заполнения
-    while not EXCEL_FILE:
-        EXCEL_FILE = select_excel_file()
+    # Проверка выбраны ли существующие файлы для заполнения
+    while not EXCEL_FILE_FIRST:
+        EXCEL_FILE_FIRST = select_excel_file(ex_but='first')
 
-    # Открываем существующий файл Excel
-    work_book = load_workbook(EXCEL_FILE)
-    e = work_book.active
+    while not EXCEL_FILE_SECOND:
+        EXCEL_FILE_SECOND = select_excel_file(ex_but='second')
+
+    '''Заполняем первый excel'''
+    # Открываем существующий файл первый Excel
+    work_book_first = load_workbook(EXCEL_FILE_FIRST)
+    e = work_book_first.active
 
     #  Заполняем шапку excel
-    '''Нужны конкретные заголовки столбцов и в каком порядке они будут идти'''
-    head_excel = ['Номер заявления',
-                  'ФИО абитуриента',
-                  'Оригинал/копия аттестата',
-                  'Средний балл',
-                  'Специальность (1)',
-                  'Специальность (2)',
-                  'Специальность (3)',
-                  'Форма обучения']
+    head_excel_first = ['Номер заявления',
+                        'ФИО абитуриента',
+                        'Оригинал/копия аттестата',
+                        'Средний балл',
+                        'Специальность (1)',
+                        'Специальность (2)',
+                        'Специальность (3)',
+                        'Форма обучения']
 
     alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
                 'V', 'W', 'X', 'Y', 'Z']
 
-    for i in range(8):
-        e[f'{alphabet[i]}1'] = head_excel[i]
+    if e['A1'].value is None:
+        for i in range(8):
+            e[f'{alphabet[i]}1'] = head_excel_first[i]
 
-    #  Находим первую пустую строку в столбце "A"
+    #  Находим первую пустую строку в столбце "B"
     empty_row = 1
-    while e[f'A{empty_row}'].value is not None:
+    while e[f'B{empty_row}'].value is not None:
         empty_row += 1
 
     #   ToDo: Записываем данные в пустую строку
@@ -158,7 +190,60 @@ def fill_excel():
     e[f'G{empty_row}'] = data['spec_var_third']
     e[f'H{empty_row}'] = data['form_education']
 
-    work_book.save(EXCEL_FILE)
+    work_book_first.save(EXCEL_FILE_FIRST)
+
+    '''Заполняем второй excel'''
+    # Открываем существующий файл второй Excel
+    work_book_second = load_workbook(EXCEL_FILE_SECOND)
+    e2 = work_book_second.active
+
+    #  Заполняем шапку excel
+    head_excel_second = ['Регистрационный номер',
+                         'Фамилия',
+                         'Имя',
+                         'Отчество',
+                         'Дата рождения',
+                         'СНИЛС',
+                         'ИНН',
+                         'Гражданство',
+                         'Документ, удостоверяющий личность',
+                         'Серия',
+                         'Номер',
+                         'Кем выдан',
+                         'Когда выдан',
+                         'Проживающий по адресу',
+                         'Телефон',
+                         'Специальность 1',
+                         'Сведения о родителях',
+                         'Средний балл аттестата',
+                         'Форма обучения',
+                         'Участник СВО',
+                         'Целевое направление']
+
+
+    if e2['A1'].value is None:
+        for i in range(21):
+            e2[f'{alphabet[i]}1'] = head_excel_second[i]
+
+    #  Находим первую пустую строку в столбце "B"
+    empty_row_sec = 1
+    while e2[f'B{empty_row_sec}'].value is not None:
+        empty_row_sec += 1
+
+    #   ToDo: Записываем данные в пустую строку
+    # Загружаем все данные из интерфейса как словарь
+    data2 = context()
+    # Удаляем вторую и третью специальность
+    del data2['spec_var_second']
+    del data2['spec_var_third']
+    # Переводим словарь в список
+    data2 = [val for key, val in data2.items()]
+
+    # Заполняем пустую строку данными из списка
+    for i in range(21):
+        e2[f'{alphabet[i]}{empty_row_sec}'] = data2[i]
+
+    work_book_second.save(EXCEL_FILE_SECOND)
 
 
 # сообщаем системе о том, что делать, когда окно закрывается
@@ -238,10 +323,8 @@ l22.grid(row=21, column=1)
 l21 = Label(window, text='Заполнение файла excel 2')
 l21.grid(row=22, column=0)
 
-l22 = Label(window, text='')
-l22.grid(row=22, column=1)
-
-
+l23 = Label(window, text='')
+l23.grid(row=22, column=1)
 
 # Создание полей для ввода данных
 
@@ -391,16 +474,16 @@ btn1.grid(row=13, column=3)
 btn2 = Button(window, text="Заполнить Excel", width=12, command=fill_excel)
 btn2.grid(row=14, column=3)
 
-btn3 = Button(window, text='Выбрать файл', width=12, command=select_excel_file)
+btn3 = Button(window, text='Выбрать файл', width=12, command=lambda: select_excel_file(ex_but='first'))
 btn3.grid(row=21, column=2)
 
-btn4 = Button(window, text='Создать новый', width=12, command=create_excel_file)
+btn4 = Button(window, text='Создать новый', width=12, command=lambda: create_excel_file(ex_but='first'))
 btn4.grid(row=21, column=3)
 
-btn5 = Button(window, text='Выбрать файл', width=12, command=select_excel_file)
+btn5 = Button(window, text='Выбрать файл', width=12, command=lambda: select_excel_file(ex_but='second'))
 btn5.grid(row=22, column=2)
 
-btn6 = Button(window, text='Создать новый', width=12, command=create_excel_file)
+btn6 = Button(window, text='Создать новый', width=12, command=lambda: create_excel_file(ex_but='second'))
 btn6.grid(row=22, column=3)
 
 # пусть окно работает всё время до закрытия
