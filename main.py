@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import messagebox, filedialog, ttk, Tk
 from docxtpl import DocxTemplate
 from openpyxl import load_workbook, Workbook
+import pymorphy3
 
 # подключаем графическую библиотеку
 window = Tk()
@@ -50,13 +51,20 @@ def context():
             'certificate_score': certificate_score.get(),
             'form_education': form_education.get(),
             'svo': 'Да' if svo.get() else 'Нет',
-            'target_direction': 'Да' if target_direction.get() else 'Нет'
+            'target_direction': 'Да' if target_direction.get() else 'Нет',
+            'parent_fio': parent_fio.get(),
+            'parent_ser_num_pass': parent_ser_num_pass.get(),
+            'parent_pass_info': parent_pass_info.get(),
+            'parent_address': parent_address.get(),
+            'parent_number': parent_number.get()
             }
 
 
 def fill_word():
     '''Заполнить документ Word информацией введенной из интерфейса'''
-
+    doc = None
+    doc2 = None
+    # Заполнение заявления
     # Проверка вида заполнения документа
     if choice.get() == profession:
         doc = DocxTemplate('patterns/prof.docx')
@@ -69,12 +77,26 @@ def fill_word():
             doc = DocxTemplate('patterns/sp_with_ex.docx')
         else:
             return error(
-                'При выборе специальности с экзаменом необходимо выбрать одну из следующих специальностей:\n07.02.01 Архитектура,\n54.02.01 Дизайн (по отраслям),\n55.02.02 Анимация и анимационное кино (по видам)')
-    doc.render(context())
+                'При выборе специальности с экзаменом необходимо выбрать одну из следующих специальностей:' +
+                '\n07.02.01 Архитектура,\n54.02.01 Дизайн (по отраслям),' +
+                '\n55.02.02 Анимация и анимационное кино (по видам)')
+    if doc:
+        doc.render(context())
     all_way = save_file()
     if all_way:
         doc.save(all_way)
 
+    # ToDo: Заполнение  согласия на обработку персональных данных
+    # Проверка вида заполнения документа
+    if approval.get() == adult:
+        doc2 = DocxTemplate('patterns/adult.docx')
+    elif approval.get() == minor:
+        doc2 = DocxTemplate('patterns/minor.docx')
+    if doc2:
+        doc2.render(context())
+    all_way2 = save_file()
+    if all_way2:
+        doc2.save(all_way2)
 
 def save_file(type_file='word'):
     '''Возвращает путь, имя файла и расширение, с которым его необходимо сохранить'''
@@ -181,7 +203,7 @@ def fill_excel():
     while e[f'B{empty_row}'].value is not None:
         empty_row += 1
 
-    #   ToDo: Записываем данные в пустую строку
+    # Записываем данные в пустую строку
     data = context()
     e[f'B{empty_row}'] = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
     e[f'D{empty_row}'] = data['certificate_score']
@@ -220,7 +242,6 @@ def fill_excel():
                          'Участник СВО',
                          'Целевое направление']
 
-
     if e2['A1'].value is None:
         for i in range(21):
             e2[f'{alphabet[i]}1'] = head_excel_second[i]
@@ -230,15 +251,16 @@ def fill_excel():
     while e2[f'B{empty_row_sec}'].value is not None:
         empty_row_sec += 1
 
-    #   ToDo: Записываем данные в пустую строку
+    #  Записываем данные в пустую строку
     # Загружаем все данные из интерфейса как словарь
     data2 = context()
     # Удаляем вторую и третью специальность
     del data2['spec_var_second']
     del data2['spec_var_third']
     # Переводим словарь в список
-    data2 = [val for key, val in data2.items()]
-
+    data2 = [val for val in data2.values()]
+    # Объединяем все сведения о родителях
+    data2[16] = ' '.join(data2[21:]) + ' ' + data2[16]
     # Заполняем пустую строку данными из списка
     for i in range(21):
         e2[f'{alphabet[i]}{empty_row_sec}'] = data2[i]
@@ -302,29 +324,47 @@ l17.grid(row=16, column=0, sticky=E)
 l18 = Label(window, text='Специальность 3')
 l18.grid(row=17, column=0, sticky=E)
 
-l19 = Label(window, text='Сведения о родителях')
-l19.grid(row=18, column=0, sticky=E)
+l19 = Label(window, text='Дополнительные сведения о родителях')
+l19.grid(row=25, column=0, sticky=E)
 
-l20 = Label(window, text='Средний балл аттестата')
-l20.grid(row=19, column=0, sticky=E)
+l25 = Label(window, text='ФИО родителя')
+l25.grid(row=19, column=0, sticky=E)
+
+l26 = Label(window, text='Серия и номер паспорта родителя')
+l26.grid(row=20, column=0, sticky=E)
+
+l26 = Label(window, text='Когда и кем выдан паспорт родителя')
+l26.grid(row=21, column=0, sticky=E)
+
+l27 = Label(window, text='Адрес регистрации родителя')
+l27.grid(row=22, column=0, sticky=E)
+
+l28 = Label(window, text='Номер телефона родителя')
+l28.grid(row=23, column=0, sticky=E)
 
 l21 = Label(window, text='Форма обучения:')
-l21.grid(row=6, column=3)
+l21.grid(row=12, column=3)
 
-l22 = Label(window, text='Шаблон Word документа:')
+l22 = Label(window, text='Шаблон документа заявления:')
 l22.grid(row=0, column=3)
 
+l29 = Label(window, text='Шаблон документа согласия:')
+l29.grid(row=6, column=3)
+
+l20 = Label(window, text='Средний балл аттестата')
+l20.grid(row=26, column=0, sticky=E)
+
 l21 = Label(window, text='Заполнение файла excel 1')
-l21.grid(row=21, column=0)
+l21.grid(row=29, column=0)
 
 l22 = Label(window, text='')
-l22.grid(row=21, column=1)
+l22.grid(row=29, column=1)
 
-l21 = Label(window, text='Заполнение файла excel 2')
-l21.grid(row=22, column=0)
+l24 = Label(window, text='Заполнение файла excel 2')
+l24.grid(row=30, column=0)
 
 l23 = Label(window, text='')
-l23.grid(row=22, column=1)
+l23.grid(row=30, column=1)
 
 # Создание полей для ввода данных
 
@@ -388,13 +428,33 @@ tel_number = StringVar()
 e14 = Entry(window, textvariable=tel_number, width=30)
 e14.grid(row=14, column=1, sticky=W)
 
+parent_fio = StringVar()
+e15 = Entry(window, textvariable=parent_fio, width=45)
+e15.grid(row=19, column=1, sticky=W)
+
+parent_ser_num_pass = StringVar()
+e16 = Entry(window, textvariable=parent_ser_num_pass, width=30)
+e16.grid(row=20, column=1, sticky=W)
+
+parent_pass_info = StringVar()
+e17 = Entry(window, textvariable=parent_pass_info, width=60)
+e17.grid(row=21, column=1, sticky=W)
+
+parent_address = StringVar()
+e17 = Entry(window, textvariable=parent_address, width=60)
+e17.grid(row=22, column=1, sticky=W)
+
+parent_number = StringVar()
+e17 = Entry(window, textvariable=parent_number, width=30)
+e17.grid(row=23, column=1, sticky=W)
+
 parents_info = StringVar()
 e15 = Entry(window, textvariable=parents_info, width=60)
-e15.grid(row=18, column=1, sticky=W)
+e15.grid(row=25, column=1, sticky=W)
 
 certificate_score = StringVar()
 e16 = Entry(window, textvariable=certificate_score)
-e16.grid(row=19, column=1, sticky=W)
+e16.grid(row=26, column=1, sticky=W)
 
 # Выбор шаблона заполнения word файла
 
@@ -450,9 +510,22 @@ corr_time = 'Заочная'
 form_education = StringVar(value=full_time)
 
 rb4 = Radiobutton(window, text=full_time, value=full_time, variable=form_education)
-rb4.grid(row=7, column=3)
+rb4.grid(row=13, column=3)
 
 rb5 = Radiobutton(window, text=corr_time, value=corr_time, variable=form_education)
+rb5.grid(row=14, column=3)
+
+# Кнопки для выбора шаблона документа согласия
+
+adult = 'Совершеннолетний'
+minor = 'Несовершеннолетний'
+
+approval = StringVar(value=adult)
+
+rb4 = Radiobutton(window, text=adult, value=adult, variable=approval)
+rb4.grid(row=7, column=3)
+
+rb5 = Radiobutton(window, text=minor, value=minor, variable=approval)
 rb5.grid(row=8, column=3)
 
 # Кнопки для выбора целевого направления и участика сво
@@ -461,30 +534,30 @@ svo = IntVar()
 target_direction = IntVar()
 
 svo_check_but = Checkbutton(text='Участник СВО', variable=svo)
-svo_check_but.grid(row=20, column=0)
+svo_check_but.grid(row=27, column=0)
 
 target_direction_but = Checkbutton(text='Целевое направление', variable=target_direction)
-target_direction_but.grid(row=20, column=1)
+target_direction_but.grid(row=27, column=1)
 
 # Кнопки взаимодействия
 
 btn1 = Button(window, text="Заполнить Word", width=12, command=fill_word)
-btn1.grid(row=13, column=3)
+btn1.grid(row=22, column=3)
 
 btn2 = Button(window, text="Заполнить Excel", width=12, command=fill_excel)
-btn2.grid(row=14, column=3)
+btn2.grid(row=23, column=3)
 
 btn3 = Button(window, text='Выбрать файл', width=12, command=lambda: select_excel_file(ex_but='first'))
-btn3.grid(row=21, column=2)
+btn3.grid(row=29, column=2)
 
 btn4 = Button(window, text='Создать новый', width=12, command=lambda: create_excel_file(ex_but='first'))
-btn4.grid(row=21, column=3)
+btn4.grid(row=29, column=3)
 
 btn5 = Button(window, text='Выбрать файл', width=12, command=lambda: select_excel_file(ex_but='second'))
-btn5.grid(row=22, column=2)
+btn5.grid(row=30, column=2)
 
 btn6 = Button(window, text='Создать новый', width=12, command=lambda: create_excel_file(ex_but='second'))
-btn6.grid(row=22, column=3)
+btn6.grid(row=30, column=3)
 
 # пусть окно работает всё время до закрытия
 window.mainloop()
