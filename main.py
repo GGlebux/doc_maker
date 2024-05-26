@@ -82,7 +82,7 @@ def fill_word():
                 '\n55.02.02 Анимация и анимационное кино (по видам)')
     if doc:
         doc.render(context())
-    all_way = save_file()
+    all_way = save_file('Создание ПЕРВОГО word файла для заполнения')
     if all_way:
         doc.save(all_way)
 
@@ -94,16 +94,16 @@ def fill_word():
         doc2 = DocxTemplate('patterns/minor.docx')
     if doc2:
         doc2.render(context())
-    all_way2 = save_file()
+    all_way2 = save_file('Создание ПЕРВОГО word файла для заполнения')
     if all_way2:
         doc2.save(all_way2)
 
-def save_file(type_file='word'):
+def save_file(message, type_file='word'):
     '''Возвращает путь, имя файла и расширение, с которым его необходимо сохранить'''
     if type_file == 'excel':
-        file_path = filedialog.asksaveasfilename(defaultextension='xlsx', filetypes=[("Excel files", "*.xlsx")])
+        file_path = filedialog.asksaveasfilename(title=message, defaultextension='xlsx', filetypes=[("Excel files", "*.xlsx")])
     else:
-        file_path = filedialog.asksaveasfilename(defaultextension=".docx", filetypes=[("Word files", "*.docx")])
+        file_path = filedialog.asksaveasfilename(title=message, defaultextension=".docx", filetypes=[("Word files", "*.docx")])
     return file_path
 
 
@@ -148,7 +148,7 @@ def create_excel_file(ex_but='first'):
     work_book = Workbook()
 
     if ex_but == 'first':
-        EXCEL_FILE_FIRST = save_file(type_file='excel')
+        EXCEL_FILE_FIRST = save_file('Создание ПЕРВОГО excel файла для заполнения', type_file='excel')
         if EXCEL_FILE_FIRST:
             # обновление строки состояния выбранного файла
             l22.config(text=EXCEL_FILE_FIRST)
@@ -156,7 +156,7 @@ def create_excel_file(ex_but='first'):
             return EXCEL_FILE_FIRST
 
     elif ex_but == 'second':
-        EXCEL_FILE_SECOND = save_file(type_file='excel')
+        EXCEL_FILE_SECOND = save_file('Создание ВТОРОГО excel файла для заполнения', type_file='excel')
         if EXCEL_FILE_SECOND:
             # обновление строки состояния выбранного файла
             l23.config(text=EXCEL_FILE_SECOND)
