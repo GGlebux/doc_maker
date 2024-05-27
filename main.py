@@ -53,7 +53,7 @@ def context():
             'svo': 'Да' if svo.get() else 'Нет',
             'target_direction': 'Да' if target_direction.get() else 'Нет',
             'parent_fio': parent_fio.get(),
-            'parent_ser_num_pass': parent_ser_num_pass.get(),
+            'parent_ser_num': parent_ser_num_pass.get(),
             'parent_pass_info': parent_pass_info.get(),
             'parent_address': parent_address.get(),
             'parent_number': parent_number.get()
@@ -61,7 +61,7 @@ def context():
 
 
 def fill_word():
-    '''Заполнить документ Word информацией введенной из интерфейса'''
+    """Заполнить документ Word информацией введенной из интерфейса"""
     doc = None
     doc2 = None
     # Заполнение заявления
@@ -82,7 +82,7 @@ def fill_word():
                 '\n55.02.02 Анимация и анимационное кино (по видам)')
     if doc:
         doc.render(context())
-    all_way = save_file('Создание ПЕРВОГО word файла для заполнения')
+    all_way = save_file('Создание ЗАЯВЛЕНИЯ word файла для заполнения')
     if all_way:
         doc.save(all_way)
 
@@ -94,16 +94,19 @@ def fill_word():
         doc2 = DocxTemplate('patterns/minor.docx')
     if doc2:
         doc2.render(context())
-    all_way2 = save_file('Создание ПЕРВОГО word файла для заполнения')
+    all_way2 = save_file('Создание СОГЛАСИЯ word файла для заполнения')
     if all_way2:
         doc2.save(all_way2)
 
+
 def save_file(message, type_file='word'):
-    '''Возвращает путь, имя файла и расширение, с которым его необходимо сохранить'''
+    """Возвращает путь, имя файла и расширение, с которым его необходимо сохранить"""
     if type_file == 'excel':
-        file_path = filedialog.asksaveasfilename(title=message, defaultextension='xlsx', filetypes=[("Excel files", "*.xlsx")])
+        file_path = filedialog.asksaveasfilename(title=message, defaultextension='xlsx',
+                                                 filetypes=[("Excel files", "*.xlsx")])
     else:
-        file_path = filedialog.asksaveasfilename(title=message, defaultextension=".docx", filetypes=[("Word files", "*.docx")])
+        file_path = filedialog.asksaveasfilename(title=message, defaultextension=".docx",
+                                                 filetypes=[("Word files", "*.docx")])
     return file_path
 
 
