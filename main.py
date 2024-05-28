@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter import messagebox, filedialog, ttk, Tk
 from docxtpl import DocxTemplate
 from openpyxl import load_workbook, Workbook
-import pymorphy3
+
 
 # подключаем графическую библиотеку
 window = Tk()
