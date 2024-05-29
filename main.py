@@ -47,7 +47,7 @@ def context():
             'spec_var_first': spec_var_first.get(),
             'spec_var_second': spec_var_second.get(),
             'spec_var_third': spec_var_third.get(),
-            'parents_info': parents_info.get(),
+            'parent_work': parent_work.get(),
             'certificate_score': certificate_score.get(),
             'form_education': form_education.get(),
             'svo': 'Да' if svo.get() else 'Нет',
@@ -327,7 +327,7 @@ l17.grid(row=16, column=0, sticky=E)
 l18 = Label(window, text='Специальность 3')
 l18.grid(row=17, column=0, sticky=E)
 
-l19 = Label(window, text='Дополнительные сведения о родителях')
+l19 = Label(window, text='Место работы родителя')
 l19.grid(row=25, column=0, sticky=E)
 
 l25 = Label(window, text='ФИО родителя')
@@ -451,8 +451,8 @@ parent_number = StringVar()
 e17 = Entry(window, textvariable=parent_number, width=30)
 e17.grid(row=23, column=1, sticky=W)
 
-parents_info = StringVar()
-e15 = Entry(window, textvariable=parents_info, width=60)
+parent_work = StringVar()
+e15 = Entry(window, textvariable=parent_work, width=60)
 e15.grid(row=25, column=1, sticky=W)
 
 certificate_score = StringVar()
