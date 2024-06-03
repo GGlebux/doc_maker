@@ -1,9 +1,9 @@
 # подключаем библиотеки
+import tkinter
 from tkinter import *
 from tkinter import messagebox, filedialog, ttk, Tk
 from docxtpl import DocxTemplate
 from openpyxl import load_workbook, Workbook
-
 
 # подключаем графическую библиотеку
 window = Tk()
@@ -21,6 +21,24 @@ def on_closing():
     '''Обрабатывает закрытие окна'''
     if messagebox.askokcancel('Внимание', "Закрыть программу?"):
         window.destroy()
+
+
+def clear_form(arr):
+    '''Очистить все поля ввода Entry'''
+    # ToDo: доделать
+    global choice, form_education, approval, spec_var_first, spec_var_second, spec_var_third, svo, target_direction, profession, full_time, adult, specializations
+    choice = StringVar(value=profession)
+    form_education = StringVar(value=full_time)
+    approval = StringVar(value=adult)
+    spec_var_first = StringVar(value=specializations[0])
+    spec_var_second = StringVar(value=specializations[0])
+    spec_var_third = StringVar(value=specializations[0])
+    svo = IntVar()
+    target_direction = IntVar()
+    for entry in arr:
+        entry.delete(0, tkinter.END)
+
+
 
 
 def error(info):
@@ -384,80 +402,80 @@ e3 = Entry(window, textvariable=name, width=30)
 e3.grid(row=2, column=1, sticky=W)
 
 patronymic = StringVar()
-e3 = Entry(window, textvariable=patronymic, width=30)
-e3.grid(row=3, column=1, sticky=W)
+e4 = Entry(window, textvariable=patronymic, width=30)
+e4.grid(row=3, column=1, sticky=W)
 
 date_birthday = StringVar()
-e4 = Entry(window, textvariable=date_birthday, width=30)
-e4.grid(row=4, column=1, sticky=W)
+e5 = Entry(window, textvariable=date_birthday, width=30)
+e5.grid(row=4, column=1, sticky=W)
 
 snils = StringVar()
-e5 = Entry(window, textvariable=snils, width=30)
-e5.grid(row=5, column=1, sticky=W)
+e6 = Entry(window, textvariable=snils, width=30)
+e6.grid(row=5, column=1, sticky=W)
 
 inn = StringVar()
-e6 = Entry(window, textvariable=inn, width=30)
-e6.grid(row=6, column=1, sticky=W)
+e7 = Entry(window, textvariable=inn, width=30)
+e7.grid(row=6, column=1, sticky=W)
 
 citizenship = StringVar()
-e7 = Entry(window, textvariable=citizenship, width=30)
-e7.grid(row=7, column=1, sticky=W)
+e8 = Entry(window, textvariable=citizenship, width=30)
+e8.grid(row=7, column=1, sticky=W)
 
 id_doc = StringVar()
-e8 = Entry(window, textvariable=id_doc, width=30)
-e8.grid(row=8, column=1, sticky=W)
+e9 = Entry(window, textvariable=id_doc, width=30)
+e9.grid(row=8, column=1, sticky=W)
 
 series = StringVar()
-e9 = Entry(window, textvariable=series, width=30)
-e9.grid(row=9, column=1, sticky=W)
+e10 = Entry(window, textvariable=series, width=30)
+e10.grid(row=9, column=1, sticky=W)
 
 number = StringVar()
-e10 = Entry(window, textvariable=number, width=30)
-e10.grid(row=11, column=1, sticky=W)
+e11 = Entry(window, textvariable=number, width=30)
+e11.grid(row=11, column=1, sticky=W)
 
 date_id_doc = StringVar()
-e11 = Entry(window, textvariable=date_id_doc, width=25)
-e11.grid(row=12, column=1, sticky=W)
+e12 = Entry(window, textvariable=date_id_doc, width=25)
+e12.grid(row=12, column=1, sticky=W)
 
 office_doc = StringVar()
-e12 = Entry(window, textvariable=office_doc, width=25)
-e12.grid(row=12, column=1)
+e13 = Entry(window, textvariable=office_doc, width=25)
+e13.grid(row=12, column=1)
 
 address = StringVar()
-e13 = Entry(window, textvariable=address, width=60)
-e13.grid(row=13, column=1, sticky=W)
+e14 = Entry(window, textvariable=address, width=60)
+e14.grid(row=13, column=1, sticky=W)
 
 tel_number = StringVar()
-e14 = Entry(window, textvariable=tel_number, width=30)
-e14.grid(row=14, column=1, sticky=W)
+e15 = Entry(window, textvariable=tel_number, width=30)
+e15.grid(row=14, column=1, sticky=W)
 
 parent_fio = StringVar()
-e15 = Entry(window, textvariable=parent_fio, width=45)
-e15.grid(row=19, column=1, sticky=W)
+e16 = Entry(window, textvariable=parent_fio, width=45)
+e16.grid(row=19, column=1, sticky=W)
 
 parent_ser_num_pass = StringVar()
-e16 = Entry(window, textvariable=parent_ser_num_pass, width=30)
-e16.grid(row=20, column=1, sticky=W)
+e17 = Entry(window, textvariable=parent_ser_num_pass, width=30)
+e17.grid(row=20, column=1, sticky=W)
 
 parent_pass_info = StringVar()
-e17 = Entry(window, textvariable=parent_pass_info, width=60)
-e17.grid(row=21, column=1, sticky=W)
+e18 = Entry(window, textvariable=parent_pass_info, width=60)
+e18.grid(row=21, column=1, sticky=W)
 
 parent_address = StringVar()
-e17 = Entry(window, textvariable=parent_address, width=60)
-e17.grid(row=22, column=1, sticky=W)
+e19 = Entry(window, textvariable=parent_address, width=60)
+e19.grid(row=22, column=1, sticky=W)
 
 parent_number = StringVar()
-e17 = Entry(window, textvariable=parent_number, width=30)
-e17.grid(row=23, column=1, sticky=W)
+e20 = Entry(window, textvariable=parent_number, width=30)
+e20.grid(row=23, column=1, sticky=W)
 
 parent_work = StringVar()
-e15 = Entry(window, textvariable=parent_work, width=60)
-e15.grid(row=25, column=1, sticky=W)
+e21 = Entry(window, textvariable=parent_work, width=60)
+e21.grid(row=25, column=1, sticky=W)
 
 certificate_score = StringVar()
-e16 = Entry(window, textvariable=certificate_score)
-e16.grid(row=26, column=1, sticky=W)
+e22 = Entry(window, textvariable=certificate_score)
+e22.grid(row=26, column=1, sticky=W)
 
 # Выбор шаблона заполнения word файла
 
@@ -543,6 +561,9 @@ target_direction_but = Checkbutton(text='Целевое направление',
 target_direction_but.grid(row=27, column=1)
 
 # Кнопки взаимодействия
+ENTRIES = [eval(f'e{i}') for i in range(1, 23)]
+clr_but = Button(window, text='Очистить форму', width=12, background='red', command=lambda: clear_form(ENTRIES))
+clr_but.grid(row=20, column=3)
 
 btn1 = Button(window, text="Заполнить Word", width=12, command=fill_word)
 btn1.grid(row=22, column=3)
