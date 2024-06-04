@@ -18,6 +18,12 @@ EXCEL_FILE_THIRD = ''
 UNIVERSE = 'СКЛЯРОВ ЛОХ'
 
 
+def focus_next(event):
+    """Выбирает следущий виджет интерфейса"""
+    event.widget.tk_focusNext().focus()
+    return "break"
+
+
 def on_closing():
     '''Обрабатывает закрытие окна'''
     if messagebox.askokcancel('Внимание', "Закрыть программу?"):
@@ -26,7 +32,6 @@ def on_closing():
 
 def clear_form(arr):
     '''Очистить все поля ввода Entry'''
-    # ToDo: доделать
     global l22, l23, l33, choice, form_education, approval, spec_var_first, spec_var_second, spec_var_third, svo, target_direction, profession, full_time, adult, specializations, EXCEL_FILE_FIRST, EXCEL_FILE_SECOND, EXCEL_FILE_THIRD, SAVE_DIRECTORY
     l22.config(text='')
     l23.config(text='')
@@ -144,8 +149,6 @@ def select_excel_file(ex_but='first'):
     global l23
     global l33
 
-    # ToDo: оптимизировать выбор, чтобы избавиться от повтора кода
-
     if ex_but == 'first':
         EXCEL_FILE_FIRST = filedialog.askopenfilename(title='Выбор ПЕРВОГО excel файла для заполнения',
                                                       defaultextension='xlsx',
@@ -154,7 +157,6 @@ def select_excel_file(ex_but='first'):
             # обновление строки состояния выбранного файла первого excel
             l22.config(text=EXCEL_FILE_FIRST)
             return EXCEL_FILE_FIRST
-
 
     elif ex_but == 'second':
         EXCEL_FILE_SECOND = filedialog.askopenfilename(title='Выбор ВТОРОГО excel файла для заполнения',
@@ -186,7 +188,7 @@ def create_excel_file(ex_but='first'):
     global l33
 
     work_book = Workbook()
-    # ToDo: Оптимизировать чтобы избежать повтор кода
+
     if ex_but == 'first':
         EXCEL_FILE_FIRST = save_file('Создание ПЕРВОГО excel файла для заполнения', type_file='excel')
         if EXCEL_FILE_FIRST:
@@ -350,12 +352,12 @@ def fill_excel():
                 'V', 'W', 'X', 'Y', 'Z']
 
     if e3['A1'].value is None:
-        for i in range(19):
+        for i in range(20):
             e3[f'{alphabet[i]}1'] = head_excel_third[i]
 
-    #  Находим первую пустую строку в столбце "B"
+    #  Находим первую пустую строку в столбце "С"
     empty_row = 1
-    while e3[f'B{empty_row}'].value is not None:
+    while e3[f'C{empty_row}'].value is not None:
         empty_row += 1
 
     # Записываем данные в пустую строку
@@ -711,6 +713,9 @@ btn7.grid(row=31, column=2)
 btn8 = Button(window, text='Создать новый', width=12, command=lambda: create_excel_file(ex_but='third'))
 btn8.grid(row=31, column=3)
 
+window.columnconfigure(tuple(range(3)), weight=1)
+window.rowconfigure(tuple(range(31)), weight=1)
+window.bind_class('Entry', '<Return>', focus_next)
 # сообщаем системе о том, что делать, когда окно закрывается
 window.protocol("WM_DELETE_WINDOW", on_closing)
 
