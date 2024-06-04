@@ -14,6 +14,7 @@ window.title("Мой бухгалтер")
 SAVE_DIRECTORY = ''
 EXCEL_FILE_FIRST = ''
 EXCEL_FILE_SECOND = ''
+EXCEL_FILE_THIRD = ''
 UNIVERSE = 'СКЛЯРОВ ЛОХ'
 
 
@@ -26,10 +27,14 @@ def on_closing():
 def clear_form(arr):
     '''Очистить все поля ввода Entry'''
     # ToDo: доделать
-    global choice, form_education, approval, spec_var_first, spec_var_second, spec_var_third, svo, target_direction, profession, full_time, adult, specializations
-    choice = StringVar(value=profession)
-    form_education = StringVar(value=full_time)
-    approval = StringVar(value=adult)
+    global l22, l23, l33, choice, form_education, approval, spec_var_first, spec_var_second, spec_var_third, svo, target_direction, profession, full_time, adult, specializations, EXCEL_FILE_FIRST, EXCEL_FILE_SECOND, EXCEL_FILE_THIRD, SAVE_DIRECTORY
+    l22.config(text='')
+    l23.config(text='')
+    l33.config(text='')
+    SAVE_DIRECTORY = ''
+    EXCEL_FILE_FIRST = ''
+    EXCEL_FILE_SECOND = ''
+    EXCEL_FILE_THIRD = ''
     spec_var_first = StringVar(value=specializations[0])
     spec_var_second = StringVar(value=specializations[0])
     spec_var_third = StringVar(value=specializations[0])
@@ -39,14 +44,13 @@ def clear_form(arr):
         entry.delete(0, tkinter.END)
 
 
-
-
 def error(info):
     '''Выводит диалоговое окно с описание ошибки'''
     messagebox.askokcancel('Внимание', info)
 
 
 def context():
+    """Возвращает словарь со всеми переменными введенными в интерфейсе и их значения"""
     return {'reg_number': reg_number.get(),
             'surname': surname.get(),
             'name': name.get(),
@@ -74,7 +78,9 @@ def context():
             'parent_ser_num': parent_ser_num_pass.get(),
             'parent_pass_info': parent_pass_info.get(),
             'parent_address': parent_address.get(),
-            'parent_number': parent_number.get()
+            'parent_number': parent_number.get(),
+            'base_education': base_education.get(),
+            'finance': finance.get()
             }
 
 
@@ -104,7 +110,7 @@ def fill_word():
     if all_way:
         doc.save(all_way)
 
-    # ToDo: Заполнение  согласия на обработку персональных данных
+    # Заполнение  согласия на обработку персональных данных
     # Проверка вида заполнения документа
     if approval.get() == adult:
         doc2 = DocxTemplate('patterns/adult.docx')
@@ -133,8 +139,10 @@ def select_excel_file(ex_but='first'):
 
     global EXCEL_FILE_FIRST
     global EXCEL_FILE_SECOND
+    global EXCEL_FILE_THIRD
     global l22
     global l23
+    global l33
 
     # ToDo: оптимизировать выбор, чтобы избавиться от повтора кода
 
@@ -157,17 +165,28 @@ def select_excel_file(ex_but='first'):
             l23.config(text=EXCEL_FILE_SECOND)
             return EXCEL_FILE_SECOND
 
+    elif ex_but == 'third':
+        EXCEL_FILE_THIRD = filedialog.askopenfilename(title='Выбор ТРЕТЬЕГО excel файла для заполнения',
+                                                      defaultextension='xlsx',
+                                                      filetypes=[('Excel files', '*.xlsx')])
+        if EXCEL_FILE_THIRD:
+            # обновление строки состояния выбранного файла третьего excel
+            l33.config(text=EXCEL_FILE_THIRD)
+            return EXCEL_FILE_THIRD
+
 
 def create_excel_file(ex_but='first'):
     '''Создает новый excel файл и возвращает его для дальнейшего редактирования'''
 
     global EXCEL_FILE_FIRST
     global EXCEL_FILE_SECOND
+    global EXCEL_FILE_THIRD
     global l22
     global l23
+    global l33
 
     work_book = Workbook()
-
+    # ToDo: Оптимизировать чтобы избежать повтор кода
     if ex_but == 'first':
         EXCEL_FILE_FIRST = save_file('Создание ПЕРВОГО excel файла для заполнения', type_file='excel')
         if EXCEL_FILE_FIRST:
@@ -184,11 +203,20 @@ def create_excel_file(ex_but='first'):
             work_book.save(EXCEL_FILE_SECOND)
             return EXCEL_FILE_SECOND
 
+    elif ex_but == 'third':
+        EXCEL_FILE_THIRD = save_file('Создание ТРЕТЬЕГО excel файла для заполнения', type_file='excel')
+        if EXCEL_FILE_THIRD:
+            # обновление строки состояния выбранного файла
+            l33.config(text=EXCEL_FILE_THIRD)
+            work_book.save(EXCEL_FILE_THIRD)
+            return EXCEL_FILE_THIRD
+
 
 def fill_excel():
     '''Заполнить документ excel информацией введенной из интерфейса'''
     global EXCEL_FILE_FIRST
     global EXCEL_FILE_SECOND
+    global EXCEL_FILE_THIRD
 
     # Проверка выбраны ли существующие файлы для заполнения
     while not EXCEL_FILE_FIRST:
@@ -196,6 +224,9 @@ def fill_excel():
 
     while not EXCEL_FILE_SECOND:
         EXCEL_FILE_SECOND = select_excel_file(ex_but='second')
+
+    while not EXCEL_FILE_THIRD:
+        EXCEL_FILE_THIRD = select_excel_file(ex_but='third')
 
     '''Заполняем первый excel'''
     # Открываем существующий файл первый Excel
@@ -288,9 +319,64 @@ def fill_excel():
 
     work_book_second.save(EXCEL_FILE_SECOND)
 
+    '''Заполняем третий excel'''
+    # Открываем существующий файл третий Excel
+    work_book_third = load_workbook(EXCEL_FILE_THIRD)
+    e3 = work_book_third.active
 
-# сообщаем системе о том, что делать, когда окно закрывается
-window.protocol("WM_DELETE_WINDOW", on_closing)
+    #  Заполняем шапку excel
+    head_excel_third = ['Номер заявления',
+                        '№ ЕПГУ',
+                        'Фамилия абитуриента',
+                        'Имя абитуриента',
+                        'Имя абитуриента',
+                        'Дата рождения',
+                        'Серия удостоверяющего документа',
+                        'Номер удостоверяющего документа',
+                        'СНИЛС',
+                        'Дата подачи заявления',
+                        'Источник подачи заявления',
+                        'Специальность (1)',
+                        'Специальность (2)',
+                        'Специальность (3)',
+                        'Средний балл аттестата',
+                        'Тип финансирования',
+                        'Форма обучения',
+                        'Базовое образование',
+                        'Статус заявления',
+                        'Статус специальности']
+
+    alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
+                'V', 'W', 'X', 'Y', 'Z']
+
+    if e3['A1'].value is None:
+        for i in range(19):
+            e3[f'{alphabet[i]}1'] = head_excel_third[i]
+
+    #  Находим первую пустую строку в столбце "B"
+    empty_row = 1
+    while e3[f'B{empty_row}'].value is not None:
+        empty_row += 1
+
+    # Записываем данные в пустую строку
+    data = context()
+    e3[f'C{empty_row}'] = data['surname']
+    e3[f'D{empty_row}'] = data['name']
+    e3[f'E{empty_row}'] = data['patronymic']
+    e3[f'F{empty_row}'] = data['date_birthday']
+    e3[f'G{empty_row}'] = data['series']
+    e3[f'H{empty_row}'] = data['number']
+    e3[f'I{empty_row}'] = data['snils']
+    e3[f'L{empty_row}'] = data['spec_var_first']
+    e3[f'M{empty_row}'] = data['spec_var_second']
+    e3[f'N{empty_row}'] = data['spec_var_third']
+    e3[f'O{empty_row}'] = data['certificate_score']
+    e3[f'P{empty_row}'] = data['finance']
+    e3[f'Q{empty_row}'] = data['form_education']
+    e3[f'R{empty_row}'] = data['base_education']
+
+    work_book_third.save(EXCEL_FILE_THIRD)
+
 
 # Cоздание надписи для полей ввода и размещение их по сетке
 
@@ -363,6 +449,12 @@ l27.grid(row=22, column=0, sticky=E)
 l28 = Label(window, text='Номер телефона родителя')
 l28.grid(row=23, column=0, sticky=E)
 
+l30 = Label(window, text='Тип финансирования:')
+l30.grid(row=0, column=2)
+
+l31 = Label(window, text='Базовое образование:')
+l31.grid(row=6, column=2)
+
 l21 = Label(window, text='Форма обучения:')
 l21.grid(row=12, column=3)
 
@@ -386,6 +478,12 @@ l24.grid(row=30, column=0)
 
 l23 = Label(window, text='')
 l23.grid(row=30, column=1)
+
+l32 = Label(window, text='Заполнение файла excel 3')
+l32.grid(row=31, column=0)
+
+l33 = Label(window, text='')
+l33.grid(row=31, column=1)
 
 # Создание полей для ввода данных
 
@@ -476,6 +574,30 @@ e21.grid(row=25, column=1, sticky=W)
 certificate_score = StringVar()
 e22 = Entry(window, textvariable=certificate_score)
 e22.grid(row=26, column=1, sticky=W)
+
+# Выбор типа финансирования
+budget = 'Бюджет'
+commerce = 'Коммерция'
+
+finance = StringVar(value=budget)
+
+rb6 = Radiobutton(window, text=budget, value=budget, variable=finance)
+rb6.grid(row=1, column=2)
+
+rb7 = Radiobutton(window, text=commerce, value=commerce, variable=finance)
+rb7.grid(row=2, column=2)
+
+# Выбор базового образования
+nine_cls = '9 классов'
+elev_cls = '11 классов'
+
+base_education = StringVar(value=nine_cls)
+
+rb8 = Radiobutton(window, text=nine_cls, value=nine_cls, variable=base_education)
+rb8.grid(row=7, column=2)
+
+rb9 = Radiobutton(window, text=elev_cls, value=elev_cls, variable=base_education)
+rb9.grid(row=8, column=2)
 
 # Выбор шаблона заполнения word файла
 
@@ -582,6 +704,15 @@ btn5.grid(row=30, column=2)
 
 btn6 = Button(window, text='Создать новый', width=12, command=lambda: create_excel_file(ex_but='second'))
 btn6.grid(row=30, column=3)
+
+btn7 = Button(window, text='Выбрать файл', width=12, command=lambda: select_excel_file(ex_but='third'))
+btn7.grid(row=31, column=2)
+
+btn8 = Button(window, text='Создать новый', width=12, command=lambda: create_excel_file(ex_but='third'))
+btn8.grid(row=31, column=3)
+
+# сообщаем системе о том, что делать, когда окно закрывается
+window.protocol("WM_DELETE_WINDOW", on_closing)
 
 # пусть окно работает всё время до закрытия
 window.mainloop()
