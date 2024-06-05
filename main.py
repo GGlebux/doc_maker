@@ -111,9 +111,11 @@ def fill_word():
                 '\n55.02.02 Анимация и анимационное кино (по видам)')
     if doc:
         doc.render(context())
-    all_way = save_file('Создание ЗАЯВЛЕНИЯ word файла для заполнения')
-    if all_way:
+        all_way = save_file('Создание ЗАЯВЛЕНИЯ word файла для заполнения')
+        while not all_way:
+            all_way = save_file('Создание ЗАЯВЛЕНИЯ word файла для заполнения')
         doc.save(all_way)
+
 
     # Заполнение  согласия на обработку персональных данных
     # Проверка вида заполнения документа
@@ -123,9 +125,12 @@ def fill_word():
         doc2 = DocxTemplate('patterns/minor.docx')
     if doc2:
         doc2.render(context())
-    all_way2 = save_file('Создание СОГЛАСИЯ word файла для заполнения')
-    if all_way2:
+
+        all_way2 = save_file('Создание СОГЛАСИЯ word файла для заполнения')
+        while not all_way2:
+            all_way2 = save_file('Создание СОГЛАСИЯ word файла для заполнения')
         doc2.save(all_way2)
+        error('Созданы заполненные word файлы!')
 
 
 def save_file(message, type_file='word'):
@@ -150,7 +155,7 @@ def select_excel_file(ex_but='first'):
     global l33
 
     if ex_but == 'first':
-        EXCEL_FILE_FIRST = filedialog.askopenfilename(title='Выбор ПЕРВОГО excel файла для заполнения',
+        EXCEL_FILE_FIRST = filedialog.askopenfilename(title='Выбор РЕЙТИНГ excel файла для заполнения',
                                                       defaultextension='xlsx',
                                                       filetypes=[("Excel files", "*.xlsx")])
         if EXCEL_FILE_FIRST:
@@ -159,7 +164,7 @@ def select_excel_file(ex_but='first'):
             return EXCEL_FILE_FIRST
 
     elif ex_but == 'second':
-        EXCEL_FILE_SECOND = filedialog.askopenfilename(title='Выбор ВТОРОГО excel файла для заполнения',
+        EXCEL_FILE_SECOND = filedialog.askopenfilename(title='Выбор ОБЩИЙ excel файла для заполнения',
                                                        defaultextension='xlsx',
                                                        filetypes=[("Excel files", "*.xlsx")])
         if EXCEL_FILE_SECOND:
@@ -168,7 +173,7 @@ def select_excel_file(ex_but='first'):
             return EXCEL_FILE_SECOND
 
     elif ex_but == 'third':
-        EXCEL_FILE_THIRD = filedialog.askopenfilename(title='Выбор ТРЕТЬЕГО excel файла для заполнения',
+        EXCEL_FILE_THIRD = filedialog.askopenfilename(title='Выбор АИС excel файла для заполнения',
                                                       defaultextension='xlsx',
                                                       filetypes=[('Excel files', '*.xlsx')])
         if EXCEL_FILE_THIRD:
@@ -190,7 +195,7 @@ def create_excel_file(ex_but='first'):
     work_book = Workbook()
 
     if ex_but == 'first':
-        EXCEL_FILE_FIRST = save_file('Создание ПЕРВОГО excel файла для заполнения', type_file='excel')
+        EXCEL_FILE_FIRST = save_file('Создание РЕЙТИНГ excel файла для заполнения', type_file='excel')
         if EXCEL_FILE_FIRST:
             # обновление строки состояния выбранного файла
             l22.config(text=EXCEL_FILE_FIRST)
@@ -198,7 +203,7 @@ def create_excel_file(ex_but='first'):
             return EXCEL_FILE_FIRST
 
     elif ex_but == 'second':
-        EXCEL_FILE_SECOND = save_file('Создание ВТОРОГО excel файла для заполнения', type_file='excel')
+        EXCEL_FILE_SECOND = save_file('Создание ОБЩИЙ excel файла для заполнения', type_file='excel')
         if EXCEL_FILE_SECOND:
             # обновление строки состояния выбранного файла
             l23.config(text=EXCEL_FILE_SECOND)
@@ -206,7 +211,7 @@ def create_excel_file(ex_but='first'):
             return EXCEL_FILE_SECOND
 
     elif ex_but == 'third':
-        EXCEL_FILE_THIRD = save_file('Создание ТРЕТЬЕГО excel файла для заполнения', type_file='excel')
+        EXCEL_FILE_THIRD = save_file('Создание АИС excel файла для заполнения', type_file='excel')
         if EXCEL_FILE_THIRD:
             # обновление строки состояния выбранного файла
             l33.config(text=EXCEL_FILE_THIRD)
@@ -267,6 +272,7 @@ def fill_excel():
     e[f'H{empty_row}'] = data['form_education']
 
     work_book_first.save(EXCEL_FILE_FIRST)
+    work_book_first.close()
 
     '''Заполняем второй excel'''
     # Открываем существующий файл второй Excel
@@ -320,6 +326,7 @@ def fill_excel():
         e2[f'{alphabet[i]}{empty_row_sec}'] = data2[i]
 
     work_book_second.save(EXCEL_FILE_SECOND)
+    work_book_second.close()
 
     '''Заполняем третий excel'''
     # Открываем существующий файл третий Excel
@@ -378,7 +385,8 @@ def fill_excel():
     e3[f'R{empty_row}'] = data['base_education']
 
     work_book_third.save(EXCEL_FILE_THIRD)
-
+    work_book_third.close()
+    error('Все изменения в excel файлы внесены!')
 
 # Cоздание надписи для полей ввода и размещение их по сетке
 
@@ -469,19 +477,19 @@ l29.grid(row=6, column=3)
 l20 = Label(window, text='Средний балл аттестата')
 l20.grid(row=26, column=0, sticky=E)
 
-l21 = Label(window, text='Заполнение файла excel 1')
+l21 = Label(window, text='Заполнение рейтинга')
 l21.grid(row=29, column=0)
 
 l22 = Label(window, text='')
 l22.grid(row=29, column=1)
 
-l24 = Label(window, text='Заполнение файла excel 2')
+l24 = Label(window, text='Заполнение общего')
 l24.grid(row=30, column=0)
 
 l23 = Label(window, text='')
 l23.grid(row=30, column=1)
 
-l32 = Label(window, text='Заполнение файла excel 3')
+l32 = Label(window, text='Заполнение аис')
 l32.grid(row=31, column=0)
 
 l33 = Label(window, text='')
@@ -713,9 +721,13 @@ btn7.grid(row=31, column=2)
 btn8 = Button(window, text='Создать новый', width=12, command=lambda: create_excel_file(ex_but='third'))
 btn8.grid(row=31, column=3)
 
+# Адаптиный дисплей
 window.columnconfigure(tuple(range(3)), weight=1)
 window.rowconfigure(tuple(range(31)), weight=1)
+
+# Переход на новое поле ввода при нажатии Enter
 window.bind_class('Entry', '<Return>', focus_next)
+
 # сообщаем системе о том, что делать, когда окно закрывается
 window.protocol("WM_DELETE_WINDOW", on_closing)
 
