@@ -1,6 +1,5 @@
 # подключаем библиотеки
 import tkinter
-import time
 from tkinter import *
 from tkinter import messagebox, filedialog, ttk, Tk
 from docxtpl import DocxTemplate
@@ -26,47 +25,22 @@ def focus_next(event):
 
 
 def on_closing():
-    '''Обрабатывает закрытие окна'''
+    """Обрабатывает закрытие окна"""
     if messagebox.askokcancel('Внимание', "Закрыть программу?"):
         window.destroy()
 
 
 def clear_form(arr):
-    '''Очистить все поля ввода Entry'''
-    global l22, l23, l33, choice, form_education, approval, spec_var_first, spec_var_second, spec_var_third, svo, target_direction, profession, full_time, adult, specializations, EXCEL_FILE_FIRST, EXCEL_FILE_SECOND, EXCEL_FILE_THIRD, SAVE_DIRECTORY
-    l22.config(text='')
-    l23.config(text='')
-    l33.config(text='')
-    SAVE_DIRECTORY = ''
-    EXCEL_FILE_FIRST = ''
-    EXCEL_FILE_SECOND = ''
-    EXCEL_FILE_THIRD = ''
+    """Очистить все поля ввода Entry"""
+    global svo, target_direction
     svo = IntVar()
     target_direction = IntVar()
     for entry in arr:
         entry.delete(0, tkinter.END)
 
 
-def is_file_locked(filepath):
-    """Проверяет, заблокирован ли файл."""
-    try:
-        # Попытка открыть файл на запись.
-        open(filepath, 'a').close()
-        return False
-    except OSError as e:
-        # Если файл заблокирован, OSError.
-        if e.errno == 13:
-            return True
-        else:
-            # Ошибка не связана с блокировкой файла.
-            raise e
-    finally:
-        # Дождаться окончания блокировки.
-        time.sleep(0.1)
-
-
 def error(info):
-    '''Выводит диалоговое окно с описание ошибки'''
+    """Выводит диалоговое окно с описание ошибк"""
     messagebox.askokcancel('Внимание', info)
 
 
@@ -285,9 +259,7 @@ def fill_excel():
     e[f'F{empty_row}'] = data['spec_var_second']
     e[f'G{empty_row}'] = data['spec_var_third']
     e[f'H{empty_row}'] = data['form_education']
-    # Обработка исключения для внесения изменений в открытый файл
-    while is_file_locked(EXCEL_FILE_FIRST):
-        error(f'Прежде чем сохранить изменения закройте файл {EXCEL_FILE_FIRST.split('/')[-1]}')
+
     work_book_first.save(EXCEL_FILE_FIRST)
     work_book_first.close()
 
@@ -341,9 +313,7 @@ def fill_excel():
     # Заполняем пустую строку данными из списка
     for i in range(21):
         e2[f'{alphabet[i]}{empty_row_sec}'] = data2[i]
-    # Обработка исключения для внесения изменений в открытый файл
-    while is_file_locked(EXCEL_FILE_SECOND):
-        error(f'Прежде чем сохранить изменения закройте файл {EXCEL_FILE_SECOND.split('/')[-1]}')
+
     work_book_second.save(EXCEL_FILE_SECOND)
     work_book_second.close()
 
@@ -402,9 +372,7 @@ def fill_excel():
     e3[f'P{empty_row}'] = data['finance']
     e3[f'Q{empty_row}'] = data['form_education']
     e3[f'R{empty_row}'] = data['base_education']
-    # Обработка исключения для внесения изменений в открытый файл
-    while is_file_locked(EXCEL_FILE_THIRD):
-        error(f'Прежде чем сохранить изменения закройте файл {EXCEL_FILE_THIRD.split('/')[-1]}')
+
     work_book_third.save(EXCEL_FILE_THIRD)
     work_book_third.close()
     error('Все изменения в excel файлы внесены!')
