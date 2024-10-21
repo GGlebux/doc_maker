@@ -36,7 +36,7 @@ target_direction = None
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Мой бухгалтер")
+        self.setWindowTitle("приЁмка")
         self.setGeometry(300, 0, 750, 1070)
 
         # Создаем центральный виджет и макет
@@ -446,13 +446,13 @@ def load_template(template_name):
     return doc
 
 
-setup(
-    name="Admission Office",
-    version="2.0",
-    description="My Awesome Application",
-    executables=[Executable("new.py", base="Win32GUI")],
-    # Включаем папку шаблонов
-    include_files=[("patterns", "patterns")], )
+# setup(
+#     name="Admission Office",
+#     version="2.0",
+#     description="My Awesome Application",
+#     executables=[Executable("new.py", base="Win32GUI")],
+#     # Включаем папку шаблонов
+#     include_files=[("patterns", "patterns")], )
 
 if __name__ == "__main__":
     doc_prof = load_template('prof.docx')
