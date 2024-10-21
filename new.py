@@ -29,179 +29,31 @@ EXCEL_FILE_THIRD = ''
 UNIVERSE = 'СКЛЯРОВ ЛОХ'
 
 # Глобальные переменные
-svo = None
-target_direction = None
+specializations = ['38.02.08 Торговое дело',
+                   '08.02.13 Монтаж и эксплуатация внутренних сантехнических устройств, кондиционирования воздуха и вентиляции',
+                   '08.02.01 Строительство и эксплуатация зданий и сооружений',
+                   '29.02.11 Полиграфическое производство',
+                   '08.02.14 Эксплуатация и обслуживание многоквартирного дома',
+                   '08.01.28 Мастер отделочных строительных и декоративных работ',
+                   '54.01.20 Графический дизайнер',
+                   '09.02.07 Информационные системы и программирование',
+                   '42.02.02 Издательское дело',
+                   '54.01.01 Исполнитель художественно - оформительских работ',
+                   '54.02.01 Дизайн (по отраслям)',
+                   '08.02.08 Монтаж и эксплуатация оборудования и систем газоснабжения',
+                   '07.02.01 Архитектура',
+                   '55.02.02 Анимация и анимационное кино (по видам)']
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("приЁмка")
-        self.setGeometry(300, 0, 750, 1070)
+        s
 
-        # Создаем центральный виджет и макет
-        centralWidget = QWidget()
-        self.setCentralWidget(centralWidget)
-        mainLayout = QVBoxLayout(centralWidget)
-
-        # Создаем область прокрутки
-        scrollArea = QScrollArea(centralWidget)
-        scrollArea.setWidgetResizable(True)
-        scrollAreaWidgetContents = QWidget()
-        scrollAreaLayout = QVBoxLayout(scrollAreaWidgetContents)
-        scrollArea.setWidget(scrollAreaWidgetContents)
-        mainLayout.addWidget(scrollArea)
-
-        # Создаем QFormLayout для ввода данных
-        formLayout = QFormLayout()
-
-        # Добавляем поля ввода в QFormLayout
-        self.reg_number_label = QLabel("Регистрационный номер:")
-        self.reg_number = QLineEdit()
-        formLayout.addRow(self.reg_number_label, self.reg_number)
-        self.surname_label = QLabel("Фамилия:")
-        self.surname = QLineEdit()
-        formLayout.addRow(self.surname_label, self.surname)
-        self.name_label = QLabel("Имя:")
-        self.name = QLineEdit()
-        formLayout.addRow(self.name_label, self.name)
-        self.patronymic_label = QLabel("Отчество:")
-        self.patronymic = QLineEdit()
-        formLayout.addRow(self.patronymic_label, self.patronymic)
-        self.date_birthday_label = QLabel("Дата рождения:")
-        self.date_birthday = QDateEdit()
-        self.date_birthday.setDisplayFormat("dd.MM.yyyy")
-        formLayout.addRow(self.date_birthday_label, self.date_birthday)
-        self.snils_label = QLabel("СНИЛС:")
-        self.snils = QLineEdit()
-        formLayout.addRow(self.snils_label, self.snils)
-        self.inn_label = QLabel("ИНН:")
-        self.inn = QLineEdit()
-        formLayout.addRow(self.inn_label, self.inn)
-        self.citizenship_label = QLabel("Гражданство:")
-        self.citizenship = QLineEdit()
-        formLayout.addRow(self.citizenship_label, self.citizenship)
-        self.id_doc_label = QLabel("Документ, удостоверяющий личность:")
-        self.id_doc = QLineEdit()
-        formLayout.addRow(self.id_doc_label, self.id_doc)
-        self.series_label = QLabel("Серия:")
-        self.series = QLineEdit()
-        formLayout.addRow(self.series_label, self.series)
-        self.number_label = QLabel("Номер:")
-        self.number = QLineEdit()
-        formLayout.addRow(self.number_label, self.number)
-        self.date_id_doc_label = QLabel("Дата выдачи:")
-        self.date_id_doc = QDateEdit()
-        self.date_id_doc.setDisplayFormat("dd.MM.yyyy")
-        formLayout.addRow(self.date_id_doc_label, self.date_id_doc)
-        self.office_doc_label = QLabel("Кем выдан:")
-        self.office_doc = QLineEdit()
-        formLayout.addRow(self.office_doc_label, self.office_doc)
-        self.address_label = QLabel("Адрес:")
-        self.address = QLineEdit()
-        formLayout.addRow(self.address_label, self.address)
-        self.tel_number_label = QLabel("Номер телефона:")
-        self.tel_number = QLineEdit()
-        formLayout.addRow(self.tel_number_label, self.tel_number)
-
-        # Добавляем поля ввода в QFormLayout
-        self.spec_var_first_label = QLabel("Специальность:")
-        self.spec_var_first = QComboBox()
-        self.spec_var_first.addItems(["54.02.01 Дизайн (по отраслям)", "07.02.01 Архитектура",
-                                      "55.02.02 Анимация и анимационное кино (по видам)"])
-        formLayout.addRow(self.spec_var_first_label, self.spec_var_first)
-        self.spec_var_second_label = QLabel("Форма обучения:")
-        self.spec_var_second = QComboBox()
-        self.spec_var_second.addItems(["Очная", "Заочная"])
-        formLayout.addRow(self.spec_var_second_label, self.spec_var_second)
-        self.spec_var_third_label = QLabel("Основание получения образования:")
-        self.spec_var_third = QComboBox()
-        self.spec_var_third.addItems(["Среднее общее образование", "Среднее профессиональное образование"])
-        formLayout.addRow(self.spec_var_third_label, self.spec_var_third)
-        self.parent_work_label = QLabel("Место работы родителей:")
-        self.parent_work = QLineEdit()
-        formLayout.addRow(self.parent_work_label, self.parent_work)
-        self.certificate_score_label = QLabel("Балл аттестата:")
-        self.certificate_score = QLineEdit()
-        formLayout.addRow(self.certificate_score_label, self.certificate_score)
-        self.form_education_label = QLabel("Форма обучения:")
-        self.form_education = QComboBox()
-        self.form_education.addItems(["Очная", "Заочная"])
-        formLayout.addRow(self.form_education_label, self.form_education)
-
-        # Добавляем QFormLayout в layout для прокрутки
-        scrollAreaLayout.addLayout(formLayout)
-
-        # Создаем группу радиокнопок
-        self.ageGroup = QGroupBox("Возраст:")
-        self.ageLayout = QVBoxLayout(self.ageGroup)
-        self.adultRadio = QRadioButton("Совершеннолетний")
-        self.minorRadio = QRadioButton("Несовершеннолетний")
-        self.ageLayout.addWidget(self.adultRadio)
-        self.ageLayout.addWidget(self.minorRadio)
-
-        # Добавляем группу радиокнопок в layout для прокрутки
-        scrollAreaLayout.addWidget(self.ageGroup)
-
-        # Создаем QGroupBox для радиокнопок
-        groupBox = QGroupBox("Дополнительные сведения:")
-        groupBoxLayout = QVBoxLayout(groupBox)
-
-        # Добавляем радиокнопки в QGroupBox
-        self.svo_checkbox = QCheckBox("СВО")
-        groupBoxLayout.addWidget(self.svo_checkbox)
-        self.target_direction_checkbox = QCheckBox("Целевое направление")
-        groupBoxLayout.addWidget(self.target_direction_checkbox)
-
-        # Добавляем QGroupBox в layout для прокрутки
-        scrollAreaLayout.addWidget(groupBox)
-
-        # Создаем QFormLayout для родителя
-        parentFormLayout = QFormLayout()
-
-        # Добавляем поля ввода для родителя в QFormLayout
-        self.parent_fio_label = QLabel("ФИО родителя:")
-        self.parent_fio = QLineEdit()
-        parentFormLayout.addRow(self.parent_fio_label, self.parent_fio)
-        self.parent_ser_num_pass_label = QLabel("Серия и номер паспорта родителя:")
-        self.parent_ser_num_pass = QLineEdit()
-        parentFormLayout.addRow(self.parent_ser_num_pass_label, self.parent_ser_num_pass)
-        self.parent_pass_info_label = QLabel("Кем и когда выдан паспорт:")
-        self.parent_pass_info = QLineEdit()
-        parentFormLayout.addRow(self.parent_pass_info_label, self.parent_pass_info)
-        self.parent_address_label = QLabel("Адрес родителя:")
-        self.parent_address = QLineEdit()
-        parentFormLayout.addRow(self.parent_address_label, self.parent_address)
-        self.parent_number_label = QLabel("Номер телефона родителя:")
-        self.parent_number = QLineEdit()
-        parentFormLayout.addRow(self.parent_number_label, self.parent_number)
-
-        # Добавляем QFormLayout для родителя в layout для прокрутки
-        scrollAreaLayout.addLayout(parentFormLayout)
-
-        # Создаем кнопки
-        buttonLayout = QHBoxLayout()
-        self.fill_word_button = QPushButton("Заполнить Word")
-        self.fill_word_button.clicked.connect(self.fill_word)
-        buttonLayout.addWidget(self.fill_word_button)
-        self.fill_excel_button = QPushButton("Заполнить Excel")
-        self.fill_excel_button.clicked.connect(self.fill_excel)
-        buttonLayout.addWidget(self.fill_excel_button)
-        self.clear_button = QPushButton("Очистить")
-        self.clear_button.clicked.connect(self.clear_form)
-        buttonLayout.addWidget(self.clear_button)
-        self.exit_button = QPushButton("Выход")
-        self.exit_button.clicked.connect(self.close)
-        buttonLayout.addWidget(self.exit_button)
-
-        # Добавляем кнопки в layout для прокрутки
-        scrollAreaLayout.addLayout(buttonLayout)
 
     def clear_form(self):
         """Очистить все поля ввода Entry"""
-        global svo, target_direction
-        svo = None
-        target_direction = None
         self.reg_number.clear()
         self.surname.clear()
         self.name.clear()
@@ -218,8 +70,8 @@ class MainWindow(QMainWindow):
         self.address.clear()
         self.tel_number.clear()
         self.spec_var_first.setCurrentIndex(0)
-        self.spec_var_second.setCurrentIndex(0)
         self.spec_var_third.setCurrentIndex(0)
+        self.base_education.setCurrentIndex(0)
         self.parent_work.clear()
         self.certificate_score.clear()
         self.form_education.setCurrentIndex(0)
@@ -250,8 +102,8 @@ class MainWindow(QMainWindow):
             'address': self.address.text(),
             'tel_number': self.tel_number.text(),
             'spec_var_first': self.spec_var_first.currentText(),
-            'spec_var_second': self.spec_var_second.currentText(),
-            'spec_var_third': self.spec_var_third.currentText(),
+            'spec_var_second': self.spec_var_third.currentText(),
+            'spec_var_third': self.base_education.currentText(),
             'parent_work': self.parent_work.text(),
             'certificate_score': self.certificate_score.text(),
             'form_education': self.form_education.currentText(),
@@ -262,7 +114,7 @@ class MainWindow(QMainWindow):
             'parent_pass_info': self.parent_pass_info.text(),
             'parent_address': self.parent_address.text(),
             'parent_number': self.parent_number.text(),
-            'base_education': self.spec_var_third.currentText(),
+            'base_education': self.base_education.currentText(),
             'finance': ""}
 
     def fill_word(self):
@@ -420,6 +272,49 @@ class MainWindow(QMainWindow):
 
             work_book_second.save(EXCEL_FILE_SECOND)
             work_book_second.close()
+
+        '''Заполняем третий excel'''
+        # Открываем существующий файл третий Excel
+        work_book_third = load_workbook(EXCEL_FILE_THIRD)
+        e3 = work_book_third.active
+
+        #  Заполняем шапку excel
+        head_excel_third = ['Номер заявления',
+                            '№ ЕПГУ',
+                            'Фамилия абитуриента',
+                            'Имя абитуриента',
+                            'Имя абитуриента',
+                            'Дата рождения',
+                            'Серия удостоверяющего документа',
+                            'Номер удостоверяющего документа',
+                            'СНИЛС',
+                            'Дата подачи заявления',
+                            'Источник подачи заявления',
+                            'Специальность (1)',
+                            'Специальность (2)',
+                            'Специальность (3)',
+                            'Средний балл аттестата',
+                            'Тип финансирования',
+                            'Форма обучения',
+                            'Базовое образование',
+                            'Статус заявления',
+                            'Статус специальности']
+
+        alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
+                    'T', 'U',
+                    'V', 'W', 'X', 'Y', 'Z']
+
+        if e3['A1'].value is None:
+            for i in range(20):
+                e3[f'{alphabet[i]}1'] = head_excel_third[i]
+
+        #  Находим первую пустую строку в столбце "С"
+        empty_row = 1
+        while e3[f'C{empty_row}'].value is not None:
+            empty_row += 1
+
+        work_book_third.save(EXCEL_FILE_THIRD)
+        work_book_third.close()
 
     def select_excel_file(self, title):
         """Открывает диалоговое окно для выбора файла Excel"""

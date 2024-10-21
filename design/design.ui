@@ -1,0 +1,881 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1312</width>
+    <height>813</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <layout class="QFormLayout" name="formLayout">
+      <property name="horizontalSpacing">
+       <number>0</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Регистрационный номер:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Фамилия:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Имя:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Отчество:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Дата рождения:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>СНИЛС:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>ИНН:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>Гражданство:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Документ:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>Серия:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>Номер:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>Дата выдачи:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="0">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>Кем выдан:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="0">
+       <widget class="QLabel" name="label_14">
+        <property name="text">
+         <string>Адрес:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="0">
+       <widget class="QLabel" name="label_15">
+        <property name="text">
+         <string>Номер телефона:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="15" column="0">
+       <widget class="QLabel" name="label_17">
+        <property name="text">
+         <string>Специальность 1:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="16" column="0">
+       <widget class="QLabel" name="label_18">
+        <property name="text">
+         <string>Специальность 2:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="17" column="0">
+       <widget class="QLabel" name="label_19">
+        <property name="text">
+         <string>Специальность 3:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="18" column="0">
+       <widget class="QLabel" name="label_20">
+        <property name="text">
+         <string>Базовое образование:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="19" column="0">
+       <widget class="QLabel" name="label_21">
+        <property name="text">
+         <string>Балл аттестата:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="20" column="0">
+       <widget class="QLabel" name="label_22">
+        <property name="text">
+         <string>Форма обучения:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="reg_number">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="surname">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="name">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="patronymic">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QDateEdit" name="date_birthday">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="date">
+         <date>
+          <year>2025</year>
+          <month>1</month>
+          <day>1</day>
+         </date>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLineEdit" name="snils">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QLineEdit" name="inn">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QLineEdit" name="citizenship">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QLineEdit" name="id_doc">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QLineEdit" name="series">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <widget class="QLineEdit" name="number">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
+       <widget class="QDateEdit" name="date_id_doc">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="date">
+         <date>
+          <year>2025</year>
+          <month>1</month>
+          <day>1</day>
+         </date>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="1">
+       <widget class="QLineEdit" name="office_doc">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="1">
+       <widget class="QLineEdit" name="address">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="1">
+       <widget class="QLineEdit" name="tel_number">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="15" column="1">
+       <widget class="QComboBox" name="spec_var_first">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <item>
+         <property name="text">
+          <string>38.02.08 Торговое дело</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.13 Монтаж и эксплуатация внутренних сантехнических устройств, кондиционирования воздуха и вентиляции</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.01 Строительство и эксплуатация зданий и сооружений</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>29.02.11 Полиграфическое производство</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.14 Эксплуатация и обслуживание многоквартирного дома</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.01.28 Мастер отделочных строительных и декоративных работ</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>54.01.20 Графический дизайнер</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>09.02.07 Информационные системы и программирование</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>42.02.02 Издательское дело</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>54.01.01 Исполнитель художественно - оформительских работ</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>54.02.01 Дизайн (по отраслям)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.08 Монтаж и эксплуатация оборудования и систем газоснабжения</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>07.02.01 Архитектура</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>55.02.02 Анимация и анимационное кино (по видам)</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="16" column="1">
+       <widget class="QComboBox" name="spec_var_second">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <item>
+         <property name="text">
+          <string>38.02.08 Торговое дело</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.13 Монтаж и эксплуатация внутренних сантехнических устройств, кондиционирования воздуха и вентиляции</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.01 Строительство и эксплуатация зданий и сооружений</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>29.02.11 Полиграфическое производство</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.14 Эксплуатация и обслуживание многоквартирного дома</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.01.28 Мастер отделочных строительных и декоративных работ</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>54.01.20 Графический дизайнер</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>09.02.07 Информационные системы и программирование</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>42.02.02 Издательское дело</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>54.01.01 Исполнитель художественно - оформительских работ</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>54.02.01 Дизайн (по отраслям)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.08 Монтаж и эксплуатация оборудования и систем газоснабжения</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>07.02.01 Архитектура</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>55.02.02 Анимация и анимационное кино (по видам)</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="17" column="1">
+       <widget class="QComboBox" name="spec_var_third">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <item>
+         <property name="text">
+          <string>38.02.08 Торговое дело</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.13 Монтаж и эксплуатация внутренних сантехнических устройств, кондиционирования воздуха и вентиляции</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.01 Строительство и эксплуатация зданий и сооружений</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>29.02.11 Полиграфическое производство</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.14 Эксплуатация и обслуживание многоквартирного дома</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.01.28 Мастер отделочных строительных и декоративных работ</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>54.01.20 Графический дизайнер</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>09.02.07 Информационные системы и программирование</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>42.02.02 Издательское дело</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>54.01.01 Исполнитель художественно - оформительских работ</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>54.02.01 Дизайн (по отраслям)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.08 Монтаж и эксплуатация оборудования и систем газоснабжения</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>07.02.01 Архитектура</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>55.02.02 Анимация и анимационное кино (по видам)</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="19" column="1">
+       <widget class="QDoubleSpinBox" name="certificate_score">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimum">
+         <double>2.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>5.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>5.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="21" column="0">
+       <widget class="QLabel" name="label_16">
+        <property name="text">
+         <string>Возраст:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="22" column="1">
+       <widget class="QGroupBox" name="more_group">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="title">
+         <string/>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QCheckBox" name="svo">
+           <property name="text">
+            <string>СВО</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="target_direction">
+           <property name="text">
+            <string>Целевое направление</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="22" column="0">
+       <widget class="QLabel" name="label_23">
+        <property name="text">
+         <string>Доп. сведения:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="18" column="1">
+       <widget class="QGroupBox" name="base_education">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="title">
+         <string/>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QRadioButton" name="nine">
+           <property name="text">
+            <string>9 классов</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="eleven">
+           <property name="text">
+            <string>11 классов</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="20" column="1">
+       <widget class="QGroupBox" name="form_education">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="title">
+         <string/>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QRadioButton" name="full_time">
+           <property name="text">
+            <string>Очная</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="correspondence">
+           <property name="text">
+            <string>Заочная</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="21" column="1">
+       <widget class="QGroupBox" name="age">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="title">
+         <string/>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="QRadioButton" name="minor">
+           <property name="text">
+            <string>Несовершеннолетний</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="adult">
+           <property name="text">
+            <string>Совершеннолетний</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <layout class="QFormLayout" name="formLayout_2">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_24">
+          <property name="text">
+           <string>ФИО родителя:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="parent_fio">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_25">
+          <property name="text">
+           <string>Серия и номер паспорта родителя:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="parent_ser_num_pass">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_26">
+          <property name="text">
+           <string>Кем и когда выдан паспорт:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="parent_pass_info">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_27">
+          <property name="text">
+           <string>Адрес родителя:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="parent_address">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_28">
+          <property name="text">
+           <string>Место работы родителей:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="parent_work">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_29">
+          <property name="text">
+           <string>Место работы родителей:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLineEdit" name="parent_number">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QSplitter" name="splitter">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <widget class="QPushButton" name="fill_word_button">
+         <property name="text">
+          <string>Заполнить Word</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="fill_excel_button">
+         <property name="text">
+          <string>Заполнить Excel</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="clear_button">
+         <property name="text">
+          <string>Очистить</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="exit_button">
+         <property name="text">
+          <string>Выход</string>
+         </property>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1312</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
