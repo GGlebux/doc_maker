@@ -19,6 +19,7 @@ class Word:
         """Запуск заполнения"""
         self.fill_word_application()
         self.fill_word_data_processing()
+        QMessageBox.information(self.parent, "Успешно", "Файлы Word успешно созданы!")
 
     def fill_word_application(self):
         """Заполнение заявления"""
@@ -27,14 +28,14 @@ class Word:
 
         # Проверка вида заполнения документа
         if application == 'Профессия':
-            doc = self.load_template('prof.docx')
+            doc = load_template('prof.docx')
         elif application == 'Специальность':
-            doc = self.load_template('special.docx')
+            doc = load_template('special.docx')
         elif application == 'Спец. с экзаменом':
             if (self.pro == '54.02.01 Дизайн (по отраслям)'
                     or self.pro == '07.02.01 Архитектура'
                     or self.pro == '55.02.02 Анимация и анимационное кино (по видам)'):
-                doc = self.load_template('sp_with_ex.docx')
+                doc = load_template('sp_with_ex.docx')
             else:
                 QMessageBox.warning(self.parent, "Ошибка",
                                     "При выборе специальности с экзаменом необходимо " +
@@ -53,15 +54,14 @@ class Word:
         """Заполнение согласия на обработку персональных данных"""
         doc = None
         if self.adult:
-            doc = self.load_template('adult.docx')
+            doc = load_template('adult.docx')
         elif self.minor:
-            doc = self.load_template('minor.docx')
+            doc = load_template('minor.docx')
         if doc:
             filename = self.save_word_file("Сохранить согласие на обработку данных")
             if filename:
                 doc.render(self.data.get_input_data())
                 doc.save(filename)
-                QMessageBox.information(self.parent, "Успешно", "Файлы Word успешно созданы!")
 
     def save_word_file(self, title):
         """Открывает диалоговое окно для сохранения файла"""
@@ -70,10 +70,11 @@ class Word:
             return filename
         return
 
-    @staticmethod
-    def load_template(template_name):
-        """Загружает шаблоны Word"""
-        # ToDo: Тут прога ломается надо пофиксить
-        doc = DocxTemplate(f"../resources/patterns/{template_name}")
-        print(f"../resources/patterns/{template_name}")
-        return doc
+
+def load_template(template_name):
+    """Загружает шаблоны Word"""
+    # ToDo: Тут прога ломается надо пофиксить
+    with open(f"/home/gglebux/PycharmProjects/doc_maker/resources/patterns/adult.docx", mode='r') as f:
+        print('SUCK')
+    doc = DocxTemplate(f"../resources/patterns/{template_name}")
+    return doc

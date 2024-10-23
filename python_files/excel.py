@@ -1,12 +1,6 @@
-import os
-from multiprocessing.process import parent_process
-
 from PyQt6.QtCore import QDir
 from PyQt6.QtWidgets import QMessageBox, QFileDialog
-from docxtpl import DocxTemplate
 from openpyxl.reader.excel import load_workbook
-
-from python_files.data import Data
 
 
 class Excel:
@@ -39,6 +33,7 @@ class Excel:
         self.fill_first_excel()
         self.fill_second_excel()
         self.fill_third_excel()
+        QMessageBox.information(self.parent, "Успешно", "Файлы Excel успешно созданы!")
 
     def fill_first_excel(self):
         """Заполняет первый excel"""
@@ -65,8 +60,14 @@ class Excel:
         while e[f'B{empty_row}'].value is not None:
             empty_row += 1
 
-        # Записываем данные в пустую строку
+        # Проверка на уникальность
         data = self.data.get_input_data()
+        old_fio = e[f'B{empty_row - 1}'].value
+        new_fio = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
+        if self.check_unique(old_fio, new_fio, '<Рейтинг>'):
+            return
+
+        # Записываем данные в пустую строку
         e[f'B{empty_row}'] = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
         e[f'D{empty_row}'] = data['certificate_score']
         e[f'E{empty_row}'] = data['spec_var_first']
@@ -111,21 +112,19 @@ class Excel:
                 e[f'{self.alphabet[i]}1'] = head_excel[i]
 
             # Находим первую пустую строку в столбце "B"
-            empty_row_sec = 1
-            while e[f'B{empty_row_sec}'].value is not None:
-                empty_row_sec += 1
-
-            # ToDo: Проверка, последней и текущей инфы на дубликаты
-            # fio = self.get_input_data()['surname'] + ' ' + self.get_input_data()['name'] + ' ' + \
-            #       self.get_input_data()[
-            #           'patronymic']
-            # for row in range(2, empty_row_sec):
-            #     if e2[f'B{row}'].value == fio:
-            #         QMessageBox.warning(self.parent, "Ошибка", "Абитуриент с такими ФИО уже есть в таблице!")
-            #         return
+            empty_row = 1
+            while e[f'B{empty_row}'].value is not None:
+                empty_row += 1
 
             # Загружаем все данные из интерфейса как словарь
             data = self.data.get_input_data()
+
+            # Проверка значений на уникальность
+            old_pasport = e[f'J{empty_row - 1}'].value + e[f'K{empty_row - 1}'].value
+            new_passport = data['series'].strip() + data['number'].strip()
+            if self.check_unique(old_pasport, new_passport, '<Общий>'):
+                return
+
             # Удаляем вторую и третью специальность
             del data['spec_var_second']
             del data['spec_var_third']
@@ -135,7 +134,7 @@ class Excel:
             data[16] = ' '.join(data[21:]) + ' ' + data[16]
             # Заполняем пустую строку данными из списка
             for i in range(21):
-                e[f'{self.alphabet[i]}{empty_row_sec}'] = data[i]
+                e[f'{self.alphabet[i]}{empty_row}'] = data[i]
 
             wb.save(self.second_excel)
             wb.close()
@@ -177,8 +176,15 @@ class Excel:
         while e[f'C{empty_row}'].value is not None:
             empty_row += 1
 
-        # Записываем данные в пустую строку
         data = self.data.get_input_data()
+
+        # Проверка значений на уникальность
+        old_pasport = e[f'G{empty_row - 1}'].value + e[f'H{empty_row - 1}'].value
+        new_passport = data['series'].strip() + data['number'].strip()
+        if self.check_unique(old_pasport, new_passport, '<АИС>'):
+            return
+
+        # Записываем данные в пустую строку
         e[f'C{empty_row}'] = data['surname']
         e[f'D{empty_row}'] = data['name']
         e[f'E{empty_row}'] = data['patronymic']
@@ -217,8 +223,15 @@ class Excel:
         while e[f'A{empty_row}'].value is not None:
             empty_row += 1
 
-        # Записываем данные в пустую строку
         data = self.data.get_input_data()
+
+        # Проверка значений на уникальность
+        old_fio = e[f'A{empty_row - 1}'].value
+        new_fio = data['surname'].strip() + ' ' + data['name'].strip() + ' ' + data['patronymic'].strip()
+        if self.check_unique(old_fio, new_fio, '<Поток>'):
+            return
+
+        # Записываем данные в пустую строку
         e[f'A{empty_row}'] = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
         e[f'B{empty_row}'] = data['spec_var_first']
         e[f'С{empty_row}'] = data['stream']
@@ -232,3 +245,10 @@ class Excel:
         if filename:
             return filename
         return None
+
+    def check_unique(self, old_value, new_value, table):
+        """Проверяет есть ли в таблице данные, подобные новым"""
+        if old_value.strip() == new_value.strip():
+            QMessageBox.warning(self.parent, "Ошибка", f"Такой абитуриент уже есть в таблице: {table}!")
+            return False
+        return True

@@ -41,3 +41,4 @@ class Cleaner:
         self.parent.target_direction.setChecked(False)
         self.parent.budget.setChecked(True)
         self.parent.first_stream.setChecked(True)
+        self.parent.statusbar.showMessage('Форма очищена', 2000)

@@ -2,7 +2,7 @@ import sys
 
 from PyQt6.QtWidgets import (
     QApplication,
-    QMainWindow, QButtonGroup
+    QMainWindow, QButtonGroup, QDialog, QLabel, QPushButton, QVBoxLayout
 )
 
 from design.design import Ui_MainWindow
@@ -19,7 +19,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.updateUi()
 
-        #ToDo: Создать диалоговые окна и сообщения statusBar
+        # ToDo: Создать диалоговые окна и сообщения statusBar
 
         # Классы для заполнения Word, Excel, Cleaner (очистка формы), Data (все данные)
         self.data = Data(self)
@@ -86,13 +86,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.label_35.setEnabled(False)
             self.groupBox_6.setEnabled(False)
             self.stream_button.setEnabled(False)
+            self.first_stream.setChecked(True)
+            self.path_stream.clear()
             self.excel.four_flag = False
 
     def first_path(self):
         self.excel.first_excel = self.excel.select_excel_file("Выберите РЕЙТИНГ Excel")
 
     def second_path(self):
-        self.excel.second_excel= self.excel.select_excel_file("Выберите ОБЩИЙ Excel")
+        self.excel.second_excel = self.excel.select_excel_file("Выберите ОБЩИЙ Excel")
 
     def third_path(self):
         self.excel.third_excel = self.excel.select_excel_file("Выберите АИС Excel")
