@@ -39,3 +39,5 @@ class Cleaner:
         self.parent.parent_number.clear()
         self.parent.svo.setChecked(False)
         self.parent.target_direction.setChecked(False)
+        self.parent.budget.setChecked(True)
+        self.parent.first_stream.setChecked(True)

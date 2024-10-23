@@ -8,9 +8,9 @@ from python_files.data import Data
 
 
 class Word:
-    def __init__(self, parent):
+    def __init__(self, parent, data):
         self.parent = parent
-        self.data = Data(parent).get_input_data()
+        self.data = data
         self.pro = self.parent.spec_var_first.currentText()
         self.adult = self.parent.adult.isChecked()
         self.minor = self.parent.minor.isChecked()
@@ -23,20 +23,25 @@ class Word:
     def fill_word_application(self):
         """Заполнение заявления"""
         doc = None
+        application = self.data['statement']
+
         # Проверка вида заполнения документа
-        if self.pro == "54.02.01 Дизайн (по отраслям)":
+        if application == 'Профессия':
             doc = self.load_template('prof.docx')
-        elif self.pro == "07.02.01 Архитектура" or self.pro == "55.02.02 Анимация и анимационное кино (по видам)":
+        elif application == 'Специальность':
             doc = self.load_template('special.docx')
-        elif (self.pro == "54.02.01 Дизайн (по отраслям)" or self.pro == "07.02.01 Архитектура" or
-              self.pro == "55.02.02 Анимация и анимационное кино (по видам)"):
-            doc = self.load_template('sp_with_ex.docx')
-        else:
-            QMessageBox.warning(self.parent, "Ошибка",
-                                "При выборе специальности с экзаменом необходимо выбрать одну из следующих специальностей:" +
-                                "\n07.02.01 Архитектура,\n54.02.01 Дизайн (по отраслям)," +
-                                "\n55.02.02 Анимация и анимационное кино (по видам)")
-            return
+        elif application == 'Спец. с экзаменом':
+            if (self.pro == '54.02.01 Дизайн (по отраслям)'
+                    or self.pro == '07.02.01 Архитектура'
+                    or self.pro == '55.02.02 Анимация и анимационное кино (по видам)'):
+                doc = self.load_template('sp_with_ex.docx')
+            else:
+                QMessageBox.warning(self.parent, "Ошибка",
+                                    "При выборе специальности с экзаменом необходимо " +
+                                    "выбрать одну из следующих специальностей:" +
+                                    "\n07.02.01 Архитектура,\n54.02.01 Дизайн (по отраслям)," +
+                                    "\n55.02.02 Анимация и анимационное кино (по видам)")
+                return
 
         if doc:
             doc.render(self.data)
@@ -68,6 +73,7 @@ class Word:
     @staticmethod
     def load_template(template_name):
         """Загружает шаблоны Word"""
-        template_path = os.path.join("../patterns", template_name)
-        doc = DocxTemplate(template_path)
+        doc = DocxTemplate(f"../patterns/{template_name}")
         return doc
+
+

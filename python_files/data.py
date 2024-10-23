@@ -34,4 +34,6 @@ class Data:
             'parent_address': self.parent.parent_address.text(),
             'parent_number': self.parent.parent_number.text(),
             'base_education': self.parent.base_education.checkedButton().text(),
-            'finance': ""}
+            'statement': self.parent.statement.checkedButton().text(),
+            'finance': self.parent.finance.checkedButton().text(),
+            'stream': self.parent.stream.checkedButton().text()}
