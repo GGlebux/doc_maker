@@ -19,8 +19,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.updateUi()
 
+        #ToDo: Создать диалоговые окна и сообщения statusBar
+
         # Классы для заполнения Word, Excel, Cleaner (очистка формы), Data (все данные)
-        self.data = Data(self).get_input_data()
+        self.data = Data(self)
         self.excel = Excel(self, self.data)
         self.word = Word(self, self.data)
         self.cleaner = Cleaner(self)

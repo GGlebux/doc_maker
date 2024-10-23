@@ -23,7 +23,7 @@ class Word:
     def fill_word_application(self):
         """Заполнение заявления"""
         doc = None
-        application = self.data['statement']
+        application = self.data.get_input_data()['statement']
 
         # Проверка вида заполнения документа
         if application == 'Профессия':
@@ -44,9 +44,9 @@ class Word:
                 return
 
         if doc:
-            doc.render(self.data)
             filename = self.save_word_file("Сохранить заявление")
             if filename:
+                doc.render(self.data.get_input_data())
                 doc.save(filename)
 
     def fill_word_data_processing(self):
@@ -57,9 +57,9 @@ class Word:
         elif self.minor:
             doc = self.load_template('minor.docx')
         if doc:
-            doc.render(self.data)
             filename = self.save_word_file("Сохранить согласие на обработку данных")
             if filename:
+                doc.render(self.data.get_input_data())
                 doc.save(filename)
                 QMessageBox.information(self.parent, "Успешно", "Файлы Word успешно созданы!")
 
@@ -73,7 +73,7 @@ class Word:
     @staticmethod
     def load_template(template_name):
         """Загружает шаблоны Word"""
-        doc = DocxTemplate(f"../patterns/{template_name}")
+        # ToDo: Тут прога ломается надо пофиксить
+        doc = DocxTemplate(f"../resources/patterns/{template_name}")
+        print(f"../resources/patterns/{template_name}")
         return doc
-
-

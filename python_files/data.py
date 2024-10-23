@@ -4,6 +4,7 @@ class Data:
 
     def get_input_data(self):
         """Возвращает словарь со всеми переменными введенными в интерфейсе и их значения"""
+        # ToDo: в идеале вот это чудо заменить на liteSQL
         return {
             'reg_number': self.parent.reg_number.text(),
             'surname': self.parent.surname.text(),
