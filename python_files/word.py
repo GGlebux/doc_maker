@@ -73,8 +73,6 @@ class Word:
 
 def load_template(template_name):
     """Загружает шаблоны Word"""
-    # ToDo: Тут прога ломается надо пофиксить
-    with open(f"/home/gglebux/PycharmProjects/doc_maker/resources/patterns/adult.docx", mode='r') as f:
-        print('SUCK')
-    doc = DocxTemplate(f"../resources/patterns/{template_name}")
+    # Используем абсолютный путь к файлу
+    doc = DocxTemplate(os.path.join(os.getcwd(), "patterns", template_name))
     return doc
