@@ -74,5 +74,5 @@ class Word:
 def load_template(template_name):
     """Загружает шаблоны Word"""
     # Используем абсолютный путь к файлу
-    doc = DocxTemplate(os.path.join(os.getcwd(), "patterns", template_name))
+    doc = DocxTemplate(os.path.abspath(f'patterns/{template_name}'))
     return doc

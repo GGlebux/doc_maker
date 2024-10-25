@@ -67,7 +67,7 @@ class Excel:
         data = self.data.get_input_data()
         old_fio = e[f'B{empty_row - 1}'].value
         new_fio = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
-        if empty_row != 1 and self.check_unique(old_fio, new_fio, '<Рейтинг>'):
+        if not self.check_unique(old_fio, new_fio, '<Рейтинг>'):
             return
 
         # Записываем данные в пустую строку
@@ -126,7 +126,7 @@ class Excel:
         # Проверка значений на уникальность
         old_pasport = e[f'J{empty_row - 1}'].value + e[f'K{empty_row - 1}'].value
         new_passport = data['series'].strip() + data['number'].strip()
-        if empty_row != 1 and self.check_unique(old_pasport, new_passport, '<Общий>'):
+        if not self.check_unique(old_pasport, new_passport, '<Общий>'):
             return
 
         # Удаляем вторую и третью специальность
@@ -186,7 +186,7 @@ class Excel:
         # Проверка значений на уникальность
         old_pasport = e[f'G{empty_row - 1}'].value + e[f'H{empty_row - 1}'].value
         new_passport = data['series'].strip() + data['number'].strip()
-        if empty_row != 1 and self.check_unique(old_pasport, new_passport, '<АИС>'):
+        if not self.check_unique(old_pasport, new_passport, '<АИС>'):
             return
 
         # Записываем данные в пустую строку
@@ -234,8 +234,7 @@ class Excel:
         # Проверка значений на уникальность
         old_fio = e[f'A{empty_row - 1}'].value
         new_fio = data['surname'].strip() + ' ' + data['name'].strip() + ' ' + data['patronymic'].strip()
-        if empty_row != 1 and self.check_unique(old_fio, new_fio, '<Поток>'):
-            print('Блокирую')
+        if not self.check_unique(old_fio, new_fio, '<Поток>'):
             return
 
         # Записываем данные в пустую строку
