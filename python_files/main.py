@@ -106,15 +106,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def first_path(self):
         self.excel.first_excel = self.excel.select_excel_file("Выберите РЕЙТИНГ Excel")
+        if self.excel.first_excel:
+            self.path_rating.setText(self.excel.first_excel)
 
     def second_path(self):
         self.excel.second_excel = self.excel.select_excel_file("Выберите ОБЩИЙ Excel")
+        if self.excel.second_excel:
+            self.path_common.setText(self.excel.second_excel)
 
     def third_path(self):
         self.excel.third_excel = self.excel.select_excel_file("Выберите АИС Excel")
+        if self.excel.third_excel:
+            self.path_aic.setText(self.excel.third_excel)
 
     def fourth_path(self):
         self.excel.fourth_excel = self.excel.select_excel_file("Выберите ПОТОК Excel")
+        if self.excel.fourth_excel:
+            self.path_stream.setText(self.excel.fourth_excel)
 
 
 if __name__ == "__main__":
