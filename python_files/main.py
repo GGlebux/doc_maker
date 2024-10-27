@@ -6,7 +6,6 @@ from PyQt6.QtWidgets import (
     QMainWindow, QButtonGroup
 )
 
-
 from design.design import Ui_MainWindow
 from python_files.clear import Cleaner
 from python_files.data import Data
@@ -17,11 +16,10 @@ from python_files.word import Word
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("приЁмка")
         self.setupUi(self)
-        self.updateUi()
+        self.setWindowTitle("приЁмка")
 
-        # ToDo: Создать диалоговые окна и сообщения statusBar
+        self.updateUi()
 
         # Классы для заполнения Word, Excel, Cleaner (очистка формы), Data (все данные)
         self.data = Data(self)
@@ -38,12 +36,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.fill_excel_button.clicked.connect(self.excel.start_up)
         self.clear_button.clicked.connect(self.cleaner.clear_form)
         self.exit_button.clicked.connect(sys.exit)
-
-        input_fields = [self.reg_number, self.surname, self.name, self.patronymic, self.snils, self.inn,
-                        self.citizenship, self.id_doc, self.series, self.number, self.office_doc, self.address,
-                        self.tel_number, self.parent_fio, self.parent_ser_num_pass, self.parent_pass_info,
-                        self.parent_address, self.parent_work, self.parent_number]
-
 
     def updateUi(self):
         """Добавляем недостающую логику на интерфейс"""

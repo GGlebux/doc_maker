@@ -1,5 +1,3 @@
-from pprint import pprint
-
 from PyQt6.QtCore import QDir
 from PyQt6.QtWidgets import QMessageBox, QFileDialog
 from openpyxl.reader.excel import load_workbook
@@ -50,8 +48,8 @@ class Excel:
                 self.three = False
                 self.four = False
         except PermissionError:
-            QMessageBox.warning(self.parent, "Error", "Close all Excel files")
-
+            QMessageBox.warning(self.parent, "Ошибка",
+                                "Закройте все окна Excel и повторите попытку\n(иначе данные не сохранятся)")
 
     def fill_first_excel(self):
         """Заполняет первый excel"""
@@ -87,8 +85,7 @@ class Excel:
             if not self.check_unique(old_fio, new_fio, '<Рейтинг>'):
                 return
         except TypeError:
-            QMessageBox.warning(self.parent, 'Error', 'No info for check unique')
-
+            QMessageBox.warning(self.parent, 'Предупреждение', 'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
 
         # Записываем данные в пустую строку
         e[f'B{empty_row}'] = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
@@ -150,7 +147,7 @@ class Excel:
             if not self.check_unique(old_pasport, new_passport, '<Общий>'):
                 return
         except TypeError:
-            QMessageBox.warning(self.parent, 'Error', 'No info for check unique')
+            QMessageBox.warning(self.parent, 'Предупреждение', 'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
 
         # Удаляем вторую и третью специальность
         del data['spec_var_second']
@@ -213,7 +210,7 @@ class Excel:
             if not self.check_unique(old_pasport, new_passport, '<АИС>'):
                 return
         except TypeError:
-            QMessageBox.warning(self.parent, 'Error', 'No info for check unique')
+            QMessageBox.warning(self.parent, 'Предупреждение', 'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
 
         # Записываем данные в пустую строку
         e[f'C{empty_row}'] = data['surname']
@@ -264,7 +261,7 @@ class Excel:
             if not self.check_unique(old_fio, new_fio, '<Поток>'):
                 return
         except TypeError:
-            QMessageBox.warning(self.parent, 'Error', 'No info for check unique')
+            QMessageBox.warning(self.parent, 'Предупреждение', 'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
 
         # Записываем данные в пустую строку
         e[f'A{empty_row}'] = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
