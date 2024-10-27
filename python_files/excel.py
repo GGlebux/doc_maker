@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from PyQt6.QtCore import QDir
 from PyQt6.QtWidgets import QMessageBox, QFileDialog
 from openpyxl.reader.excel import load_workbook
@@ -16,6 +18,11 @@ class Excel:
         self.third_excel = None
         self.fourth_excel = None
 
+        self.one = False
+        self.two = False
+        self.three = False
+        self.four = False
+
     def start_up(self):
         """Запуск заполнения"""
         # Проверка выбраны ли существующие файлы для заполнения
@@ -29,14 +36,19 @@ class Excel:
             while not self.fourth_excel:
                 self.fourth_excel = self.select_excel_file("Выберите ПОТОК Excel")
             self.fill_fourth_excel()
+            self.four_flag = False
+
         # Заполнение
-        print('Заупскаю 1')
+        pprint(self.data.get_input_data())
         self.fill_first_excel()
-        print('Заупскаю 2')
         self.fill_second_excel()
-        print('Заупскаю 3')
         self.fill_third_excel()
-        QMessageBox.information(self.parent, "Успешно", "Файлы Excel успешно созданы!")
+        if self.one and self.two and self.three and (self.four == self.four_flag):
+            QMessageBox.information(self.parent, "Успешно", "Файлы Excel успешно созданы!")
+            self.one = False
+            self.two = False
+            self.three = False
+            self.four = False
 
     def fill_first_excel(self):
         """Заполняет первый excel"""
@@ -80,6 +92,7 @@ class Excel:
 
         wb.save(self.first_excel)
         wb.close()
+        self.one = True
         print('Первый заполнен')
 
     def fill_second_excel(self):
@@ -142,6 +155,7 @@ class Excel:
 
         wb.save(self.second_excel)
         wb.close()
+        self.two = True
         print('Второй заполнен')
 
     def fill_third_excel(self):
@@ -207,6 +221,7 @@ class Excel:
 
         wb.save(self.third_excel)
         wb.close()
+        self.three = True
         print('Третий заполнен')
 
     def fill_fourth_excel(self):
@@ -244,6 +259,7 @@ class Excel:
 
         wb.save(self.fourth_excel)
         wb.close()
+        self.four = True
         print('Четвертый заполнен')
 
     def select_excel_file(self, title):

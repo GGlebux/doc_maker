@@ -4,8 +4,6 @@ from PyQt6.QtCore import QDir
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
 from docxtpl import DocxTemplate
 
-from python_files.data import Data
-
 
 class Word:
     def __init__(self, parent, data):
@@ -14,12 +12,17 @@ class Word:
         self.pro = self.parent.spec_var_first.currentText()
         self.adult = self.parent.adult.isChecked()
         self.minor = self.parent.minor.isChecked()
+        self.one = False
+        self.two = False
 
     def start_up(self):
         """Запуск заполнения"""
         self.fill_word_application()
         self.fill_word_data_processing()
-        QMessageBox.information(self.parent, "Успешно", "Файлы Word успешно созданы!")
+        if self.one and self.two:
+            QMessageBox.information(self.parent, "Успешно", "Файлы Word успешно созданы!")
+            self.one = False
+            self.two = False
 
     def fill_word_application(self):
         """Заполнение заявления"""
@@ -49,6 +52,7 @@ class Word:
             if filename:
                 doc.render(self.data.get_input_data())
                 doc.save(filename)
+                self.one = True
 
     def fill_word_data_processing(self):
         """Заполнение согласия на обработку персональных данных"""
@@ -62,6 +66,7 @@ class Word:
             if filename:
                 doc.render(self.data.get_input_data())
                 doc.save(filename)
+                self.two = True
 
     def save_word_file(self, title):
         """Открывает диалоговое окно для сохранения файла"""

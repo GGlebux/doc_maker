@@ -1,5 +1,3 @@
-from math import trunc
-
 from PyQt6.QtCore import QDate
 
 

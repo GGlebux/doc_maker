@@ -1,9 +1,11 @@
 import sys
 
+from PyQt6 import QtCore
 from PyQt6.QtWidgets import (
     QApplication,
-    QMainWindow, QButtonGroup, QDialog, QLabel, QPushButton, QVBoxLayout
+    QMainWindow, QButtonGroup
 )
+
 
 from design.design import Ui_MainWindow
 from python_files.clear import Cleaner
@@ -36,6 +38,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.fill_excel_button.clicked.connect(self.excel.start_up)
         self.clear_button.clicked.connect(self.cleaner.clear_form)
         self.exit_button.clicked.connect(sys.exit)
+
+        input_fields = [self.reg_number, self.surname, self.name, self.patronymic, self.snils, self.inn,
+                        self.citizenship, self.id_doc, self.series, self.number, self.office_doc, self.address,
+                        self.tel_number, self.parent_fio, self.parent_ser_num_pass, self.parent_pass_info,
+                        self.parent_address, self.parent_work, self.parent_number]
+
 
     def updateUi(self):
         """Добавляем недостающую логику на интерфейс"""
@@ -70,6 +78,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.statement.addButton(self.spec_with_exam)
 
         self.spec_var_first.currentTextChanged.connect(self.stream_toggle)
+
+    def event(self, event):
+        if event.type() == QtCore.QEvent.Type.KeyPress:
+            if event.key() in (QtCore.Qt.Key.Key_Return, QtCore.Qt.Key.Key_Enter):
+                self.focusNextPrevChild(True)
+        return super().event(event)
 
     def stream_toggle(self, text):
         """Тублер виджетов, связанных с выбором потока для определенных специальностей"""

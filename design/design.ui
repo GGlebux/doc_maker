@@ -107,7 +107,7 @@
          </sizepolicy>
         </property>
         <property name="displayFormat">
-         <string>MM.dd.yyyy</string>
+         <string>dd.MM.yyyy</string>
         </property>
         <property name="date">
          <date>
@@ -236,7 +236,7 @@
          </sizepolicy>
         </property>
         <property name="displayFormat">
-         <string>MM.dd.yyyy</string>
+         <string>dd.MM.yyyy</string>
         </property>
         <property name="date">
          <date>
@@ -1344,6 +1344,60 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>reg_number</tabstop>
+  <tabstop>surname</tabstop>
+  <tabstop>name</tabstop>
+  <tabstop>patronymic</tabstop>
+  <tabstop>date_birthday</tabstop>
+  <tabstop>snils</tabstop>
+  <tabstop>inn</tabstop>
+  <tabstop>citizenship</tabstop>
+  <tabstop>id_doc</tabstop>
+  <tabstop>series</tabstop>
+  <tabstop>number</tabstop>
+  <tabstop>date_id_doc</tabstop>
+  <tabstop>office_doc</tabstop>
+  <tabstop>address</tabstop>
+  <tabstop>tel_number</tabstop>
+  <tabstop>spec_var_first</tabstop>
+  <tabstop>spec_var_second</tabstop>
+  <tabstop>spec_var_third</tabstop>
+  <tabstop>nine</tabstop>
+  <tabstop>eleven</tabstop>
+  <tabstop>certificate_score</tabstop>
+  <tabstop>full_time</tabstop>
+  <tabstop>correspondence</tabstop>
+  <tabstop>minor</tabstop>
+  <tabstop>adult</tabstop>
+  <tabstop>parent_fio</tabstop>
+  <tabstop>parent_ser_num_pass</tabstop>
+  <tabstop>parent_pass_info</tabstop>
+  <tabstop>parent_address</tabstop>
+  <tabstop>parent_work</tabstop>
+  <tabstop>parent_number</tabstop>
+  <tabstop>prof</tabstop>
+  <tabstop>spec</tabstop>
+  <tabstop>spec_with_exam</tabstop>
+  <tabstop>budget</tabstop>
+  <tabstop>commerce</tabstop>
+  <tabstop>svo</tabstop>
+  <tabstop>target_direction</tabstop>
+  <tabstop>first_stream</tabstop>
+  <tabstop>second_stream</tabstop>
+  <tabstop>aic_button</tabstop>
+  <tabstop>path_common</tabstop>
+  <tabstop>path_aic</tabstop>
+  <tabstop>rating_button</tabstop>
+  <tabstop>common_button</tabstop>
+  <tabstop>path_stream</tabstop>
+  <tabstop>path_rating</tabstop>
+  <tabstop>stream_button</tabstop>
+  <tabstop>fill_word_button</tabstop>
+  <tabstop>fill_excel_button</tabstop>
+  <tabstop>clear_button</tabstop>
+  <tabstop>exit_button</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
