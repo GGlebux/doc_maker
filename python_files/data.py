@@ -29,7 +29,7 @@ class Data:
             'svo': "Да" if self.parent.svo.isChecked() else "Нет",
             'target_direction': "Да" if self.parent.target_direction.isChecked() else "Нет",
             'parent_fio': self.parent.parent_fio.text(),
-            'parent_ser_num': self.parent.parent_ser_num_pass.text(),
+            'parent_ser_num': self.parent.parent_ser_num.text(),
             'parent_pass_info': self.parent.parent_pass_info.text(),
             'parent_address': self.parent.parent_address.text(),
             'parent_work': self.parent.parent_work.text(),
