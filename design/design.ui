@@ -324,92 +324,6 @@
         </property>
        </widget>
       </item>
-      <item row="15" column="1">
-       <widget class="QComboBox" name="spec_var_first">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <item>
-         <property name="text">
-          <string>38.02.08 Торговое дело</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>08.02.13 Монтаж и эксплуатация внутренних сантехнических устройств, кондиционирования воздуха и вентиляции</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>08.02.01 Строительство и эксплуатация зданий и сооружений</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>29.02.11 Полиграфическое производство</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>08.02.14 Эксплуатация и обслуживание многоквартирного дома</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>08.01.28 Мастер отделочных строительных и декоративных работ</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>54.01.20 Графический дизайнер</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>09.02.07 Информационные системы и программирование</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>42.02.02 Издательское дело</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>54.01.01 Исполнитель художественно - оформительских работ</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>54.02.01 Дизайн (по отраслям)</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>08.02.08 Монтаж и эксплуатация оборудования и систем газоснабжения</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>07.02.01 Архитектура</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>55.02.02 Анимация и анимационное кино (по видам)</string>
-         </property>
-        </item>
-       </widget>
-      </item>
       <item row="16" column="0">
        <widget class="QLabel" name="label_18">
         <property name="text">
@@ -427,7 +341,7 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>200</width>
+          <width>320</width>
           <height>16777215</height>
          </size>
         </property>
@@ -520,7 +434,7 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>200</width>
+          <width>320</width>
           <height>16777215</height>
          </size>
         </property>
@@ -757,6 +671,92 @@
         </layout>
        </widget>
       </item>
+      <item row="15" column="1">
+       <widget class="QComboBox" name="spec_var_first">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>320</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <item>
+         <property name="text">
+          <string>38.02.08 Торговое дело</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.13 Монтаж и эксплуатация внутренних сантехнических устройств, кондиционирования воздуха и вентиляции</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.01 Строительство и эксплуатация зданий и сооружений</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>29.02.11 Полиграфическое производство</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.14 Эксплуатация и обслуживание многоквартирного дома</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.01.28 Мастер отделочных строительных и декоративных работ</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>54.01.20 Графический дизайнер</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>09.02.07 Информационные системы и программирование</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>42.02.02 Издательское дело</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>54.01.01 Исполнитель художественно - оформительских работ</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>54.02.01 Дизайн (по отраслям)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.08 Монтаж и эксплуатация оборудования и систем газоснабжения</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>07.02.01 Архитектура</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>55.02.02 Анимация и анимационное кино (по видам)</string>
+         </property>
+        </item>
+       </widget>
+      </item>
      </layout>
     </item>
     <item>
@@ -791,7 +791,7 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLineEdit" name="parent_ser_num_pass">
+         <widget class="QLineEdit" name="parent_ser_num">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -854,7 +854,7 @@
         <item row="5" column="0">
          <widget class="QLabel" name="label_29">
           <property name="text">
-           <string>Место работы родителей:</string>
+           <string>Телефон родителей:</string>
           </property>
          </widget>
         </item>
@@ -1395,7 +1395,7 @@
   <tabstop>minor</tabstop>
   <tabstop>adult</tabstop>
   <tabstop>parent_fio</tabstop>
-  <tabstop>parent_ser_num_pass</tabstop>
+  <tabstop>parent_ser_num</tabstop>
   <tabstop>parent_pass_info</tabstop>
   <tabstop>parent_address</tabstop>
   <tabstop>parent_work</tabstop>

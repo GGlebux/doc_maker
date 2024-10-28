@@ -85,7 +85,8 @@ class Excel:
             if not self.check_unique(old_fio, new_fio, '<Рейтинг>'):
                 return
         except TypeError:
-            QMessageBox.warning(self.parent, 'Предупреждение', 'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
+            QMessageBox.warning(self.parent, 'Предупреждение',
+                                'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
 
         # Записываем данные в пустую строку
         e[f'B{empty_row}'] = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
@@ -147,18 +148,35 @@ class Excel:
             if not self.check_unique(old_pasport, new_passport, '<Общий>'):
                 return
         except TypeError:
-            QMessageBox.warning(self.parent, 'Предупреждение', 'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
+            QMessageBox.warning(self.parent, 'Предупреждение',
+                                'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
+            self.alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
+                             'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+                             'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
-        # Удаляем вторую и третью специальность
-        del data['spec_var_second']
-        del data['spec_var_third']
-        # Переводим словарь в список
-        data = [val for val in data.values()]
-        # Объединяем все сведения о родителях
-        data[16] = ' '.join(data[21:]) + ' ' + data[16]
-        # Заполняем пустую строку данными из списка
-        for i in range(21):
-            e[f'{self.alphabet[i]}{empty_row}'] = data[i]
+        e[f'А{empty_row}'] = data['reg_number']
+        e[f'B{empty_row}'] = data['surname']
+        e[f'C{empty_row}'] = data['name']
+        e[f'D{empty_row}'] = data['patronymic']
+        e[f'E{empty_row}'] = data['date_birthday']
+        e[f'F{empty_row}'] = data['snils']
+        e[f'G{empty_row}'] = data['inn']
+        e[f'H{empty_row}'] = data['citizenship']
+        e[f'I{empty_row}'] = data['id_doc']
+        e[f'J{empty_row}'] = data['series']
+        e[f'K{empty_row}'] = data['number']
+        e[f'L{empty_row}'] = data['office_doc']
+        e[f'M{empty_row}'] = data['date_id_doc']
+        e[f'N{empty_row}'] = data['address']
+        e[f'O{empty_row}'] = data['tel_number']
+        e[f'P{empty_row}'] = data['spec_var_first']
+        e[f'Q{empty_row}'] = (data['parent_fio'] + '; ' + data['parent_ser_num'] + '; ' +
+                              data['parent_pass_info'] + '; ' + data['parent_address'] + '; ' +
+                              data['parent_work'] + '; ' + data['parent_number'])
+        e[f'R{empty_row}'] = data['certificate_score']
+        e[f'S{empty_row}'] = data['form_education']
+        e[f'T{empty_row}'] = data['svo']
+        e[f'U{empty_row}'] = data['target_direction']
 
         wb.save(self.second_excel)
         wb.close()
@@ -210,7 +228,8 @@ class Excel:
             if not self.check_unique(old_pasport, new_passport, '<АИС>'):
                 return
         except TypeError:
-            QMessageBox.warning(self.parent, 'Предупреждение', 'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
+            QMessageBox.warning(self.parent, 'Предупреждение',
+                                'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
 
         # Записываем данные в пустую строку
         e[f'C{empty_row}'] = data['surname']
@@ -261,7 +280,8 @@ class Excel:
             if not self.check_unique(old_fio, new_fio, '<Поток>'):
                 return
         except TypeError:
-            QMessageBox.warning(self.parent, 'Предупреждение', 'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
+            QMessageBox.warning(self.parent, 'Предупреждение',
+                                'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
 
         # Записываем данные в пустую строку
         e[f'A{empty_row}'] = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
