@@ -89,6 +89,7 @@ class Excel:
                                 'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
 
         # Записываем данные в пустую строку
+        e[f'A{empty_row}'] = data['reg_number']
         e[f'B{empty_row}'] = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
         e[f'D{empty_row}'] = data['certificate_score']
         e[f'E{empty_row}'] = data['spec_var_first']
@@ -154,7 +155,7 @@ class Excel:
                              'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
                              'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
-        e[f'А{empty_row}'] = data['reg_number']
+        e[f'A{empty_row}'] = data['reg_number']
         e[f'B{empty_row}'] = data['surname']
         e[f'C{empty_row}'] = data['name']
         e[f'D{empty_row}'] = data['patronymic']
@@ -193,7 +194,7 @@ class Excel:
                       '№ ЕПГУ',
                       'Фамилия абитуриента',
                       'Имя абитуриента',
-                      'Имя абитуриента',
+                      'Отчество абитуриента',
                       'Дата рождения',
                       'Серия удостоверяющего документа',
                       'Номер удостоверяющего документа',
@@ -232,6 +233,7 @@ class Excel:
                                 'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
 
         # Записываем данные в пустую строку
+        e[f'A{empty_row}'] = data['reg_number']
         e[f'C{empty_row}'] = data['surname']
         e[f'D{empty_row}'] = data['name']
         e[f'E{empty_row}'] = data['patronymic']
