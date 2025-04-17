@@ -31,7 +31,7 @@ class Cleaner:
         self.parent.minor.setChecked(True)
         self.parent.full_time.setChecked(True)
         self.parent.parent_fio.clear()
-        self.parent.parent_ser_num_pass.clear()
+        self.parent.parent_ser_num.clear()
         self.parent.parent_pass_info.clear()
         self.parent.parent_address.clear()
         self.parent.parent_number.clear()
@@ -39,4 +39,9 @@ class Cleaner:
         self.parent.target_direction.setChecked(False)
         self.parent.budget.setChecked(True)
         self.parent.first_stream.setChecked(True)
+        self.parent.budget.setChecked(True)
+        self.parent.commerce.setChecked(False)
+        self.parent.orphan.setChecked(False)
+        self.parent.dormitory.setChecked(False)
+
         self.parent.statusbar.showMessage('Форма очищена', 2000)

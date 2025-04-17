@@ -3,6 +3,11 @@ from PyQt6.QtWidgets import QMessageBox, QFileDialog
 from openpyxl.reader.excel import load_workbook
 
 
+def select_file_loop(obj, excel_name, button, flag=True):
+    while not getattr(obj, excel_name) and flag:
+        button.click()
+
+
 class Excel:
     def __init__(self, parent, data):
         self.parent = parent
@@ -10,51 +15,70 @@ class Excel:
         self.alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
                          'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
                          'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-        self.four_flag = False
-        self.first_excel = None
-        self.second_excel = None
-        self.third_excel = None
-        self.fourth_excel = None
 
-        self.one = False
-        self.two = False
-        self.three = False
-        self.four = False
+        self.rating_excel = None
+        self.total_excel = None
+        self.aic_excel = None
+        self.stream_excel = None
+        self.svo_excel = None
+        self.dormitory_excel = None
+        self.orphan_excel = None
+
+        self.is_rating_done = False
+        self.is_total_done = False
+        self.is_aic_done = False
+        self.is_stream_done = False
+        self.is_svo_done = False
+        self.is_dormitory_done = False
+        self.is_orphan_done = False
+
+        self.stream_flag = False
+        self.svo_flag = False
+        self.dormitory_flag = False
+        self.orphan_flag = False
 
     def start_up(self):
         """Запуск заполнения"""
         try:
-            # Проверка выбраны ли существующие файлы для заполнения
-            while not self.first_excel:
-                self.parent.first_path()
-            while not self.second_excel:
-                self.parent.second_path()
-            while not self.third_excel:
-                self.parent.third_path()
-            if self.four_flag:
-                while not self.fourth_excel:
-                    self.parent.fourth_path()
-                self.fill_fourth_excel()
-                self.four_flag = False
+            # Проверка верного заполнения формы
+            if not self.check_finance_choice():
+                return
 
+            # Проверка выбраны ли существующие файлы для заполнения
+            select_file_loop(self, 'rating_excel', self.parent.rating_button)
+            select_file_loop(self, 'total_excel', self.parent.total_button)
+            select_file_loop(self, 'aic_excel', self.parent.aic_button)
+            select_file_loop(self, 'stream_excel', self.parent.stream_button, self.stream_flag)
+            select_file_loop(self, 'svo_excel', self.parent.svo_button, self.svo_flag)
+            select_file_loop(self, 'dormitory_excel', self.parent.dormitory_button, self.dormitory_flag)
+            select_file_loop(self, 'orphan_excel', self.parent.orphan_button, self.orphan_flag)
+
+            data = self.data.get_input_data()
             # Заполнение
-            self.fill_first_excel()
-            self.fill_second_excel()
-            self.fill_third_excel()
-            if self.one and self.two and self.three and (self.four == self.four_flag):
+            self.fill_rating_excel(data)
+            self.fill_total_excel(data)
+            self.fill_aic_excel(data)
+
+            if self.stream_flag:
+                self.fill_stream_excel(data)
+            if self.svo_flag:
+                self.fill_svo(data)
+            if self.dormitory_flag:
+                self.fill_dormitory(data)
+            if self.orphan_flag:
+                self.fill_orphan(data)
+
+            if self.everything_is_done():
                 QMessageBox.information(self.parent, "Успешно", "Файлы Excel успешно созданы!")
-                self.one = False
-                self.two = False
-                self.three = False
-                self.four = False
+            self.set_everything_not_done()
         except PermissionError:
             QMessageBox.warning(self.parent, "Ошибка",
                                 "Закройте все окна Excel и повторите попытку\n(иначе данные не сохранятся)")
 
-    def fill_first_excel(self):
-        """Заполняет первый excel"""
-        # Открываем первый существующий файл Excel
-        wb = load_workbook(self.first_excel)
+    def fill_rating_excel(self, data):
+        """Заполняет Рейтинг excel"""
+        # Открываем Рейтинг существующий файл Excel
+        wb = load_workbook(self.rating_excel)
         e = wb.active
 
         #  Заполняем шапку excel
@@ -76,8 +100,6 @@ class Excel:
         while e[f'B{empty_row}'].value is not None:
             empty_row += 1
 
-        data = self.data.get_input_data()
-
         # Проверка на уникальность
         try:
             old_fio = e[f'B{empty_row - 1}'].value
@@ -97,14 +119,14 @@ class Excel:
         e[f'G{empty_row}'] = data['spec_var_third']
         e[f'H{empty_row}'] = data['form_education']
 
-        wb.save(self.first_excel)
+        wb.save(self.rating_excel)
         wb.close()
-        self.one = True
+        self.is_rating_done = True
 
-    def fill_second_excel(self):
-        """Заполняет второй excel"""
-        # Открываем второй существующий файл Excel
-        wb = load_workbook(self.second_excel)
+    def fill_total_excel(self, data):
+        """Заполняет Общий excel"""
+        # Открываем ОБЩИЙ существующий файл Excel
+        wb = load_workbook(self.total_excel)
         e = wb.active
 
         #  Заполняем шапку excel
@@ -128,10 +150,12 @@ class Excel:
                       'Средний балл аттестата',
                       'Форма обучения',
                       'Участник СВО',
-                      'Целевое направление']
+                      'Целевое направление',
+                      'Бюджет',
+                      'Коммерция']
 
         if e['A1'].value is None:
-            for i in range(21):
+            for i in range(23):
                 e[f'{self.alphabet[i]}1'] = head_excel[i]
 
         # Находим первую пустую строку в столбце "B"
@@ -139,13 +163,10 @@ class Excel:
         while e[f'B{empty_row}'].value is not None:
             empty_row += 1
 
-        # Загружаем все данные из интерфейса как словарь
-        data = self.data.get_input_data()
-
         # Проверка значений на уникальность
         try:
             old_pasport = e[f'J{empty_row - 1}'].value + e[f'K{empty_row - 1}'].value
-            new_passport = data['series'].strip() + data['number'].strip()
+            new_passport = data['series']+ data['number']
             if not self.check_unique(old_pasport, new_passport, '<Общий>'):
                 return
         except TypeError:
@@ -171,22 +192,27 @@ class Excel:
         e[f'N{empty_row}'] = data['address']
         e[f'O{empty_row}'] = data['tel_number']
         e[f'P{empty_row}'] = data['spec_var_first']
-        e[f'Q{empty_row}'] = (data['parent_fio'] + '; ' + data['parent_ser_num'] + '; ' +
-                              data['parent_pass_info'] + '; ' + data['parent_address'] + '; ' +
-                              data['parent_work'] + '; ' + data['parent_number'])
+        e[f'Q{empty_row}'] = '; '.join([data['parent_fio'],
+                                        data['parent_ser_num'],
+                                        data['parent_pass_info'],
+                                        data['parent_address'],
+                                        data['parent_work'],
+                                        data['parent_number']])
         e[f'R{empty_row}'] = data['certificate_score']
         e[f'S{empty_row}'] = data['form_education']
         e[f'T{empty_row}'] = data['svo']
         e[f'U{empty_row}'] = data['target_direction']
+        e[f'V{empty_row}'] = data['finance']['budget']
+        e[f'W{empty_row}'] = data['finance']['commerce']
 
-        wb.save(self.second_excel)
+        wb.save(self.total_excel)
         wb.close()
-        self.two = True
+        self.is_total_done = True
 
-    def fill_third_excel(self):
-        """Заполняет третий excel"""
-        # Открываем третий существующий файл Excel
-        wb = load_workbook(self.third_excel)
+    def fill_aic_excel(self, data):
+        """Заполняет АИС excel"""
+        # Открываем АИС существующий файл Excel
+        wb = load_workbook(self.aic_excel)
         e = wb.active
 
         #  Заполняем шапку excel
@@ -220,12 +246,10 @@ class Excel:
         while e[f'C{empty_row}'].value is not None:
             empty_row += 1
 
-        data = self.data.get_input_data()
-
         # Проверка значений на уникальность
         try:
             old_pasport = e[f'G{empty_row - 1}'].value + e[f'H{empty_row - 1}'].value
-            new_passport = data['series'].strip() + data['number'].strip()
+            new_passport = data['series'] + data['number']
             if not self.check_unique(old_pasport, new_passport, '<АИС>'):
                 return
         except TypeError:
@@ -245,27 +269,27 @@ class Excel:
         e[f'M{empty_row}'] = data['spec_var_second']
         e[f'N{empty_row}'] = data['spec_var_third']
         e[f'O{empty_row}'] = data['certificate_score']
-        e[f'P{empty_row}'] = data['finance']
+        e[f'P{empty_row}'] = 'Бюджет' if data['finance']['budget'] == '+' else 'Коммерция'
         e[f'Q{empty_row}'] = data['form_education']
         e[f'R{empty_row}'] = data['base_education']
 
-        wb.save(self.third_excel)
+        wb.save(self.aic_excel)
         wb.close()
-        self.three = True
+        self.is_aic_done = True
 
-    def fill_fourth_excel(self):
-        """Заполняет четвертый excel"""
-        # Открываем первый существующий файл Excel
-        wb = load_workbook(self.fourth_excel)
+    def fill_stream_excel(self, data):
+        """Заполняет Поток excel"""
+        # Открываем ПОТОК существующий файл Excel
+        wb = load_workbook(self.stream_excel)
         e = wb.active
 
         #  Заполняем шапку excel
         head_excel = ['ФИО абитуриента',
-                      'Специальность 1'
+                      'Специальность 1',
                       'Поток']
 
         if e['A1'].value is None:
-            for i in range(2):
+            for i in range(3):
                 e[f'{self.alphabet[i]}1'] = head_excel[i]
 
         #  Находим первую пустую строку в столбце "A"
@@ -273,12 +297,10 @@ class Excel:
         while e[f'A{empty_row}'].value is not None:
             empty_row += 1
 
-        data = self.data.get_input_data()
-
         # Проверка значений на уникальность
         try:
             old_fio = e[f'A{empty_row - 1}'].value
-            new_fio = data['surname'].strip() + ' ' + data['name'].strip() + ' ' + data['patronymic'].strip()
+            new_fio = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
             if not self.check_unique(old_fio, new_fio, '<Поток>'):
                 return
         except TypeError:
@@ -290,9 +312,120 @@ class Excel:
         e[f'B{empty_row}'] = data['spec_var_first']
         e[f'C{empty_row}'] = data['stream']
 
-        wb.save(self.fourth_excel)
+        wb.save(self.stream_excel)
         wb.close()
-        self.four = True
+        self.is_stream_done = True
+
+    def fill_svo(self, data):
+        """Заполняет СВО excel"""
+        # Открываем существующий СВО excel
+        wb = load_workbook(self.svo_excel)
+        e = wb.active
+
+        # Заполняем шапку Excel
+        head_excel = ['ФИО абитуриента',
+                      'Специальность 1',
+                      'СВО']
+
+        if e['A1'].value is None:
+            for i in range(3):
+                e[f'{self.alphabet[i]}1'] = head_excel[i]
+
+        empty_row = 1
+        while e[f'A{empty_row}'].value is not None:
+            empty_row += 1
+
+        # Проверка значений на уникальность
+        try:
+            old_fio = e[f'A{empty_row - 1}'].value
+            new_fio = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
+            if not self.check_unique(old_fio, new_fio, '<СВО>'):
+                return
+        except TypeError:
+            QMessageBox.warning(self.parent, 'Предупреждение',
+                                'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
+
+        e[f'A{empty_row}'] = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
+        e[f'B{empty_row}'] = data['spec_var_first']
+        e[f'C{empty_row}'] = data['svo']
+
+        wb.save(self.svo_excel)
+        wb.close()
+        self.is_svo_done = True
+
+    def fill_dormitory(self, data):
+        """Заполняет ОБЩЕЖИТИЕ excel"""
+        # Открываем существующий ОБЩЕЖИТИЕ excel
+        wb = load_workbook(self.dormitory_excel)
+        e = wb.active
+
+        # Заполняем шапку Excel
+        head_excel = ['ФИО абитуриента',
+                      'Специальность 1',
+                      'Пол']
+
+        if e['A1'].value is None:
+            for i in range(3):
+                e[f'{self.alphabet[i]}1'] = head_excel[i]
+
+        empty_row = 1
+        while e[f'A{empty_row}'].value is not None:
+            empty_row += 1
+
+        # Проверка значений на уникальность
+        try:
+            old_fio = e[f'A{empty_row - 1}'].value
+            new_fio = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
+            if not self.check_unique(old_fio, new_fio, '<ОБЩЕЖИТИЕ>'):
+                return
+        except TypeError:
+            QMessageBox.warning(self.parent, 'Предупреждение',
+                                'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
+
+        e[f'A{empty_row}'] = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
+        e[f'B{empty_row}'] = data['spec_var_first']
+        e[f'C{empty_row}'] = data['gender']
+
+        wb.save(self.dormitory_excel)
+        wb.close()
+        self.is_dormitory_done = True
+
+    def fill_orphan(self, data):
+        """Заполняет СИРОТЫ excel"""
+        # Открываем существующий СИРОТЫ excel
+        wb = load_workbook(self.orphan_excel)
+        e = wb.active
+
+        # Заполняем шапку Excel
+        head_excel = ['ФИО абитуриента',
+                      'Специальность 1',
+                      'Сирота']
+
+        if e['A1'].value is None:
+            for i in range(3):
+                e[f'{self.alphabet[i]}1'] = head_excel[i]
+
+        empty_row = 1
+        while e[f'A{empty_row}'].value is not None:
+            empty_row += 1
+
+        # Проверка значений на уникальность
+        try:
+            old_fio = e[f'A{empty_row - 1}'].value
+            new_fio = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
+            if not self.check_unique(old_fio, new_fio, '<СИРОТА>'):
+                return
+        except TypeError:
+            QMessageBox.warning(self.parent, 'Предупреждение',
+                                'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
+
+        e[f'A{empty_row}'] = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
+        e[f'B{empty_row}'] = data['spec_var_first']
+        e[f'C{empty_row}'] = data['orphan']
+
+        wb.save(self.orphan_excel)
+        wb.close()
+        self.is_orphan_done = True
 
     def select_excel_file(self, title):
         """Открывает диалоговое окно для выбора файла Excel"""
@@ -305,5 +438,31 @@ class Excel:
         """Проверяет есть ли в таблице данные, подобные новым"""
         if old_value.strip() == new_value.strip():
             QMessageBox.warning(self.parent, "Ошибка", f"Такой абитуриент уже есть в таблице: {table}!")
+            return False
+        return True
+
+    def everything_is_done(self):
+        return (self.is_rating_done
+        and self.is_total_done
+        and self.is_aic_done
+        and (self.is_stream_done == self.stream_flag)
+        and (self.is_svo_done == self.svo_flag)
+        and (self.is_dormitory_done == self.dormitory_flag)
+        and (self.is_orphan_done == self.orphan_flag))
+
+    def set_everything_not_done(self):
+        self.is_rating_done = False
+        self.is_total_done = False
+        self.is_aic_done = False
+        self.is_stream_done = False
+        self.is_svo_done = False
+        self.is_dormitory_done = False
+        self.is_orphan_done = False
+
+    def check_finance_choice(self):
+        if sum(btn.isChecked() for btn in self.parent.finance.buttons()) == 0:
+            QMessageBox.warning(self.parent,
+                                'Ошибка',
+                                'Необходимо выбрать хотя бы один вид финансирования!')
             return False
         return True
