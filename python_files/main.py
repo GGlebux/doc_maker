@@ -2,9 +2,10 @@ import ctypes
 import sys
 
 from PyQt6 import QtCore
+from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import (
     QApplication,
-    QMainWindow, QButtonGroup, QMessageBox
+    QMainWindow, QButtonGroup
 )
 
 from design.design import Ui_MainWindow

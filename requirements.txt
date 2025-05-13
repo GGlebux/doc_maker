@@ -1,4 +1,4 @@
 PyQt6~=6.9.0
 docxtpl~=0.20.0
-openpyxl~=3.2.0b1
+openpyxl~=3.1.5
 Nuitka~=2.7.2
