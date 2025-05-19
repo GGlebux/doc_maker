@@ -33,6 +33,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("приЁмка")
+        self.setWindowIcon(QIcon('../icon.ico'))
 
         self.updateUi()
 
