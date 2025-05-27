@@ -40,8 +40,9 @@ class Excel:
     def start_up(self):
         """Запуск заполнения"""
         try:
-            # Проверка верного заполнения формы
-            if not self.check_finance_choice():
+            print('Я тут')
+            # Валидация формы
+            if not self.parent.validator.validate():
                 return
 
             # Проверка выбраны ли существующие файлы для заполнения
@@ -459,10 +460,3 @@ class Excel:
         self.is_dormitory_done = False
         self.is_orphan_done = False
 
-    def check_finance_choice(self):
-        if sum(btn.isChecked() for btn in self.parent.finance.buttons()) == 0:
-            QMessageBox.warning(self.parent,
-                                'Ошибка',
-                                'Необходимо выбрать хотя бы один вид финансирования!')
-            return False
-        return True

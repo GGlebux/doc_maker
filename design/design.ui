@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1064</width>
-    <height>829</height>
+    <height>926</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -35,22 +35,13 @@
      <verstretch>1</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QGridLayout" name="gridLayout_3" rowstretch="1,1,0">
+   <layout class="QGridLayout" name="gridLayout_3">
     <item row="0" column="0" rowspan="2">
      <layout class="QFormLayout" name="formLayout_2">
-      <property name="sizeConstraint">
-       <enum>QLayout::SetDefaultConstraint</enum>
-      </property>
-      <property name="fieldGrowthPolicy">
-       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-      </property>
-      <property name="labelAlignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
       <item row="0" column="0">
        <widget class="QLabel" name="label">
         <property name="layoutDirection">
-         <enum>Qt::RightToLeft</enum>
+         <enum>Qt::LayoutDirection::RightToLeft</enum>
         </property>
         <property name="text">
          <string>Регистрационный номер:</string>
@@ -64,6 +55,12 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;пример: 12ис&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="inputMask">
+         <string/>
         </property>
        </widget>
       </item>
@@ -87,13 +84,13 @@
       <item row="2" column="0">
        <widget class="QLabel" name="label_3">
         <property name="contextMenuPolicy">
-         <enum>Qt::DefaultContextMenu</enum>
+         <enum>Qt::ContextMenuPolicy::DefaultContextMenu</enum>
         </property>
         <property name="text">
          <string>Имя:</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
         </property>
        </widget>
       </item>
@@ -147,7 +144,7 @@
          </date>
         </property>
         <property name="currentSection">
-         <enum>QDateTimeEdit::DaySection</enum>
+         <enum>QDateTimeEdit::Section::DaySection</enum>
         </property>
         <property name="displayFormat">
          <string>dd.MM.yyyy</string>
@@ -179,6 +176,18 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;пример: 123-456-789 00&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="inputMask">
+         <string>999-999-999 99</string>
+        </property>
+        <property name="cursorPosition">
+         <number>0</number>
+        </property>
+        <property name="clearButtonEnabled">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item row="6" column="0">
@@ -195,6 +204,12 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;пример: 123456789101&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="inputMask">
+         <string>999999999999</string>
         </property>
        </widget>
       </item>
@@ -247,6 +262,9 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="inputMask">
+         <string>9999</string>
+        </property>
        </widget>
       </item>
       <item row="10" column="0">
@@ -263,6 +281,9 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="inputMask">
+         <string>999999</string>
         </property>
        </widget>
       </item>
@@ -351,6 +372,12 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="inputMask">
+         <string>+7(999)99-99-999</string>
+        </property>
+        <property name="text">
+         <string>+7()--</string>
+        </property>
        </widget>
       </item>
       <item row="15" column="0">
@@ -381,9 +408,12 @@
          </size>
         </property>
         <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
+         <enum>Qt::LayoutDirection::LeftToRight</enum>
         </property>
         <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="editable">
          <bool>false</bool>
         </property>
         <property name="currentIndex">
@@ -393,34 +423,14 @@
          <number>15</number>
         </property>
         <property name="sizeAdjustPolicy">
-         <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+         <enum>QComboBox::SizeAdjustPolicy::AdjustToContentsOnFirstShow</enum>
         </property>
         <property name="minimumContentsLength">
          <number>0</number>
         </property>
         <item>
          <property name="text">
-          <string>38.02.08 Торговое дело</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>08.02.13 Монтаж и эксплуатация внутренних сантехнических устройств, кондиционирования воздуха и вентиляции</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>08.02.01 Строительство и эксплуатация зданий и сооружений</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>29.02.11 Полиграфическое производство</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>08.02.14 Эксплуатация и обслуживание многоквартирного дома</string>
+          <string>07.02.01 Архитектура</string>
          </property>
         </item>
         <item>
@@ -430,12 +440,47 @@
         </item>
         <item>
          <property name="text">
-          <string>54.01.20 Графический дизайнер</string>
+          <string>08.02.01 Строительство и эксплуатация зданий и сооружений</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.04 Водоснабжение и водоотведение</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.08 Монтаж и эксплуатация оборудования и систем газоснабжения</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.13 Монтаж и эксплуатация внутренних сантехнических устройств, кондиционирования воздуха и вентиляции</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.14 Эксплуатация и обслуживание многоквартирного дома</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.15 Информационное моделирование в строительстве</string>
          </property>
         </item>
         <item>
          <property name="text">
           <string>09.02.07 Информационные системы и программирование</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>29.02.11 Полиграфическое производство</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>38.02.08 Торговое дело</string>
          </property>
         </item>
         <item>
@@ -450,17 +495,12 @@
         </item>
         <item>
          <property name="text">
+          <string>54.01.20 Графический дизайнер</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>54.02.01 Дизайн (по отраслям)</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>08.02.08 Монтаж и эксплуатация оборудования и систем газоснабжения</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>07.02.01 Архитектура</string>
          </property>
         </item>
         <item>
@@ -480,14 +520,14 @@
       <item row="16" column="1">
        <widget class="QComboBox" name="spec_var_second">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>100</width>
+          <width>300</width>
           <height>0</height>
          </size>
         </property>
@@ -497,35 +537,30 @@
           <height>16777215</height>
          </size>
         </property>
+        <property name="layoutDirection">
+         <enum>Qt::LayoutDirection::LeftToRight</enum>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
         <property name="maxVisibleItems">
          <number>15</number>
         </property>
         <property name="sizeAdjustPolicy">
-         <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+         <enum>QComboBox::SizeAdjustPolicy::AdjustToContentsOnFirstShow</enum>
+        </property>
+        <property name="minimumContentsLength">
+         <number>0</number>
         </property>
         <item>
          <property name="text">
-          <string>38.02.08 Торговое дело</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>08.02.13 Монтаж и эксплуатация внутренних сантехнических устройств, кондиционирования воздуха и вентиляции</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>08.02.01 Строительство и эксплуатация зданий и сооружений</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>29.02.11 Полиграфическое производство</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>08.02.14 Эксплуатация и обслуживание многоквартирного дома</string>
+          <string>07.02.01 Архитектура</string>
          </property>
         </item>
         <item>
@@ -535,12 +570,47 @@
         </item>
         <item>
          <property name="text">
-          <string>54.01.20 Графический дизайнер</string>
+          <string>08.02.01 Строительство и эксплуатация зданий и сооружений</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.04 Водоснабжение и водоотведение</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.08 Монтаж и эксплуатация оборудования и систем газоснабжения</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.13 Монтаж и эксплуатация внутренних сантехнических устройств, кондиционирования воздуха и вентиляции</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.14 Эксплуатация и обслуживание многоквартирного дома</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.15 Информационное моделирование в строительстве</string>
          </property>
         </item>
         <item>
          <property name="text">
           <string>09.02.07 Информационные системы и программирование</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>29.02.11 Полиграфическое производство</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>38.02.08 Торговое дело</string>
          </property>
         </item>
         <item>
@@ -555,17 +625,12 @@
         </item>
         <item>
          <property name="text">
+          <string>54.01.20 Графический дизайнер</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>54.02.01 Дизайн (по отраслям)</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>08.02.08 Монтаж и эксплуатация оборудования и систем газоснабжения</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>07.02.01 Архитектура</string>
          </property>
         </item>
         <item>
@@ -585,14 +650,14 @@
       <item row="17" column="1">
        <widget class="QComboBox" name="spec_var_third">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>100</width>
+          <width>300</width>
           <height>0</height>
          </size>
         </property>
@@ -602,32 +667,30 @@
           <height>16777215</height>
          </size>
         </property>
+        <property name="layoutDirection">
+         <enum>Qt::LayoutDirection::LeftToRight</enum>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
         <property name="maxVisibleItems">
          <number>15</number>
         </property>
+        <property name="sizeAdjustPolicy">
+         <enum>QComboBox::SizeAdjustPolicy::AdjustToContentsOnFirstShow</enum>
+        </property>
+        <property name="minimumContentsLength">
+         <number>0</number>
+        </property>
         <item>
          <property name="text">
-          <string>38.02.08 Торговое дело</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>08.02.13 Монтаж и эксплуатация внутренних сантехнических устройств, кондиционирования воздуха и вентиляции</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>08.02.01 Строительство и эксплуатация зданий и сооружений</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>29.02.11 Полиграфическое производство</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>08.02.14 Эксплуатация и обслуживание многоквартирного дома</string>
+          <string>07.02.01 Архитектура</string>
          </property>
         </item>
         <item>
@@ -637,12 +700,47 @@
         </item>
         <item>
          <property name="text">
-          <string>54.01.20 Графический дизайнер</string>
+          <string>08.02.01 Строительство и эксплуатация зданий и сооружений</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.04 Водоснабжение и водоотведение</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.08 Монтаж и эксплуатация оборудования и систем газоснабжения</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.13 Монтаж и эксплуатация внутренних сантехнических устройств, кондиционирования воздуха и вентиляции</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.14 Эксплуатация и обслуживание многоквартирного дома</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>08.02.15 Информационное моделирование в строительстве</string>
          </property>
         </item>
         <item>
          <property name="text">
           <string>09.02.07 Информационные системы и программирование</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>29.02.11 Полиграфическое производство</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>38.02.08 Торговое дело</string>
          </property>
         </item>
         <item>
@@ -657,17 +755,12 @@
         </item>
         <item>
          <property name="text">
+          <string>54.01.20 Графический дизайнер</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>54.02.01 Дизайн (по отраслям)</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>08.02.08 Монтаж и эксплуатация оборудования и систем газоснабжения</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>07.02.01 Архитектура</string>
          </property>
         </item>
         <item>
@@ -766,7 +859,7 @@
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>65</height>
+          <height>90</height>
          </size>
         </property>
         <property name="title">
@@ -802,6 +895,13 @@
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QRadioButton" name="combined">
+           <property name="text">
+            <string>Очно-заочная</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
@@ -822,7 +922,7 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
+          <width>200</width>
           <height>65</height>
          </size>
         </property>
@@ -855,13 +955,13 @@
     <item row="0" column="1">
      <layout class="QFormLayout" name="formLayout">
       <property name="sizeConstraint">
-       <enum>QLayout::SetDefaultConstraint</enum>
+       <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
       </property>
       <property name="fieldGrowthPolicy">
-       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+       <enum>QFormLayout::FieldGrowthPolicy::AllNonFixedFieldsGrow</enum>
       </property>
       <property name="labelAlignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
       </property>
       <item row="0" column="0">
        <widget class="QLabel" name="label_24">
@@ -894,6 +994,9 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="inputMask">
+         <string>9999 999999</string>
         </property>
        </widget>
       </item>
@@ -953,8 +1056,11 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="inputMask">
+         <string>+7(999)99-99-999</string>
+        </property>
         <property name="text">
-         <string/>
+         <string>+7()--</string>
         </property>
        </widget>
       </item>
@@ -1305,7 +1411,7 @@
          </sizepolicy>
         </property>
         <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
+         <enum>Qt::LayoutDirection::LeftToRight</enum>
         </property>
         <property name="text">
          <string>Рейтинг:</string>
@@ -1358,7 +1464,7 @@
          </sizepolicy>
         </property>
         <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
+         <enum>Qt::LayoutDirection::LeftToRight</enum>
         </property>
         <property name="text">
          <string>Общий:</string>
@@ -1422,7 +1528,7 @@
          </sizepolicy>
         </property>
         <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
+         <enum>Qt::LayoutDirection::LeftToRight</enum>
         </property>
         <property name="text">
          <string>АИС:</string>
@@ -1515,7 +1621,7 @@
     <item row="2" column="1">
      <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,1,1,1">
       <property name="sizeConstraint">
-       <enum>QLayout::SetDefaultConstraint</enum>
+       <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
       </property>
       <property name="bottomMargin">
        <number>0</number>
@@ -1620,7 +1726,7 @@
       <item row="0" column="0">
        <spacer name="horizontalSpacer">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -1653,8 +1759,6 @@
   <tabstop>address</tabstop>
   <tabstop>tel_number</tabstop>
   <tabstop>spec_var_first</tabstop>
-  <tabstop>spec_var_second</tabstop>
-  <tabstop>spec_var_third</tabstop>
   <tabstop>nine</tabstop>
   <tabstop>eleven</tabstop>
   <tabstop>certificate_score</tabstop>

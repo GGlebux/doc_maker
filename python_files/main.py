@@ -1,4 +1,3 @@
-import ctypes
 import sys
 
 from PyQt6 import QtCore
@@ -12,6 +11,7 @@ from design.design import Ui_MainWindow
 from python_files.clear import Cleaner
 from python_files.data import Data
 from python_files.excel import Excel
+from python_files.validator import Validator
 from python_files.word import Word
 
 
@@ -24,7 +24,6 @@ def simple_toggle(check_box, label, path, button, set_flag_func):
     else:
         label.setEnabled(False)
         button.setEnabled(False)
-        path.clear()
         set_flag_func(False)
 
 
@@ -42,6 +41,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.excel = Excel(self, self.data)
         self.word = Word(self, self.data)
         self.cleaner = Cleaner(self)
+        self.validator = Validator(self, self.data)
 
         self.rating_button.clicked.connect(lambda: self.select_excel_path('rating_excel',
                                                                           'Выберите РЕЙТИНГ Excel',
@@ -79,6 +79,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.form_education = QButtonGroup(self)
         self.form_education.addButton(self.full_time)
         self.form_education.addButton(self.correspondence)
+        self.form_education.addButton(self.combined)
 
         self.age = QButtonGroup(self)
         self.age.addButton(self.minor)
@@ -107,6 +108,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.gender = QButtonGroup(self)
         self.gender.addButton(self.female)
         self.gender.addButton(self.male)
+
+
 
         # Если выбрали одну из необходимых специальностей, то разблокируем выбор потоков
         self.spec_var_first.currentTextChanged.connect(self.stream_toggle)
@@ -178,13 +181,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                               'dormitory_flag',
                                               boolean))
 
+
+
+
     def select_excel_path(self, excel_name, title, path):
         setattr(self.excel, excel_name, self.excel.select_excel_file(title))
         path.setText(getattr(self.excel, excel_name))
 
 
 if __name__ == "__main__":
-    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('sask.ggelbux.doc_maker.2.0')
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon('../icon.ico'))
     window = MainWindow()
