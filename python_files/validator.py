@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import QMessageBox
 
 
 def is_present_sp_form(sp, form):
-    """Проверяет пару направление-форма обучения"""
+    """Проверяет пару направление-форма_обучения"""
     full = 'Очная'
     easy = 'Заочная'
     full_easy = 'Очно-заочная'
@@ -33,6 +33,7 @@ def is_present_sp_form(sp, form):
 
 
 def is_present_sp_type(sp, type_state):
+    """Проверяет пару направление-тип_поступления"""
     spec = 'Специальность'
     spec_with_exam = 'Спец. с экзаменом'
     prof = 'Профессия'
@@ -63,6 +64,7 @@ def is_present_sp_type(sp, type_state):
 
 
 def check_sp_form_type(data):
+    """Проверяет специальность/форму_обучения/тип_поступления"""
     log = 'Несопоставимые поля:\n'
     sp = data['spec_var_first']
     form = data['form_education']
@@ -87,15 +89,15 @@ class Validator:
 
     def validate(self):
         """Валидирует форму и оповещает пользователя"""
-        data = self.data.get_input_data()
         error_counter = 0
+        data = self.data.get_input_data()
+        couple_cp_form, log = check_sp_form_type(data)
         if not self.__check_finance_choice():
             QMessageBox.warning(self.parent,
                                 'Ошибка',
                                 'Необходимо выбрать хотя бы один вид финансирования!')
             error_counter += 1
 
-        couple_cp_form, log = check_sp_form_type(data)
         if not couple_cp_form:
             QMessageBox.warning(self.parent,
                                 'Ошибка',
