@@ -27,11 +27,6 @@ def is_present_sp_form(sp, form):
     third = sp.startswith('08.02.13') and form in [full, full_easy]
     fourth = sp.startswith('08.02.04') and form == full_easy
 
-    print('Очка=' + str(first))
-    print('Очка/заочка=' + str(second))
-    print('3=' + str(third))
-    print('4=' + str(fourth))
-
     if any([first, second, third, fourth]):
         return True
     return False
@@ -76,8 +71,6 @@ def check_sp_form_type(data):
     sp_form = is_present_sp_form(sp, form)
     sp_type = is_present_sp_type(sp, type_state)
 
-    print('Итоги (форма и тип)= ' + str(sp_form) +', ' + str(sp_type))
-
     log += f'<{sp}> и <{form}>\n' if not sp_form else ''
     log += f'<{sp}> и <{type_state}>\n' if not sp_type else ''
 
@@ -103,7 +96,6 @@ class Validator:
             error_counter += 1
 
         couple_cp_form, log = check_sp_form_type(data)
-        print(couple_cp_form, log)
         if not couple_cp_form:
             QMessageBox.warning(self.parent,
                                 'Ошибка',
