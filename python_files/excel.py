@@ -40,7 +40,6 @@ class Excel:
     def start_up(self):
         """Запуск заполнения"""
         try:
-            print('Я тут')
             # Валидация формы
             if not self.parent.validator.validate():
                 return
@@ -70,11 +69,15 @@ class Excel:
                 self.fill_orphan(data)
 
             if self.everything_is_done():
-                QMessageBox.information(self.parent, "Успешно", "Файлы Excel успешно созданы!")
+                self.success()
+
             self.set_everything_not_done()
-        except PermissionError:
+        except PermissionError as e:
+            self.parent.logger.warning(f'Ошибка при заполнении Excel {e}')
             QMessageBox.warning(self.parent, "Ошибка",
                                 "Закройте все окна Excel и повторите попытку\n(иначе данные не сохранятся)")
+        except Exception as e:
+            self.parent.logger.warning(f'Ошибка при заполнении Excel {e}')
 
     def fill_rating_excel(self, data):
         """Заполняет Рейтинг excel"""
@@ -108,8 +111,7 @@ class Excel:
             if not self.check_unique(old_fio, new_fio, '<Рейтинг>'):
                 return
         except TypeError:
-            QMessageBox.warning(self.parent, 'Предупреждение',
-                                'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
+            self.no_data_warning(self.rating_excel)
 
         # Записываем данные в пустую строку
         e[f'A{empty_row}'] = data['reg_number']
@@ -167,15 +169,11 @@ class Excel:
         # Проверка значений на уникальность
         try:
             old_pasport = e[f'J{empty_row - 1}'].value + e[f'K{empty_row - 1}'].value
-            new_passport = data['series']+ data['number']
+            new_passport = data['series'] + data['number']
             if not self.check_unique(old_pasport, new_passport, '<Общий>'):
                 return
         except TypeError:
-            QMessageBox.warning(self.parent, 'Предупреждение',
-                                'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
-            self.alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
-                             'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
-                             'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+            self.no_data_warning(self.total_excel)
 
         e[f'A{empty_row}'] = data['reg_number']
         e[f'B{empty_row}'] = data['surname']
@@ -254,8 +252,7 @@ class Excel:
             if not self.check_unique(old_pasport, new_passport, '<АИС>'):
                 return
         except TypeError:
-            QMessageBox.warning(self.parent, 'Предупреждение',
-                                'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
+            self.no_data_warning(self.aic_excel)
 
         # Записываем данные в пустую строку
         e[f'A{empty_row}'] = data['reg_number']
@@ -305,8 +302,7 @@ class Excel:
             if not self.check_unique(old_fio, new_fio, '<Поток>'):
                 return
         except TypeError:
-            QMessageBox.warning(self.parent, 'Предупреждение',
-                                'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
+            self.no_data_warning(self.stream_excel)
 
         # Записываем данные в пустую строку
         e[f'A{empty_row}'] = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
@@ -343,8 +339,7 @@ class Excel:
             if not self.check_unique(old_fio, new_fio, '<СВО>'):
                 return
         except TypeError:
-            QMessageBox.warning(self.parent, 'Предупреждение',
-                                'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
+            self.no_data_warning(self.svo_excel)
 
         e[f'A{empty_row}'] = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
         e[f'B{empty_row}'] = data['spec_var_first']
@@ -380,8 +375,7 @@ class Excel:
             if not self.check_unique(old_fio, new_fio, '<ОБЩЕЖИТИЕ>'):
                 return
         except TypeError:
-            QMessageBox.warning(self.parent, 'Предупреждение',
-                                'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
+            self.no_data_warning(self.dormitory_excel)
 
         e[f'A{empty_row}'] = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
         e[f'B{empty_row}'] = data['spec_var_first']
@@ -417,8 +411,7 @@ class Excel:
             if not self.check_unique(old_fio, new_fio, '<СИРОТА>'):
                 return
         except TypeError:
-            QMessageBox.warning(self.parent, 'Предупреждение',
-                                'Недостаточно данных для проверки уникальности данных\n(возможны дубликаты)')
+            self.no_data_warning(self.orphan_excel)
 
         e[f'A{empty_row}'] = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
         e[f'B{empty_row}'] = data['spec_var_first']
@@ -438,18 +431,19 @@ class Excel:
     def check_unique(self, old_value, new_value, table):
         """Проверяет есть ли в таблице данные, подобные новым"""
         if old_value.strip() == new_value.strip():
+            self.parent.logger.warning(f'Дубликат абитуриента: {old_value}')
             QMessageBox.warning(self.parent, "Ошибка", f"Такой абитуриент уже есть в таблице: {table}!")
             return False
         return True
 
     def everything_is_done(self):
         return (self.is_rating_done
-        and self.is_total_done
-        and self.is_aic_done
-        and (self.is_stream_done == self.stream_flag)
-        and (self.is_svo_done == self.svo_flag)
-        and (self.is_dormitory_done == self.dormitory_flag)
-        and (self.is_orphan_done == self.orphan_flag))
+                and self.is_total_done
+                and self.is_aic_done
+                and (self.is_stream_done == self.stream_flag)
+                and (self.is_svo_done == self.svo_flag)
+                and (self.is_dormitory_done == self.dormitory_flag)
+                and (self.is_orphan_done == self.orphan_flag))
 
     def set_everything_not_done(self):
         self.is_rating_done = False
@@ -460,3 +454,19 @@ class Excel:
         self.is_dormitory_done = False
         self.is_orphan_done = False
 
+    def no_data_warning(self, excel):
+        info = 'Недостаточно данных для проверки уникальности данных'
+        self.parent.logger.warning(f'{info} в таблице {excel}')
+        QMessageBox.warning(self.parent, 'Предупреждение',
+                            f'{info}\n(возможны дубликаты)')
+
+    def success(self):
+        QMessageBox.information(self.parent, "Успешно", "Файлы Excel успешно созданы!")
+        self.parent.logger.info('Выполнено корректно: '
+                                + ', '.join([f'{'Рейтинг' if self.is_rating_done else ''}',
+                                             f'{'Общий' if self.is_total_done else ''}',
+                                             f'{'АИС' if self.is_aic_done else ''}',
+                                             f'{'Поток' if self.is_stream_done == self.stream_flag else ''}',
+                                             f'{'СВО' if self.is_svo_done == self.svo_flag else ''}',
+                                             f'{'Общага' if self.is_dormitory_done == self.dormitory_flag else ''}',
+                                             f'{'Сироты' if self.is_orphan_done == self.orphan_flag else ''}']))

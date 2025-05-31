@@ -2,13 +2,27 @@ from PyQt6.QtCore import QRegularExpression
 from PyQt6.QtGui import QRegularExpressionValidator
 from PyQt6.QtWidgets import QMessageBox
 
+spec = 'Специальность'
+spec_with_exam = 'Спец. с экзаменом'
+prof = 'Профессия'
+all_spec = ['08.02.01',
+            '08.02.04',
+            '08.02.13',
+            '08.02.08',
+            '08.02.14',
+            '08.02.15',
+            '09.02.07',
+            '29.02.11',
+            '38.02.08',
+            '42.02.02']
+all_spec_with_exam = ['07.02.01',
+                      '54.02.01',
+                      '55.02.02']
+all_prof = ['54.01.01',
+            '54.01.20',
+            '08.01.28']
 
-def is_present_sp_form(sp, form):
-    """Проверяет пару направление-форма_обучения"""
-    full = 'Очная'
-    easy = 'Заочная'
-    full_easy = 'Очно-заочная'
-    all_full = ['07.02.01',
+all_full = ['07.02.01',
                 '08.01.28',
                 '08.02.14',
                 '08.02.15',
@@ -20,7 +34,16 @@ def is_present_sp_form(sp, form):
                 '55.02.02',
                 '54.01.01',
                 '54.01.20']
-    all_full_easy = ['08.02.01', '08.02.08']
+
+all_full_easy = ['08.02.01', '08.02.08']
+
+def is_present_sp_form(sp, form):
+    """Проверяет пару направление-форма_обучения"""
+    full = 'Очная'
+    easy = 'Заочная'
+    full_easy = 'Очно-заочная'
+
+
 
     first = any(sp.startswith(number) for number in all_full) and form == full
     second = any(sp.startswith(number) for number in all_full_easy) and form in [full, easy]
@@ -34,31 +57,11 @@ def is_present_sp_form(sp, form):
 
 def is_present_sp_type(sp, type_state):
     """Проверяет пару направление-тип_поступления"""
-    spec = 'Специальность'
-    spec_with_exam = 'Спец. с экзаменом'
-    prof = 'Профессия'
-    all_spec = ['08.02.01',
-                '08.02.04',
-                '08.02.13',
-                '08.02.08',
-                '08.02.14',
-                '08.02.15',
-                '09.02.07',
-                '29.02.11',
-                '38.02.08',
-                '42.02.02']
-    all_spec_with_exam = ['07.02.01',
-                          '54.02.01',
-                          '55.02.02']
-    all_prof = ['54.01.01',
-                '54.01.20',
-                '08.01.28']
-
     first = any(sp.startswith(number) for number in all_spec) and type_state == spec
     second = any(sp.startswith(number) for number in all_spec_with_exam) and type_state == spec_with_exam
     third = any(sp.startswith(number) for number in all_prof) and type_state == prof
 
-    if any([first, second , third]):
+    if any([first, second, third]):
         return True
     return False
 
@@ -103,10 +106,35 @@ class Validator:
                                 'Ошибка',
                                 log)
             error_counter += 1
-        return error_counter == 0
+
+        result = error_counter == 0
+        if not result:
+            self.parent.logger.warning("Валидация не пройдена")
+        return result
 
     def __check_finance_choice(self):
         """Должен быть выбран тип финансирования"""
         if sum(btn.isChecked() for btn in self.parent.finance.buttons()) == 0:
             return False
         return True
+
+    def get_correct_type_btn(self, value):
+        value = value[:8]
+        if value in all_spec:
+            return self.parent.spec
+        elif value in all_spec_with_exam:
+            return self.parent.spec_with_exam
+        elif value in all_prof:
+            return self.parent.prof
+
+    def get_correct_form_btn(self, value):
+        value = value[:8]
+        if value == '08.02.04':
+            return [self.parent.combined]
+        elif value == '08.02.13':
+            return [self.parent.full_time, self.parent.combined]
+        elif value in all_full_easy:
+            return [self.parent.full_time, self.parent.correspondence]
+        elif value in all_full:
+            return [self.parent.full_time]
+

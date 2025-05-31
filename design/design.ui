@@ -1088,14 +1088,14 @@
         <property name="title">
          <string/>
         </property>
+        <property name="checkable">
+         <bool>false</bool>
+        </property>
         <layout class="QVBoxLayout" name="verticalLayout_5">
          <item>
           <widget class="QRadioButton" name="prof">
            <property name="text">
             <string>Профессия</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -1110,6 +1110,9 @@
           <widget class="QRadioButton" name="spec_with_exam">
            <property name="text">
             <string>Спец. с экзаменом</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
            </property>
           </widget>
          </item>

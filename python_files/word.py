@@ -1,8 +1,20 @@
 import os
+import sys
 
 from PyQt6.QtCore import QDir
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
 from docxtpl import DocxTemplate
+
+
+def get_base_dir():
+    """Возвращает правильную корневую папку (для разработки и для сборки)."""
+    if hasattr(sys, '_MEIPASS'):
+        # Режим собранного exe (Nuitka)
+        return sys._MEIPASS
+    else:
+        # Режим разработки: поднимаемся на уровень выше из папки python_files
+        return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 
 class Word:
@@ -27,22 +39,23 @@ class Word:
     def fill_word_application(self, data):
         """Заполнение заявления"""
         doc = None
+        filename = None
         application = data['statement']
 
         # Проверка вида заполнения документа
-        if application == 'Профессия':
-            doc = load_template('prof.docx')
-        elif application == 'Специальность':
-            doc = load_template('special.docx')
-        elif application == 'Спец. с экзаменом':
-            doc = load_template('sp_with_ex.docx')
+        match application:
+            case 'Профессия': doc = self.load_template('prof.docx')
+            case 'Специальность': doc = self.load_template('special.docx')
+            case 'Спец. с экзаменом': doc = self.load_template('sp_with_ex.docx')
+            case _: self.parent.logger.warning('Не выбран Word')
 
         if doc:
-            filename = self.save_word_file("Сохранить заявление")
-            if filename:
-                doc.render(self.data.get_input_data())
-                doc.save(filename)
-                self.one = True
+            while not filename:
+                filename = self.save_word_file("Сохранить заявление")
+            doc.render(self.data.get_input_data())
+            doc.save(filename)
+            self.one = True
+            self.parent.logger.info(f'Файл word заполнен по шаблону <{application}> в <{filename}>')
 
     def save_word_file(self, title):
         """Открывает диалоговое окно для сохранения файла"""
@@ -51,10 +64,11 @@ class Word:
             return filename
         return
 
-
-def load_template(template_name):
-    """Загружает шаблоны Word"""
-    # Используем абсолютный путь к файлу
-    # ToDo: Для работы в коде - '../patterns', текущий вариант для правильной компиляции
-    doc = DocxTemplate(os.path.abspath(f'patterns/{template_name}'))
-    return doc
+    def load_template(self, template_name):
+        """Загружает шаблоны Word с учётом сборки и разработки."""
+        base_dir = get_base_dir()
+        template_path = os.path.join(base_dir, 'patterns', template_name)
+        if not os.path.exists(template_path):
+            self.parent.logger.error(f'Шаблон не найден: {template_path}')
+            return Exception
+        return DocxTemplate(template_path)

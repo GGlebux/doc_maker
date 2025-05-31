@@ -26,6 +26,8 @@ class Cleaner:
         self.parent.spec_var_second.setCurrentIndex(0)
         self.parent.spec_var_third.setCurrentIndex(0)
         self.parent.nine.setChecked(True)
+        self.parent.spec_with_exam.setChecked(True)
+        self.parent.full_time.setChecked(True)
         self.parent.parent_work.clear()
         self.parent.certificate_score.setValue(5.00)
         self.parent.minor.setChecked(True)
