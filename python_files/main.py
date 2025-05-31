@@ -1,3 +1,4 @@
+import logging
 import sys
 
 from PyQt6 import QtCore
@@ -14,6 +15,16 @@ from python_files.excel import Excel
 from python_files.validator import Validator
 from python_files.word import Word
 
+def setup_logging():
+    """Настройка логгера"""
+    logging.basicConfig(
+        level=logging.INFO,  # В продакшене можно поставить INFO
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        handlers=[
+            logging.FileHandler("app.log"),  # Логи в файл
+            logging.StreamHandler(sys.stdout),  # Логи в консоль
+        ],
+    )
 
 def simple_toggle(check_box, label, path, button, set_flag_func):
     """Статический переключатель для активации виджетов"""
@@ -190,6 +201,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
 if __name__ == "__main__":
+    setup_logging()
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon('../icon.ico'))
     window = MainWindow()
