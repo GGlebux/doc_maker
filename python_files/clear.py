@@ -26,7 +26,7 @@ class Cleaner:
         self.parent.spec_var_second.setCurrentIndex(0)
         self.parent.spec_var_third.setCurrentIndex(0)
         self.parent.nine.setChecked(True)
-        self.parent.spec_with_exam.setChecked(True)
+
         self.parent.full_time.setChecked(True)
         self.parent.parent_work.clear()
         self.parent.certificate_score.setValue(5.00)
@@ -45,5 +45,9 @@ class Cleaner:
         self.parent.commerce.setChecked(False)
         self.parent.orphan.setChecked(False)
         self.parent.dormitory.setChecked(False)
-
+        for bnt in self.parent.form_education.buttons():
+            bnt.setChecked(False)
+            bnt.setEnabled(False)
+        self.parent.spec_with_exam.setChecked(True)
+        self.parent.spec_with_exam.setEnabled(True)
         self.parent.statusbar.showMessage('Форма очищена', 2000)

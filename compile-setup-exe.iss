@@ -28,7 +28,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 ; Используем {src} для указания папки, где лежит .iss файл
 Source: "output\main.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\rejng\OneDrive\Рабочий стол\resources\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\rejng\OneDrive\Desktop\resources\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Registry]
 Root: HKA; Subkey: "Software\Classes\.exe\OpenWithProgids"; ValueType: string; ValueName: "приЁмкаFile.exe"; ValueData: ""; Flags: uninsdeletevalue
