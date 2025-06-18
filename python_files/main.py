@@ -1,3 +1,4 @@
+import ctypes
 import logging
 import sys
 
@@ -234,6 +235,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     setup_logging()
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('sask.gglebux.doc_maker.2.0')
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon('../icon.ico'))
     window = MainWindow()

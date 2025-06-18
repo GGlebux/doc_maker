@@ -77,7 +77,6 @@ class Excel:
             QMessageBox.warning(self.parent, "Ошибка",
                                 "Закройте все окна Excel и повторите попытку\n(иначе данные не сохранятся)")
         except Exception as e:
-            print(e)
             self.parent.logger.warning(f'Ошибка при заполнении Excel: {e}')
 
     def fill_rating_excel(self, data):
@@ -471,6 +470,6 @@ class Excel:
         done.append('Поток') if self.is_stream_done else None
         done.append('СВО') if self.is_svo_done else None
         done.append('Общага') if self.is_dormitory_done else None
-        done.append('Сироты' if self.is_orphan_done else None)
+        done.append('Сироты') if self.is_orphan_done else None
 
         self.parent.logger.info('Выполнено корректно: ' + ', '.join(done))
