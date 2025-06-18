@@ -23,7 +23,7 @@ def setup_logging():
         level=logging.INFO,  # В продакшене можно поставить INFO
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         handlers=[
-            logging.FileHandler("app.log"),  # Логи в файл
+            logging.FileHandler("app.log", encoding='utf-8'),  # Логи в файл
             logging.StreamHandler(sys.stdout),  # Логи в консоль
         ],
     )
@@ -176,10 +176,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         currect_form_btns = self.validator.get_correct_form_btn(text)
         for btn in self.form_education.buttons():
             btn.setEnabled(False)
+            btn.setChecked(False)
         for btn in currect_form_btns:
-
             btn.setEnabled(True)
-            btn.setChecked(True)
+        currect_form_btns[-1].setChecked(True)
+
+        self.stream_toggle(text)
 
     def stream_toggle(self, text):
         """Тублер активации виджетов, связанных с выбором потока для определенных специальностей"""

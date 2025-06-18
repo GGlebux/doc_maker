@@ -47,4 +47,10 @@ class Cleaner:
         self.parent.dormitory.setChecked(False)
         self.parent.certificate.setChecked(True)
 
+        for bnt in self.parent.form_education.buttons():
+            bnt.setChecked(False)
+            bnt.setEnabled(False)
+        self.parent.spec_with_exam.setChecked(True)
+        self.parent.spec_with_exam.setEnabled(True)
+
         self.parent.statusbar.showMessage('Форма очищена', 2000)
