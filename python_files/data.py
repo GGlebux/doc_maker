@@ -40,4 +40,6 @@ class Data:
                         'commerce': '+' if self.parent.commerce.isChecked() else '-'},
             'stream': self.parent.stream.checkedButton().text(),
             'gender': self.parent.gender.checkedButton().text(),
-            'orphan': 'Да' if self.parent.orphan.isChecked() else 'Нет'}
+            'orphan': 'Да' if self.parent.orphan.isChecked() else 'Нет',
+            'certificate': '✓' if self.parent.certificate.checkedButton().text() == 'Оригинал' else '×'}
+

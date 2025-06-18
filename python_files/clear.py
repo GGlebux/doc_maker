@@ -45,5 +45,6 @@ class Cleaner:
         self.parent.commerce.setChecked(False)
         self.parent.orphan.setChecked(False)
         self.parent.dormitory.setChecked(False)
+        self.parent.certificate.setChecked(True)
 
         self.parent.statusbar.showMessage('Форма очищена', 2000)

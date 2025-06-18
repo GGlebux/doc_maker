@@ -134,6 +134,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.gender.addButton(self.female)
         self.gender.addButton(self.male)
 
+        self.certificate = QButtonGroup(self)
+        self.certificate.addButton(self.original)
+        self.certificate.addButton(self.copy)
+
         # Если выбрали одну из необходимых специальностей, то разблокируем выбор потоков
         self.spec_var_first.currentTextChanged.connect(self.special_toggle)
 

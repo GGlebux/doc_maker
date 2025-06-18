@@ -73,11 +73,12 @@ class Excel:
 
             self.set_everything_not_done()
         except PermissionError as e:
-            self.parent.logger.warning(f'Ошибка при заполнении Excel {e}')
+            self.parent.logger.warning(f'Ошибка при заполнении Excel: {e}')
             QMessageBox.warning(self.parent, "Ошибка",
                                 "Закройте все окна Excel и повторите попытку\n(иначе данные не сохранятся)")
         except Exception as e:
-            self.parent.logger.warning(f'Ошибка при заполнении Excel {e}')
+            print(e)
+            self.parent.logger.warning(f'Ошибка при заполнении Excel: {e}')
 
     def fill_rating_excel(self, data):
         """Заполняет Рейтинг excel"""
@@ -93,10 +94,11 @@ class Excel:
                       'Специальность (1)',
                       'Специальность (2)',
                       'Специальность (3)',
-                      'Форма обучения']
+                      'Форма обучения',
+                      'Оригинал аттестата']
 
         if e['A1'].value is None:
-            for i in range(8):
+            for i in range(9):
                 e[f'{self.alphabet[i]}1'] = head_excel[i]
 
         #  Находим первую пустую строку в столбце "B"
@@ -121,6 +123,7 @@ class Excel:
         e[f'F{empty_row}'] = data['spec_var_second']
         e[f'G{empty_row}'] = data['spec_var_third']
         e[f'H{empty_row}'] = data['form_education']
+        e[f'I{empty_row}'] = data['certificate']
 
         wb.save(self.rating_excel)
         wb.close()
@@ -462,11 +465,12 @@ class Excel:
 
     def success(self):
         QMessageBox.information(self.parent, "Успешно", "Файлы Excel успешно созданы!")
-        self.parent.logger.info('Выполнено корректно: '
-                                + ', '.join([f'{'Рейтинг' if self.is_rating_done else ''}',
-                                             f'{'Общий' if self.is_total_done else ''}',
-                                             f'{'АИС' if self.is_aic_done else ''}',
-                                             f'{'Поток' if self.is_stream_done == self.stream_flag else ''}',
-                                             f'{'СВО' if self.is_svo_done == self.svo_flag else ''}',
-                                             f'{'Общага' if self.is_dormitory_done == self.dormitory_flag else ''}',
-                                             f'{'Сироты' if self.is_orphan_done == self.orphan_flag else ''}']))
+        done = [f'{'Рейтинг' if self.is_rating_done else ''}',
+                f'{'Общий' if self.is_total_done else ''}',
+                f'{'АИС' if self.is_aic_done else ''}']
+        done.append('Поток') if self.is_stream_done else None
+        done.append('СВО') if self.is_svo_done else None
+        done.append('Общага') if self.is_dormitory_done else None
+        done.append('Сироты' if self.is_orphan_done else None)
+
+        self.parent.logger.info('Выполнено корректно: ' + ', '.join(done))
