@@ -1,3 +1,5 @@
+import traceback
+
 from PyQt6.QtCore import QDir
 from PyQt6.QtWidgets import QMessageBox, QFileDialog
 from openpyxl.reader.excel import load_workbook
@@ -77,7 +79,10 @@ class Excel:
             QMessageBox.warning(self.parent, "Ошибка",
                                 "Закройте все окна Excel и повторите попытку\n(иначе данные не сохранятся)")
         except Exception as e:
-            self.parent.logger.warning(f'Ошибка при заполнении Excel: {e}')
+            error_info = traceback.format_exc()
+            self.parent.logger.error(f'Возникла непредвиденная ошибка при заполнении Excel: {e}\n{error_info}')
+            QMessageBox.warning(self.parent, 'Критическая ошибка',
+                                f'Возникла непредвиденная ошибка при заполнении Excel:\n(обратитесь к разработчику)')
 
     def fill_rating_excel(self, data):
         """Заполняет Рейтинг excel"""
@@ -432,7 +437,7 @@ class Excel:
 
     def check_unique(self, old_value, new_value, table):
         """Проверяет есть ли в таблице данные, подобные новым"""
-        if old_value.strip() == new_value.strip():
+        if old_value == new_value:
             self.parent.logger.warning(f'Дубликат абитуриента: {old_value}')
             QMessageBox.warning(self.parent, "Ошибка", f"Такой абитуриент уже есть в таблице: {table}!")
             return False
