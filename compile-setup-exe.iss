@@ -26,7 +26,6 @@ Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-; Используем {src} для указания папки, где лежит .iss файл
 Source: "output\main.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\rejng\OneDrive\Desktop\resources\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
