@@ -10,36 +10,13 @@ from PyQt6.QtWidgets import (
 )
 
 from design.design import Ui_MainWindow
-from python_files.clear import Cleaner
+from python_files.cleaner import Cleaner
 from python_files.data import Data
 from python_files.excel import Excel
 from python_files.log_viewer import LogViewer
+from python_files.static import simple_toggle, setup_logging
 from python_files.validator import Validator
 from python_files.word import Word
-
-
-def setup_logging():
-    """Настройка логгера"""
-    logging.basicConfig(
-        level=logging.INFO,  # В продакшене можно поставить INFO
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        handlers=[
-            logging.FileHandler("app.log", encoding='utf-8'),  # Логи в файл
-            logging.StreamHandler(sys.stdout),  # Логи в консоль
-        ],
-    )
-
-
-def simple_toggle(check_box, label, button, set_flag_func):
-    """Статический переключатель для активации виджетов"""
-    if check_box.isChecked():
-        label.setEnabled(True)
-        button.setEnabled(True)
-        set_flag_func(True)
-    else:
-        label.setEnabled(False)
-        button.setEnabled(False)
-        set_flag_func(False)
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):

@@ -1,8 +1,8 @@
-import traceback
-
 from PyQt6.QtCore import QDir
 from PyQt6.QtWidgets import QMessageBox, QFileDialog
 from openpyxl.reader.excel import load_workbook
+
+from python_files.static import log_exception
 
 
 def select_file_loop(obj, excel_name, button, flag=True):
@@ -79,10 +79,7 @@ class Excel:
             QMessageBox.warning(self.parent, "Ошибка",
                                 "Закройте все окна Excel и повторите попытку\n(иначе данные не сохранятся)")
         except Exception as e:
-            error_info = traceback.format_exc()
-            self.parent.logger.error(f'Возникла непредвиденная ошибка при заполнении Excel: {e}\n{error_info}')
-            QMessageBox.warning(self.parent, 'Критическая ошибка',
-                                f'Возникла непредвиденная ошибка при заполнении Excel:\n(обратитесь к разработчику)')
+            log_exception(self.parent, e, 'заполнении Excel')
 
     def fill_rating_excel(self, data):
         """Заполняет Рейтинг excel"""
@@ -98,8 +95,7 @@ class Excel:
                       'Специальность (1)',
                       'Специальность (2)',
                       'Специальность (3)',
-                      'Форма обучения',
-                      'Оригинал аттестата']
+                      'Форма обучения']
 
         if e['A1'].value is None:
             for i in range(9):
@@ -122,12 +118,12 @@ class Excel:
         # Записываем данные в пустую строку
         e[f'A{empty_row}'] = data['reg_number']
         e[f'B{empty_row}'] = data['surname'] + ' ' + data['name'] + ' ' + data['patronymic']
+        e[f'C{empty_row}'] = data['certificate']
         e[f'D{empty_row}'] = data['certificate_score']
         e[f'E{empty_row}'] = data['spec_var_first']
         e[f'F{empty_row}'] = data['spec_var_second']
         e[f'G{empty_row}'] = data['spec_var_third']
         e[f'H{empty_row}'] = data['form_education']
-        e[f'I{empty_row}'] = data['certificate']
 
         wb.save(self.rating_excel)
         wb.close()
@@ -438,8 +434,9 @@ class Excel:
     def check_unique(self, old_value, new_value, table):
         """Проверяет есть ли в таблице данные, подобные новым"""
         if old_value == new_value:
-            self.parent.logger.warning(f'Дубликат абитуриента: {old_value}')
-            QMessageBox.warning(self.parent, "Ошибка", f"Такой абитуриент уже есть в таблице: {table}!")
+            type_value = 'ПАСПОРТОМ' if str.isdigit(old_value) else 'ФИО'
+            self.parent.logger.warning(f'Дубликат абитуриента с {type_value}: {old_value}')
+            QMessageBox.warning(self.parent, "Ошибка", f"Абитуриент с {type_value}-'{old_value}' уже есть в таблице: {table}!")
             return False
         return True
 

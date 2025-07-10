@@ -17,6 +17,7 @@ OutputDir=output
 OutputBaseFilename=mysetup
 SolidCompression=yes
 WizardStyle=modern
+Uninstallable=yes
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -25,9 +26,18 @@ Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
+[InstallDelete]
+; Удаляем все файлы и папки из целевого каталога перед установкой
+Type: filesandordirs; Name: "{app}\*"
+
 [Files]
 Source: "output\main.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\rejng\OneDrive\Desktop\resources\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+
+[UninstallDelete]
+; Удаляем файлы, которые создаются во время работы программы
+Type: files; Name: "{app}\app.log"
+Type: filesandordirs; Name: "{app}\patterns\*"
 
 [Registry]
 Root: HKA; Subkey: "Software\Classes\.exe\OpenWithProgids"; ValueType: string; ValueName: "приЁмкаFile.exe"; ValueData: ""; Flags: uninsdeletevalue

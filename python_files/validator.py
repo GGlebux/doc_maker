@@ -126,6 +126,7 @@ class Validator:
             return self.parent.spec_with_exam
         elif value in all_prof:
             return self.parent.prof
+        return None
 
     def get_correct_form_btn(self, value):
         value = value[:8]
@@ -137,4 +138,5 @@ class Validator:
             return [self.parent.full_time, self.parent.correspondence]
         elif value in all_full:
             return [self.parent.full_time]
+        return None
 

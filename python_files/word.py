@@ -4,6 +4,8 @@ from PyQt6.QtCore import QDir
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
 from docxtpl import DocxTemplate
 
+from python_files.static import log_exception
+
 
 class Word:
     def __init__(self, parent, data):
@@ -15,13 +17,16 @@ class Word:
     def start_up(self):
         """Запуск заполнения"""
         # Валидация формы
-        if not self.parent.validator.validate():
-            return
-        data = self.data.get_input_data()
-        self.fill_word_application(data)
-        if self.one:
-            QMessageBox.information(self.parent, "Успешно", "Файлы Word успешно созданы!")
-            self.one = False
+        try:
+            if not self.parent.validator.validate():
+                return
+            data = self.data.get_input_data()
+            self.fill_word_application(data)
+            if self.one:
+                QMessageBox.information(self.parent, "Успешно", "Файлы Word успешно созданы!")
+                self.one = False
+        except Exception as e:
+            log_exception(self.parent, e, 'заполнении Word')
 
     def fill_word_application(self, data):
         """Заполнение заявления"""
