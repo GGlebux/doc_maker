@@ -30,8 +30,9 @@ def simple_toggle(check_box: QCheckBox, label: QLabel, button: QPushButton, set_
         set_flag_func(False)
 
 
-def log_exception(parent: QMainWindow, exception: Exception, err_place: str):
+def log_exception(parent: QMainWindow, exception: Exception, err_place: str, do_waring: bool=True):
     error_info = "".join(traceback.format_exception(exception))
     parent.logger.error(f'Возникла непредвиденная ошибка при {err_place}:\n{error_info}')
-    QMessageBox.warning(parent, 'Критическая ошибка',
+    if do_waring:
+        QMessageBox.warning(parent, 'Критическая ошибка',
                         f'Возникла непредвиденная ошибка при {err_place}:\n(обратитесь к разработчику)')

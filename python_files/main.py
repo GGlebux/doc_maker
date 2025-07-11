@@ -10,6 +10,7 @@ from PyQt6.QtWidgets import (
 )
 
 from design.design import Ui_MainWindow
+from python_files.address_helper import AddressHelper
 from python_files.cleaner import Cleaner
 from python_files.data import Data
 from python_files.excel import Excel
@@ -24,22 +25,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("приЁмка")
-        self.setWindowIcon(QIcon('../icon.ico'))
+        self.setWindowIcon(QIcon('icon.ico'))
 
         self.logger = logging.getLogger(__name__)
         self.logger.info("Окно инициализировано")
 
         self.updateUi()
 
-        self.shortcut = QShortcut(QKeySequence("Ctrl+Alt+L"), self)
-        self.shortcut.activated.connect(self.show_logs)
-
         # Классы для заполнения Word, Excel, Cleaner (очистка формы), Data (все данные)
+        self.address_helper = AddressHelper(self)
         self.data = Data(self)
         self.excel = Excel(self, self.data)
         self.word = Word(self, self.data)
         self.cleaner = Cleaner(self)
         self.validator = Validator(self, self.data)
+        self.log_viewer = LogViewer()
+
+        # Горячие клавиши
+        self.shortcut = QShortcut(QKeySequence("Ctrl+Alt+L"), self)
+        self.shortcut.activated.connect(self.show_logs)
+
+        self.address.lineEdit().textEdited.connect(lambda: self.address_helper.load_hints(self.address))
+        self.parent_address.lineEdit().textEdited.connect(lambda: self.address_helper.load_hints(self.parent_address))
 
         self.rating_button.clicked.connect(lambda: self.select_excel_path('rating_excel',
                                                                           'Выберите РЕЙТИНГ Excel',
@@ -139,6 +146,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.dormitory.checkStateChanged.connect(self.dormitory_toggle)
 
     def event(self, event):
+        """Переключение фокуса по виджетам формы с помощью горячих клавиш"""
         if event.type() == QtCore.QEvent.Type.KeyPress:
             if event.key() in (QtCore.Qt.Key.Key_Return, QtCore.Qt.Key.Key_Enter):
                 self.focusNextPrevChild(True)
@@ -206,7 +214,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def show_logs(self):
         """Показывает окно с логами"""
-        self.log_viewer = LogViewer()
         self.log_viewer.exec()
 
 
@@ -214,7 +221,7 @@ if __name__ == "__main__":
     setup_logging()
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('sask.gglebux.doc_maker.2.0')
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon('../icon.ico'))
+    app.setWindowIcon(QIcon('icon.ico'))
     window = MainWindow()
     window.show()
     sys.exit(app.exec())

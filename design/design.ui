@@ -392,19 +392,6 @@
         </property>
        </widget>
       </item>
-      <item row="13" column="1">
-       <widget class="QLineEdit" name="address">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="clearButtonEnabled">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
       <item row="14" column="0">
        <widget class="QLabel" name="label_15">
         <property name="text">
@@ -1068,6 +1055,19 @@
         </layout>
        </widget>
       </item>
+      <item row="13" column="1">
+       <widget class="QComboBox" name="address">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="editable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item row="0" column="1">
@@ -1148,25 +1148,6 @@
        <widget class="QLabel" name="label_27">
         <property name="text">
          <string>Адрес родителя:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="parent_address">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>400</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="clearButtonEnabled">
-         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -1477,6 +1458,19 @@
           </widget>
          </item>
         </layout>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="parent_address">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="editable">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
      </layout>
@@ -1929,13 +1923,18 @@
   <tabstop>address</tabstop>
   <tabstop>tel_number</tabstop>
   <tabstop>spec_var_first</tabstop>
+  <tabstop>spec_var_second</tabstop>
+  <tabstop>spec_var_third</tabstop>
   <tabstop>nine</tabstop>
   <tabstop>eleven</tabstop>
   <tabstop>certificate_score</tabstop>
-  <tabstop>correspondence</tabstop>
   <tabstop>full_time</tabstop>
+  <tabstop>correspondence</tabstop>
+  <tabstop>combined</tabstop>
   <tabstop>minor</tabstop>
   <tabstop>adult</tabstop>
+  <tabstop>copy</tabstop>
+  <tabstop>original</tabstop>
   <tabstop>parent_fio</tabstop>
   <tabstop>parent_ser_num</tabstop>
   <tabstop>parent_pass_info</tabstop>
@@ -1946,6 +1945,7 @@
   <tabstop>spec</tabstop>
   <tabstop>spec_with_exam</tabstop>
   <tabstop>budget</tabstop>
+  <tabstop>path_rating</tabstop>
   <tabstop>commerce</tabstop>
   <tabstop>svo</tabstop>
   <tabstop>target_direction</tabstop>
@@ -1958,21 +1958,20 @@
   <tabstop>rating_button</tabstop>
   <tabstop>total_button</tabstop>
   <tabstop>aic_button</tabstop>
-  <tabstop>stream_button</tabstop>
-  <tabstop>svo_button</tabstop>
-  <tabstop>dormitory_button</tabstop>
-  <tabstop>orphan_button</tabstop>
   <tabstop>fill_word_button</tabstop>
   <tabstop>fill_excel_button</tabstop>
   <tabstop>clear_button</tabstop>
   <tabstop>exit_button</tabstop>
-  <tabstop>path_rating</tabstop>
-  <tabstop>path_total</tabstop>
-  <tabstop>path_aic</tabstop>
-  <tabstop>path_stream</tabstop>
   <tabstop>path_svo</tabstop>
   <tabstop>path_dormitory</tabstop>
   <tabstop>path_orphan</tabstop>
+  <tabstop>path_total</tabstop>
+  <tabstop>dormitory_button</tabstop>
+  <tabstop>svo_button</tabstop>
+  <tabstop>path_aic</tabstop>
+  <tabstop>path_stream</tabstop>
+  <tabstop>stream_button</tabstop>
+  <tabstop>orphan_button</tabstop>
  </tabstops>
  <resources/>
  <connections/>

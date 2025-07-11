@@ -194,12 +194,14 @@ class Excel:
         e[f'N{empty_row}'] = data['address']
         e[f'O{empty_row}'] = data['tel_number']
         e[f'P{empty_row}'] = data['spec_var_first']
-        e[f'Q{empty_row}'] = '; '.join([data['parent_fio'],
-                                        data['parent_ser_num'],
-                                        data['parent_pass_info'],
-                                        data['parent_address'],
-                                        data['parent_work'],
-                                        data['parent_number']])
+        e[f'Q{empty_row}'] = '; '.join([elem for elem in
+                                        map(lambda k: data[k], ['parent_fio',
+                                                                'parent_ser_num',
+                                                                'parent_pass_info',
+                                                                'parent_address',
+                                                                'parent_work',
+                                                                'parent_number'])
+                                        if len(elem) > 0 and elem != '+7()--'])
         e[f'R{empty_row}'] = data['certificate_score']
         e[f'S{empty_row}'] = data['form_education']
         e[f'T{empty_row}'] = data['svo']
@@ -435,8 +437,9 @@ class Excel:
         """Проверяет есть ли в таблице данные, подобные новым"""
         if old_value == new_value:
             type_value = 'ПАСПОРТОМ' if str.isdigit(old_value) else 'ФИО'
-            self.parent.logger.warning(f'Дубликат абитуриента с {type_value}: {old_value}')
-            QMessageBox.warning(self.parent, "Ошибка", f"Абитуриент с {type_value}-'{old_value}' уже есть в таблице: {table}!")
+            self.parent.logger.warning(f"Дубликат абитуриента с {type_value}: '{old_value}'")
+            QMessageBox.warning(self.parent, "Ошибка",
+                                f"Абитуриент с {type_value}-'{old_value}' уже есть в таблице: {table}!")
             return False
         return True
 

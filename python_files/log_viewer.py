@@ -1,10 +1,9 @@
 import os
 
-from PyQt6.QtWidgets import (QTextEdit, QVBoxLayout,
-                             QDialog, QScrollArea, QFileDialog, QHBoxLayout, QPushButton)
-
-from PyQt6.QtGui import QSyntaxHighlighter, QTextCharFormat, QColor, QFont
 from PyQt6.QtCore import QRegularExpression, QTimer
+from PyQt6.QtGui import QSyntaxHighlighter, QTextCharFormat, QColor, QFont
+from PyQt6.QtWidgets import (QTextEdit, QVBoxLayout,
+                             QDialog, QFileDialog, QHBoxLayout, QPushButton)
 
 
 class LogHighlighter(QSyntaxHighlighter):
